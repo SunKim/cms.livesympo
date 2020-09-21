@@ -28,6 +28,7 @@ class Dashboard extends BaseController {
 
 	// 로그인 화면
 	public function dashboard () {
+		$data['menu'] = 'dashboard';
 		// get('session name') 에서 session name을 안주면 전체 session정보.
 		$data['session'] = $this->session->get();
 

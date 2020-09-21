@@ -26,6 +26,11 @@ function numberfy (num) {
   return num.replace(/[^0-9.]/g, '')
 }
 
+// 범위 내의 숫자 생성
+function generateInt (start, end) {
+  return Array(end - start + 1).fill().map((_, idx) => start + idx)
+}
+
 // validation 관련
 // 숫자 체크
 function checkInt (num, min, max) {

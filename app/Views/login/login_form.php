@@ -24,7 +24,6 @@
 <meta name="robots" content="noindex,nofollow">
 <!-- meta name="robots" content="all" -->
 
-<!-- TODO title DB에서 -->
 <title>Live Sympo 관리자 로그인</title>
 
 <!-- stylesheets -->
@@ -186,7 +185,7 @@ function login () {
 		},
 		error: function (xhr, ajaxOptions, thrownError) {
 			// centerModal1('경고', '로그인 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드:'+xhr.status+'\n메세지:'+thrownError);
-			alert('경고', '로그인 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드:'+xhr.status+'\n메세지:'+thrownError);
+			alert('로그인 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드:'+xhr.status+'\n메세지:'+thrownError);
 		},
 		complete : function () {
 			hideSpinner();

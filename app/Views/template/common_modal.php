@@ -24,7 +24,7 @@ FontAwesome
 			</div>
 			<div class="modal-footer">
 				<!-- <button type="button" class="btn btn-primary">액션</button> -->
-				<button type="button" class="btn btn-default" data-dismiss="modal">확인</button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
 			</div>
 		</div>
 	</div>
@@ -43,7 +43,7 @@ FontAwesome
 			</div>
 			<div class="modal-footer">
 				<!-- <button type="button" class="btn btn-primary">액션</button> -->
-				<button type="button" class="btn btn-default" data-dismiss="modal">확인</button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
 			</div>
 		</div>
 	</div>
@@ -62,7 +62,7 @@ FontAwesome
 			</div>
 			<div class="modal-footer">
 				<!-- <button type="button" class="btn btn-primary">액션</button> -->
-				<button type="button" class="btn btn-default" data-dismiss="modal">확인</button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
 			</div>
 		</div>
 	</div>
@@ -82,7 +82,7 @@ FontAwesome
 				</div>
 				<div class="modal-footer">
 					<!-- <button type="button" class="btn btn-primary">액션</button> -->
-					<button type="button" class="btn btn-default" data-dismiss="modal">확인</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
 				</div>
 			</div>
 		</div>
@@ -102,7 +102,7 @@ FontAwesome
 					<div id="centerModalConfirm1Content">메세지</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default confirm-cancel" data-dismiss="modal">취소</button>
+					<button type="button" class="btn btn-secondary confirm-cancel" data-dismiss="modal">취소</button>
 					<button type="button" class="btn btn-primary confirm-agree">확인</button>
 				</div>
 			</div>
@@ -285,6 +285,7 @@ FontAwesome
 
 	//스피너 모달 숨기기.
 	function hideSpinner() {
+		// alert('hideSpinner');
 		$('#spinnerModal').modal('hide');
 	}
 

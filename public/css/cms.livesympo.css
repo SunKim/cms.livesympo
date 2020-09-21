@@ -4,17 +4,26 @@ hr { color: #fff; background: #fff; border: 0; height: 1px; margin: 0 0.4rem 0.6
 
 /* global components */
 img.exclamation { width: 100px; height: 100px; }
+input.common-input { min-width: 100px; height: 34px; padding: 0 14px; border: 1px solid #D6D6D6; border-radius: 4px; vertical-align: middle; color: #333; }
 
 button:disabled, button[disabled] { opacity: 0.65; cursor: not-allowed !important; }
 
-/* detail table css 추가(상세페이지) */
+/* list table css 추가(상세페이지) */
 table.table-list { border-collapse: collapse; border: 1px solid #D6D6D6; font-size: 14px; }
 table.table-list th { height: 44px; min-width: 70px; background-color: #F3F3F3; border: 1px solid #D6D6D6; font-weight: 500; }
 table.table-list th.required::before { content: '*'; display: inline-block; margin-left: 3px; font-size: 15px; color: #E12222; }
 table.table-list td { height: 44px; padding: 10px; background-color: #FFF; border: 1px solid #D6D6D6; cursor: pointer; }
 table.table-list tbody tr:hover td { background-color: #f7fdff; }
 
-/* q-table의 상단 영역 */
+/* 목록의 filter table */
+table.table-list-search { border-collapse: collapse; font-size: 14px; }
+table.table-list-search tr th { font-weight: 600; padding: 15px 0px; text-align: left; border-bottom: 1px solid #E4E4E4; }
+table.table-list-search tr td { padding: 15px 0px; text-align: left; border-bottom: 1px solid #E4E4E4; }
+table.table-list-search tr:last-child td { padding-top: 19px; border-bottom: none; }
+
+input.datepicker { min-width: 120px; text-align: center; }
+
+/* 목록의 상단 영역 */
 div.table-title h5.list-header { display: inline-block; font-size: 15px; font-weight: 600; }
 div.table-title h5.list-header p.list-title { display: inline-block; }
 div.table-title h5.list-header p.list-totcnt { display: inline-block; }
@@ -24,7 +33,9 @@ div.table-title div.list-added-info p { display: inline-block; font-size:13px; f
 div.table-title div.list-button-group { display: flex; float:right; }
 
 /* 프로젝트 목록에서 보여줄 thumbnail */
-img.thumb { max-width: 100px; max-height: 40px; }
+img.thumb { max-width: 80px; max-height: 28px; }
+/* 프로젝트 목록에서 보여줄 색상 */
+p.color-box { display: inline-block; width: 40px; height: 28px; margin: 0; }
 
 /* 페이징 */
 div.pagination-container { color: #ABABAB; margin-top: 10px; text-align: center; }

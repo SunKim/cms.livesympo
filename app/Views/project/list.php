@@ -142,11 +142,11 @@
 							<!-- Pagination -->
 							<div class="pagination-container">
 								<!-- 처음페이지 버튼 -->
-								<button class="page-button move-button first" id="btn-first" onclick="chagePage('first')">
+								<button class="page-button move-button first" id="btn-first" onclick="changePage('first')">
 									<img src="/images/icon/icon_arrow_left2.png" alt="좌측화살표2" style="height: 10px;" />
 								</button>
 								<!-- 이전페이지 버튼 -->
-								<button class="page-button move-button prev" id="btn-prev" onclick="chagePage('prev')">
+								<button class="page-button move-button prev" id="btn-prev" onclick="changePage('prev')">
 									<img src="/images/icon/icon_arrow_left.png" alt="좌측화살표" style="height: 10px;" />
 								</button>
 
@@ -155,11 +155,11 @@
 								</div>
 
 								<!-- 다음페이지 버튼 -->
-								<button class="page-button move-button next" id="btn-next" onclick="chagePage('next')">
+								<button class="page-button move-button next" id="btn-next" onclick="changePage('next')">
 									<img src="/images/icon/icon_arrow_right.png" alt="우측화살표" style="height: 10px;" />
 								</button>
 								<!-- 마지막페이지 버튼 -->
-								<button class="page-button move-button last" id="btn-last" onclick="chagePage('last')">
+								<button class="page-button move-button last" id="btn-last" onclick="changePage('last')">
 									<img src="/images/icon/icon_arrow_right2.png" alt="우측화살표2" style="height: 10px;" />
 								</button>
 							</div>
@@ -249,7 +249,7 @@ function fnInit () {
 }
 
 // 페이지 변경
-function chagePage (gub) {
+function changePage (gub) {
 	if (gub === 'first') {
 		getList(1);
 	} else if (gub === 'last') {
@@ -267,7 +267,7 @@ function chagePage (gub) {
 
 // 프로젝트 목록 가져오기
 function getList (pageNo) {
-	// showSpinner(3000);
+	// showSpinner(1000);
 
 	$.ajax({
 		type: 'POST',
@@ -344,11 +344,12 @@ function getList (pageNo) {
 
 				let btnHtml = '';
 				pages.forEach(item => {
-					btnHtml += '<button class="page-button" onclick="changePage('+item+')" '+(pageNo === item ? 'disabled' : '')+'>'+item+'</button>';
+					btnHtml += '<button class="page-button '+(pageNo == item ? 'active-page' : '')+'" onclick="changePage('+item+')" '+(pageNo == item ? 'disabled' : '')+'>'+item+'</button>';
 				});
 				if (btnHtml === '') {
 					btnHtml += '<button class="page-button" disabled>1</button>';
 				}
+				$('.pagination-container .pages').empty();
 				$('.pagination-container .pages').append(btnHtml);
 			} else {
 				// modal1('경고', '프로젝트 목록을 가져오는 도중 오류가 발생했습니다. 관리자에게 문의해주세요.<br><br>코드(resCode):'+data.resCode+'<br>메세지(resMsg):'+data.resMsg);

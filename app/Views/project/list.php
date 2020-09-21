@@ -236,26 +236,6 @@
 		<i class="fas fa-angle-up"></i>
 	</a>
 
-	<!-- Logout Modal-->
-	<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">로그아웃</h5>
-					<button class="close" type="button" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-				</div>
-				<div class="modal-body">로그아웃 하시겠습니까?</div>
-				<div class="modal-footer">
-					<button class="btn btn-secondary" type="button" data-dismiss="modal">취소</button>
-					<a class="btn btn-primary" href="/login/logout">확인</a>
-				</div>
-			</div>
-		</div>
-	</div>
-
-
 <!-- 공통모달 -->
 <?php include_once APPPATH.'Views/template/common_modal.php'; ?>
 
@@ -302,7 +282,11 @@ function fnInit () {
 	const dpOption = {
 		locale: 'ko'
 	};
-	$(".datepicker").flatpickr(dpOption);
+	$('.datepicker').flatpickr(dpOption);
+
+	$(document).on('click', '#prj-list tbody tr td', function(e) {
+		location.href = '/project/detail/' + $(this).parent('tr').attr('prj-seq');
+	});
 
 	getList(pageNo);
 }
@@ -332,6 +316,11 @@ function resetFilter () {
 	$('#search-ed-date').val('');
 
 	getList(1);
+}
+
+// 상세페이지
+function goToDetail (prjSeq) {
+	alert(prjSeq);
 }
 
 // 프로젝트 목록 가져오기
@@ -369,7 +358,7 @@ function getList (pageNo) {
 
 				let html = '';
 				list.forEach(item => {
-					html += '<tr>';
+					html += '<tr prj-seq="'+item.PRJ_SEQ+'">';
 					html += '	<td>'+item.PRJ_SEQ+'</td>';
 					html += '	<td>'+item.PRJ_TITLE+'</td>';
 					html += '	<td>'+item.ST_DTTM+'</td>';
@@ -475,7 +464,7 @@ $(document).ready(function () {
 	fnInit();
 
 	//submit 되기 전 처리
-	$('form').submit(function( event ) {
+	$('form').submit(function(e) {
 
 	});
 });

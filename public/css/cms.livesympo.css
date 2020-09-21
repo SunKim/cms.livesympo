@@ -5,6 +5,7 @@ hr { color: #fff; background: #fff; border: 0; height: 1px; margin: 0 0.4rem 0.6
 /* global components */
 img.exclamation { width: 100px; height: 100px; }
 input.common-input { min-width: 100px; height: 34px; padding: 0 14px; border: 1px solid #D6D6D6; border-radius: 4px; vertical-align: middle; color: #333; }
+select.common-select { min-width: 100px; height: 34px; border: 1px solid #D6D6D6; border-radius: 4px; font-size: 14px; padding: 0 14px; }
 
 button:disabled, button[disabled] { opacity: 0.65; cursor: not-allowed !important; }
 

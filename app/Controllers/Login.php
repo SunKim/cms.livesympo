@@ -27,11 +27,13 @@ class Login extends BaseController {
   	}
 
 	public function index() {
-		if ($this->request->getMethod(TRUE) === "GET") {
-			return $this->login_form();
-		} else if ($this->request->getMethod(TRUE) === "POST") {
-			return $this->login_check();
-		}
+		// if ($this->request->getMethod(TRUE) === "GET") {
+		// 	return $this->login_form();
+		// } else if ($this->request->getMethod(TRUE) === "POST") {
+		// 	return $this->login_check();
+		// }
+
+		return $this->login_form();
 	}
 
 	// 로그인 화면
@@ -60,7 +62,7 @@ class Login extends BaseController {
 					'email' => $adminData['EMAIL']
 					, 'admSeq' => $adminData['ADM_SEQ']
 					, 'lvl' => $adminData['LVL']
-					, 'logged_in' => TRUE
+					, 'logged_in' => 1
 				);
 
 				$this->session->set($sessData);
@@ -80,7 +82,7 @@ class Login extends BaseController {
 
 	//로그아웃 - 세션 종료
 	public function logout() {
-		$this->session->sess_destroy();
+		$this->session->destroy();
 
 		echo "<script>location.href='/login';</script>";
 	}

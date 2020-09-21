@@ -74,7 +74,7 @@
               <div class="col-lg-6">
                 <div class="p-5">
                   <div class="text-center">
-                    <h1 class="h4 text-gray-900 mb-4">Live Sympo CMS</h1>
+                    <h1 class="h4 text-gray-900 mb-4">LiveSympo CMS</h1>
                   </div>
                   <form class="user">
                     <div class="form-group">
@@ -177,7 +177,7 @@ function login () {
 			console.log(data);
 			if ( data.resCode == '0000' ) {
 				// home으로 이동
-				location.href='/home';
+				location.href='/dashboard';
 			} else {
 				modal1('경고', '로그인 도중 오류가 발생했습니다. 관리자에게 문의해주세요.<br><br>코드(resCode):'+data.resCode+'<br>메세지(resMsg):'+data.resMsg);
 				// centerModal1('경고', '로그인 도중 오류가 발생했습니다. 관리자에게 문의해주세요.<br><br>코드(resCode):'+data.resCode+'<br>메세지(resMsg):'+data.resMsg);

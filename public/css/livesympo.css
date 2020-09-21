@@ -1,0 +1,21 @@
+/* Global Media Query */
+/* 768px 이하 -> 모바일 */
+@media (max-width: 768px) {
+  html, body { font-size: 14px; }
+}
+/* 768~1200 -> 태블릿 */
+@media (min-width: 769px) {
+  html, body { font-size: 15px; }
+}
+/* 1200px 이상 -> PC */
+@media (min-width: 1200px) {
+  html, body { font-size: 16px; }
+}
+/* Global Media Query */
+
+/* global DOM */
+input, span { display: inline-block; }
+hr { color: #fff; background: #fff; border: 0; height: 1px; margin: 0 0.4rem 0.6rem 0.4rem; }
+
+/* global components */
+img.exclamation { width: 100px; height: 100px; }

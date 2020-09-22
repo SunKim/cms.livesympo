@@ -95,86 +95,98 @@
 							<h6 class="m-0 font-weight-bold text-primary">프로젝트 상세</h6>
 						</div>
 						<div class="card-body">
-							<table class="table-list">
-								<colgroup>
-									<col width="20%" />
-									<col width="80%" />
-								</colgroup>
-								<tbody>
-									<tr>
-										<th>프로젝트 타이틀</th>
-										<td class="tl">
-											<input type="text" id="prj-title" class="common-input w90" />
-										</td>
-									</tr>
-									<tr>
-										<th>프로젝트 URI</th>
-										<td class="tl">
-											<input type="text" id="prj-title-uri" class="common-input w90" placeholder="drug-a-20200922 형식으로 입력해주세요." />
-										</td>
-									</tr>
-									<tr>
-										<th>스트리밍 URL</th>
-										<td class="tl">
-											<input type="text" id="stream-url" class="common-input w90" placeholder="https://stream.com/xxxx 형식으로 입력해주세요." />
-										</td>
-									</tr>
-									<tr>
-										<th>메인 이미지</th>
-										<td class="tl">
-											<input type="file" id="main-img" class="common-input w90" />
-										</td>
-									</tr>
-									<tr>
-										<th>아젠다 이미지</th>
-										<td class="tl">
-											<input type="file" id="agenda-img" class="common-input w90" />
-										</td>
-									</tr>
-									<tr>
-										<th>푸터 이미지</th>
-										<td class="tl">
-											<input type="file" id="footer-img" class="common-input w90" />
-										</td>
-									</tr>
-									<tr>
-										<th>테마 색상</th>
-										<td class="tl">
-											<input type="text" id="ent-thme-color" class="common-input w90" />
-										</td>
-									</tr>
-									<tr>
-										<th>사전등록버튼 색상</th>
-										<td class="tl">
-											<input type="text" id="appl-btn-color" class="common-input w90" />
-										</td>
-									</tr>
-									<tr>
-										<th>아젠다 추가페이지</th>
-										<td class="tl">
-											<select class="common-select w90">
-												<option value="0">N</option>
-												<option value="1">Y</option>
-											</select>
-										</td>
-									</tr>
-									<tr>
-										<th>프로젝트 일시</th>
-										<td class="tl">
-											<input type="text" id="st-date" class="common-input w10 datepicker" />
-											<input type="text" id="st-time" class="common-input w10" value="00:00" />
-											<span class="inblock tc" style="width: 20px;">-</span>
-											<input type="text" id="ed-date" class="common-input w10 datepicker" />
-											<input type="text" id="ed-time" class="common-input w10" value="23:59" />
-										</td>
-									</tr>
-								</tbody>
-							</table>
+							<form method="POST">
+								<table class="table-list">
+									<colgroup>
+										<col width="10%" />
+										<col width="15%" />
+										<col width="75%" />
+									</colgroup>
+									<tbody>
+										<tr>
+											<th rowspan="5">프로젝트</th>
+											<th>타이틀</th>
+											<td class="tl">
+												<input type="hidden" id="PRJ_SEQ" name="PRJ_SEQ" />
+												<input type="text" id="PRJ_TITLE" name="PRJ_TITLE" class="common-input w90" />
+											</td>
+										</tr>
+										<tr>
+											<th>URI</th>
+											<td class="tl">
+												<input type="text" id="PRJ_TITLE_URI" name="PRJ_TITLE_URI" class="common-input w90" placeholder="drug-a-20200922 형식으로 입력해주세요." />
+											</td>
+										</tr>
+										<tr>
+											<th>스트리밍 URL</th>
+											<td class="tl">
+												<input type="text" id="STREAM_URL" name="STREAM_URL" class="common-input w90" placeholder="https://stream.com/xxxx 형식으로 입력해주세요." />
+											</td>
+										</tr>
+										<tr>
+											<th>아젠다 추가페이지</th>
+											<td class="tl">
+												<select class="common-select w90" id="AGENDA_PAGE_YN" name="AGENDA_PAGE_YN">
+													<option value="0">N</option>
+													<option value="1">Y</option>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<th>프로젝트 일시</th>
+											<td class="tl">
+												<input type="text" id="ST_DATE" name="ST_DATE" class="common-input w10 datepicker" />
+												<input type="text" id="ST_TIME" name="ST_TIME" class="common-input w10" value="00:00" />
+												<span class="inblock tc" style="width: 20px;">-</span>
+												<input type="text" id="ED_DATE" name="ED_DATE" class="common-input w10 datepicker" />
+												<input type="text" id="ED_TIME" name="ED_TIME" class="common-input w10" value="23:59" />
+											</td>
+										</tr>
+										<tr>
+											<th rowspan="3">이미지</th>
+											<th>메인 이미지</th>
+											<td class="tl">
+												<input type="file" id="MAIN_IMG_URI" name="MAIN_IMG_URI" class="common-input w90" />
+											</td>
+										</tr>
+										<tr>
+											<th>아젠다 이미지</th>
+											<td class="tl">
+												<input type="file" id="AGENDA_IMG_URI" name="AGENDA_IMG_URI" class="common-input w90" />
+											</td>
+										</tr>
+										<tr>
+											<th>푸터 이미지</th>
+											<td class="tl">
+												<input type="file" id="FOOTER_IMG_URI" name="FOOTER_IMG_URI" class="common-input w90" />
+											</td>
+										</tr>
+										<tr>
+											<th rowspan="2">색상</th>
+											<th>테마 색상</th>
+											<td class="tl">
+												<input type="text" id="ENT_THME_COLOR" name="ENT_THME_COLOR" class="common-input w90" />
+											</td>
+										</tr>
+										<tr>
+											<th>사전등록버튼 색상</th>
+											<td class="tl">
+												<input type="text" id="APPL_BTN_COLOR" name="APPL_BTN_COLOR" class="common-input w90" />
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</form>
 						</div>
 
 						<div class="d-flex align-items-center justify-content-between pa20">
 							<button class="btn-main btn-white mr15" onclick="history.back();">뒤로</button>
-							<button class="btn-main btn-light-indigo" onclick="save()" <?= $lvl < 9 ? 'disabled' : '' ?>>저장</button>
+<?php
+	// 레벨9만 보이도록
+	if ($lvl == 9) {
+		echo '<button class="btn-main btn-light-indigo" onclick="save()">저장</button>';
+	}
+?>
 						</div>
 					</div>
 
@@ -234,121 +246,33 @@ function fnInit () {
 		locale: 'ko'
 	};
 	$('.datepicker').flatpickr(dpOption);
+
+	// if ()
 }
 
-// 프로젝트 목록 가져오기
-function getList (pageNo) {
-	// showSpinner(1000);
+// 저장
+function save () {
+	const form = $('form')[0];
+	const formData = new FormData(form);
 
 	$.ajax({
-		type: 'POST',
-		url: '/project/getList',
-		dataType: 'json',
-		cache: false,
-		data: {
-			pageNo,
-			prjTitle: $('#search-prj-title').val(),
-			prjTitleUri: $('#search-prj-title-uri').val(),
-			stDttm: !isEmpty($('#search-st-date').val()) ? $('#search-st-date').val()+' 00:00:00' : '',
-			edDttm: !isEmpty($('#search-ed-date').val()) ? $('#search-ed-date').val()+' 23:59:59' : ''
-		},
-
-		success: function(data) {
-			// console.log(data);
-			if ( data.resCode == '0000' ) {
-				$('span#cnt-all').text(data.item.CNT_ALL);
-				$('span#cnt-comp').text(data.item.CNT_COMP);
-				$('span#cnt-ing').text(data.item.CNT_ING);
-				$('span#cnt-coming').text(data.item.CNT_COMING);
-
-				const list = data.list;
-
-				if (list.length > 0) {
-					$('.table-list tfoot').hide();
-				} else {
-					$('.table-list tfoot').show();
-				}
-
-				let html = '';
-				list.forEach(item => {
-					html += '<tr prj-seq="'+item.PRJ_SEQ+'">';
-					html += '	<td>'+item.PRJ_SEQ+'</td>';
-					html += '	<td>'+item.PRJ_TITLE+'</td>';
-					html += '	<td>'+item.ST_DTTM+'</td>';
-					html += '	<td>'+item.ED_DTTM+'</td>';
-					html += '	<td>'+item.PRJ_TITLE_URI+'</td>';
-					html += '	<td><img class="thumb" src="'+item.MAIN_IMG_URI+'" /></td>';
-					html += '	<td><img class="thumb" src="'+item.AGENDA_IMG_URI+'" /></td>';
-					html += '	<td><p class="color-box" style="background: '+item.ENT_THME_COLOR+';"></p></td>';
-					html += '	<td><p class="color-box" style="background: '+item.APPL_BTN_COLOR+';"></p></td>';
-					html += '	<td>'+item.REG_DTTM+'</td>';
-					html += '	<td>'+'0'+'</td>';
-					html += '	<td>'+'0'+'</td>';
-					html += '	<td>'+item.REGR_ID+'</td>';
-					html += '</tr>';
-					// console.log(html);
-				});
-				$('.table-list tbody').empty();
-				$('.table-list tbody').append(html);
-
-				// 페이징 관련 설정
-				pageMax = Math.ceil(data.totCnt / itemsPerPage);
-				pages = setPages();
-				// console.log(`pages : ${pages}, pageMax : ${pageMax}`);
-				// 이전페이지 버튼
-				if (pageNo === 1 || pages.length === 0) {
-					$('.pagination-container #btn-prev').attr('disabled', true);
-				} else {
-					$('.pagination-container #btn-prev').attr('disabled', false);
-				}
-				// 다음페이지 버튼
-				if (pageNo === pageMax || pages.length === 0) {
-					$('.pagination-container #btn-next').attr('disabled', true);
-				} else {
-					$('.pagination-container #btn-next').attr('disabled', false);
-				}
-				// 첫페이지 버튼
-				if (pageNo === 1 || pages.length === 0) {
-					$('.pagination-container #btn-first').attr('disabled', true);
-				} else {
-					$('.pagination-container #btn-first').attr('disabled', false);
-				}
-				// 마지막페이지 버튼
-				if (pageNo === pageMax || pages.length === 0) {
-					$('.pagination-container #btn-last').attr('disabled', true);
-				} else {
-					$('.pagination-container #btn-last').attr('disabled', false);
-				}
-
-				let btnHtml = '';
-				pages.forEach(item => {
-					btnHtml += '<button class="page-button '+(pageNo == item ? 'active-page' : '')+'" onclick="changePage('+item+')" '+(pageNo == item ? 'disabled' : '')+'>'+item+'</button>';
-				});
-				if (btnHtml === '') {
-					btnHtml += '<button class="page-button" disabled>1</button>';
-				}
-				$('.pagination-container .pages').empty();
-				$('.pagination-container .pages').append(btnHtml);
-			} else {
-				// modal1('경고', '프로젝트 목록을 가져오는 도중 오류가 발생했습니다. 관리자에게 문의해주세요.<br><br>코드(resCode):'+data.resCode+'<br>메세지(resMsg):'+data.resMsg);
-				// centerModal1('경고', '프로젝트 목록을 가져오는 도중 오류가 발생했습니다. 관리자에게 문의해주세요.<br><br>코드(resCode):'+data.resCode+'<br>메세지(resMsg):'+data.resMsg);
-				alert('프로젝트 목록을 가져오는 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드(resCode):'+data.resCode+'\n메세지(resMsg):'+data.resMsg);
-
-				// hideSpinner();
-			}
-		},
-		error: function (xhr, ajaxOptions, thrownError) {
-			console.error(xhr);
-			// modal1('경고', '프로젝트 목록을 가져오는 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드:'+xhr.status+'\n메세지:'+thrownError);
-			// centerModal1('경고', '프로젝트 목록을 가져오는 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드:'+xhr.status+'\n메세지:'+thrownError);
-			alert('프로젝트 목록을 가져오는 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드:'+xhr.status+'\n메세지:'+thrownError);
-
-			// hideSpinner();
-		},
-		complete : function () {
-			// hideSpinner();
-		}
-	});
+        type: "POST",
+        enctype: 'multipart/form-data',
+        url: "/project/save",
+        data: formData,
+        processData: false,
+        contentType: false,
+        cache: false,
+        timeout: 10000,
+        success: function (res) {
+			console.log(res);
+        	alert('complete');
+        },
+        error: function (e) {
+            console.log('ERROR : ', e);
+            alert('fail');
+        }
+    });
 }
 
 $(document).ready(function () {

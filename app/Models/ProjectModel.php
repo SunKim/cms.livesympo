@@ -102,7 +102,17 @@ class ProjectModel extends Model {
     public function detail ($prjSeq) {
         $strQry    = "";
 
-        $strQry .= "SELECT *	\n";
+        $strQry .= "SELECT 	\n";
+        $strQry .= "	P.PRJ_SEQ, P.PRJ_TITLE, P.PRJ_TITLE_URI	\n";
+		$strQry .= "	, P.STREAM_URL, P.MAIN_IMG_URI, P.AGENDA_IMG_URI, P.FOOTER_IMG_URI	\n";
+        $strQry .= "	, CONCAT('".$_ENV['app.baseURL']."', P.MAIN_IMG_URI) AS MAIN_IMG_URL	\n";
+        $strQry .= "	, CONCAT('".$_ENV['app.baseURL']."', P.AGENDA_IMG_URI) AS AGENDA_IMG_URL	\n";
+        $strQry .= "	, CONCAT('".$_ENV['app.baseURL']."', P.FOOTER_IMG_URI) AS FOOTER_IMG_URL	\n";
+		$strQry .= "	, P.APPL_BTN_COLOR, P.ENT_THME_COLOR, P.AGENDA_PAGE_YN	\n";
+		$strQry .= "	, DATE_FORMAT(P.ST_DTTM, '%Y-%m-%d') AS ST_DATE	\n";
+        $strQry .= "	, DATE_FORMAT(P.ST_DTTM, '%H:%i') AS ST_TIME	\n";
+		$strQry .= "	, DATE_FORMAT(P.ED_DTTM, '%Y-%m-%d') AS ED_DATE	\n";
+        $strQry .= "	, DATE_FORMAT(P.ED_DTTM, '%H:%i') AS ED_TIME	\n";
         $strQry .= "FROM TB_PRJ_M AS P	\n";
         $strQry .= "WHERE 1=1	\n";
         $strQry .= "	AND P.DEL_YN = 0	\n";
@@ -113,5 +123,17 @@ class ProjectModel extends Model {
         return $this->db->query($strQry)->getRowArray();
     }
 
+    // 프로젝트 insert
+	public function insertProject ($data) {
+		$this->db->table('TB_PRJ_M')->insert($data);
+        return $this->db->insertID();
+	}
 
+    // 프로젝트 update
+	public function updateProject ($prjSeq, $data) {
+		$builder = $this->db->table('TB_PRJ_M');
+		$builder->where('PRJ_SEQ', $prjSeq)->update($data);
+
+        return $this->db->affectedRows();
+	}
 }

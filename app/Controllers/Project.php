@@ -36,6 +36,8 @@ class Project extends BaseController {
 		// get('session name') 에서 session name을 안주면 전체 session정보.
 		$data['session'] = $this->session->get();
 
+		$data['livesympoUrl'] = $_ENV['app.livesympoBaseUrl'];
+
 		$data['cntItem'] = array(
 			'CNT_ALL' => 57
 			, 'CNT_COMP' => 40
@@ -52,7 +54,7 @@ class Project extends BaseController {
 		// get('session name') 에서 session name을 안주면 전체 session정보.
 		$data['session'] = $this->session->get();
 
-		$data['PRJ_SEQ'] = $prjSeq;
+		$data['prjSeq'] = $prjSeq;
 
 		return view('project/detail', $data);
 	}
@@ -110,7 +112,8 @@ class Project extends BaseController {
 	}
 
 	// 저장
-	public function save () {
+	public function save ($prjSeq = 0) {
+		// 기본 업로드 path. ex) /Users/seonjungkim/workspace_php/cms.livesympo/public/uploads/project
 		$uploadPath = $_ENV['UPLOAD_BASE_PATH'];
 
 		// param들 받기
@@ -126,67 +129,87 @@ class Project extends BaseController {
 		$data['APPL_BTN_COLOR'] = $this->request->getPost('APPL_BTN_COLOR');
 		// print_r($data);
 
-		// https://cnpnote.tistory.com/entry/PHP-jQuery-%EB%B0%8F-AJAX%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EC%97%AC-%EC%97%AC%EB%9F%AC-%ED%8C%8C%EC%9D%BC%EC%9D%84-%EC%97%85%EB%A1%9C%EB%93%9C%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95
+		/************************************
+		* START) Transaction 처리
+		************************************/
+		$db = \Config\Database::connect();
+		$db->transStart();
 
-		// http://ci4doc.cikorea.net/libraries/uploaded_files.html
+		// 0이면 신규등록. 프로젝트 insert 해서 PRJ_SEQ 받아옴
+		if ($prjSeq == 0) {
+			$data['REGR_ID'] = $this->request->getPost('EMAIL');
+
+			$prjSeq = $this->projectModel->insertProject($data);
+		} else {
+			$data['MODR_ID'] = $this->request->getPost('EMAIL');
+			$data['MOD_DTTM'] = date('Y-m-d H:i:s');
+
+			$affectedRows = $this->projectModel->updateProject($prjSeq, $data);
+		}
+
 		// 파일들 받기
+		// http://ci4doc.cikorea.net/libraries/uploaded_files.html
 		$files = $this->request->getFiles();
 
-		// 파일 확장자 체크(이미지인지)
 		try {
 			if ($files) {
 				foreach ($files as $key => $file) {
 					// echo "key : $key, file : $file\n";
 					// $key : form/input에서의 name
 					// $file : 서버에 임시저장된 파일명. ex) /private/var/tmp/phpvnBwzw
+					log_message('info', "Project.php - save(). key : $key, file : $file");
 
-					if ($file->isValid() && !$file->hasMoved()) {
+					if (isset($file) && $file->isValid() && !$file->hasMoved()) {
 						$src = $file->getRealPath();
 						$ext = $file->getExtension();
 
-						echo "src : $src, ext : $ext, uploadPath : $uploadPath\n";
+						// echo "src : $src, ext : $ext, uploadPath : $uploadPath\n";
+						$path = $uploadPath.DIRECTORY_SEPARATOR.$prjSeq;
 
-					//
-					// 	// 썸네일 생성 여부
-					// 	if ($thumbYn) {
-					// 		$thumbResult = self::generateThumbnail($src, $basePath, $path, $newFileName, $ext);
-					// 		if ($thumbResult) {
-					// 			$result['thumbName'] = $newFileName.'_thumb.'.$ext;
-					// 		} else {
-					// 			$result['thumbName'] = 'failed to generate thumbName';
-					// 		}
-					// 	}
+						// directory가 없으면 생성
+						if ( !is_dir($path) ) {
+							// mkdir(path, mode, recursive). recursive는 꼭 true로!!
+							mkdir($path, 0755, true);
+						}
 
-					// // directory가 없으면 생성
-					// if ( !is_dir($basePath.$path) ) {
-					// 	// mkdir(path, mode, recursive). recursive는 꼭 true로!!
-					// 	mkdir($basePath.$path, 0755, true);
-					// }
+						// 새로운 파일명에 extension 붙여줌
+						// $key : form의 input의 name. MAIN_IMG, AGENDA_IMG, FOOTER_IMG => MAIN_IMG_1.png 형태로
+						$newFileName = $key.'_'.$prjSeq.'.'.$ext;
 
-					// 	// 새로운 파일명에 extension 붙여줌
-					// 	$newFileName = $newFileName.'.'.$ext;
-					// 	// result 설정
-					// 	$result['orgFileName'] = $file->getName();
-					// 	$result['baseUrl'] = $_ENV['CDN_BASE_URL'];
-					// 	$result['path'] = $path;
-					// 	$result['fileName'] = $newFileName;
-					//
-					// 	// 파일 이동
-					// 	$file->move($basePath.$path, $newFileName);
+						$updateUriData[$key.'_URI'] = '/uploads/project/'.$prjSeq.'/'.$newFileName;
+						// DB update (파일이 있을때만)
+						$this->projectModel->updateProject($prjSeq, $updateUriData);
+
+						// 파일 이동
+						$file->move($path, $newFileName);
 					} else {
-						throw new RuntimeException($file->getErrorString().'('.$file->getError().')');
+						// 프로젝트 수정시 파일을 안건드리면 파일이 안올라오므로 에러를 띄우면 안됨
+						// log_message('error', $file->getErrorString().'('.$file->getError().')');
+						// throw new RuntimeException($file->getErrorString().'('.$file->getError().')');
 					}
 				}
 			}
 		} catch (Exception $e) {
-			log_message('error', $e->getMessage());
+			log_message('error', "exception - ".$e->getMessage());
 		}
 
-		// 파일들 정상이면 DB 처리(uri는 추후 update)
+		$db->transComplete();
+		/************************************
+		* END) Transaction 처리
+		************************************/
 
-		// 파일 처리
+		if ($db->transStatus() === FALSE) {
+			// generate an error... or use the log_message() function to log your error
+			log_message('error', 'Project.php - save : 트랜잭션 처리 에러');
 
-		// DB update
+			$res['resCode'] = '9999';
+			$res['resMsg'] = '프로젝트 저장에 실패했습니다.';
+		} else {
+			$res['resCode'] = '0000';
+			$res['resMsg'] = '정상적으로 처리되었습니다.';
+		}
+
+		return $this->response->setJSON($data);
 	}
 
 	// 페이지리스트의 param(itemsPerPage, pageNo을 포함한 obj)를 받아서 beginIndex, endIndex return

@@ -9,20 +9,29 @@ select.common-select { min-width: 100px; height: 34px; border: 1px solid #D6D6D6
 
 button:disabled, button[disabled] { opacity: 0.65; cursor: not-allowed !important; }
 
-/* list table css 추가(상세페이지) */
-table.table-list { border-collapse: collapse; border: 1px solid #D6D6D6; font-size: 14px; }
-table.table-list th { height: 44px; min-width: 70px; background-color: #F3F3F3; border: 1px solid #D6D6D6; font-weight: 500; }
-table.table-list th.required::before { content: '*'; display: inline-block; margin-left: 3px; font-size: 15px; color: #E12222; }
-table.table-list td { height: 44px; padding: 10px; background-color: #FFF; border: 1px solid #D6D6D6; cursor: pointer; }
-table.table-list tbody tr:hover td { background-color: #f7fdff; }
-
 /* 목록의 filter table */
 table.table-list-search { border-collapse: collapse; font-size: 14px; }
 table.table-list-search tr th { font-weight: 600; padding: 15px 0px; text-align: left; border-bottom: 1px solid #E4E4E4; }
 table.table-list-search tr td { padding: 15px 0px; text-align: left; border-bottom: 1px solid #E4E4E4; }
 table.table-list-search tr:last-child td { padding-top: 19px; border-bottom: none; }
 
+/* date picker input */
 input.datepicker { min-width: 120px; text-align: center; }
+
+/* list table css */
+table.table-list { border-collapse: collapse; border: 1px solid #D6D6D6; font-size: 14px; }
+table.table-list th { height: 44px; min-width: 70px; background-color: #F3F3F3; border: 1px solid #D6D6D6; font-weight: 500; }
+table.table-list th.required::before { content: '*'; display: inline-block; margin-left: 3px; font-size: 15px; color: #E12222; }
+table.table-list td { height: 44px; padding: 10px; background-color: #FFF; border: 1px solid #D6D6D6; }
+table.table-list tbody tr:hover td { background-color: #f7fdff; }
+
+/* detail table css */
+table.table-detail { border-collapse: collapse; border: 1px solid #D6D6D6; font-size: 14px; }
+table.table-detail th { height: 44px; min-width: 70px; background-color: #F3F3F3; border: 1px solid #D6D6D6; font-weight: 500; }
+table.table-detail th.required::before { content: '*'; display: inline-block; margin-left: 3px; font-size: 15px; color: #E12222; }
+table.table-detail td { height: 44px; padding: 10px; background-color: #FFF; border: 1px solid #D6D6D6; }
+table.table-detail tbody tr:hover td { background-color: #f7fdff; }
+table th.required::before { content: '*'; display: inline-block; margin-left: 3px; font-size: 15px; color: #E12222; }
 
 /* 목록의 상단 영역 */
 div.table-title h5.list-header { display: inline-block; font-size: 15px; font-weight: 600; }
@@ -43,3 +52,10 @@ div.pagination-container { color: #ABABAB; margin-top: 10px; text-align: center;
 div.pagination-container button { padding: 0; }
 div.pagination-container button.page-button { width: 32px; height: 32px; border: 0px; background: #fff; color: #ABABAB; font-size: 15px; line-height: 14px; font-weight: 600; cursor: pointer; }
 div.pagination-container button.active-page { color: #5B76E2; font-weight: 650; opacity: 1 !important; }
+
+/* 버튼 */
+button.btn-main { width: 120px; height: 40px; }
+button.btn-sub { height:30px; padding: 0 10px; font-size: 12px; font-weight: 500;}
+
+/* 프로젝트 수정시 기존 등록된 이미지 */
+img.update-img-view { display: block; width: 50%; margin: 20px 0; max-width: 400px; }

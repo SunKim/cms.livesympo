@@ -149,6 +149,8 @@
 									<p>진행중 <span class="cblue1" id="cnt-ing">0</span>건</p>
 									<span class="vertical-separator">|</span>
 									<p>향후진행 <span class="cblue1" id="cnt-coming">0</span>건</p>
+
+									<button class="btn-blue btn-sub ml20" onclick="location.href='project/detail';">신규등록</button>
 								</div>
 								<!-- 우측 판매상태별 건수 -->
 							</div>
@@ -170,12 +172,14 @@
 											<th>URI</th>
 											<th>메인이미지</th>
 											<th>어젠다</th>
+											<th>푸터</th>
 											<th>메인색상</th>
 											<th>버튼색상</th>
 											<th>등록일시</th>
 											<th>사전신청자</th>
 											<th>시청자</th>
 											<th>프로젝트등록ID</th>
+											<th>버튼</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -284,9 +288,10 @@ function fnInit () {
 	};
 	$('.datepicker').flatpickr(dpOption);
 
-	$(document).on('click', '#prj-list tbody tr td', function(e) {
-		location.href = '/project/detail/' + $(this).parent('tr').attr('prj-seq');
-	});
+	// 해당 line 클릭시 상세로 이동
+	// $(document).on('click', '#prj-list tbody tr td', function(e) {
+	// 	location.href = '/project/detail/' + $(this).parent('tr').attr('prj-seq');
+	// });
 
 	getList(pageNo);
 }
@@ -325,7 +330,7 @@ function goToDetail (prjSeq) {
 
 // 프로젝트 목록 가져오기
 function getList (pageNo) {
-	// showSpinner(1000);
+	showSpinner();
 
 	$.ajax({
 		type: 'POST',
@@ -360,18 +365,21 @@ function getList (pageNo) {
 				list.forEach(item => {
 					html += '<tr prj-seq="'+item.PRJ_SEQ+'">';
 					html += '	<td>'+item.PRJ_SEQ+'</td>';
-					html += '	<td>'+item.PRJ_TITLE+'</td>';
+					html += '	<td><a href="/project/detail/'+item.PRJ_SEQ+'">'+item.PRJ_TITLE+'</a></td>';
 					html += '	<td>'+item.ST_DTTM+'</td>';
 					html += '	<td>'+item.ED_DTTM+'</td>';
 					html += '	<td>'+item.PRJ_TITLE_URI+'</td>';
 					html += '	<td><img class="thumb" src="'+item.MAIN_IMG_URI+'" /></td>';
 					html += '	<td><img class="thumb" src="'+item.AGENDA_IMG_URI+'" /></td>';
+					html += '	<td><img class="thumb" src="'+item.FOOTER_IMG_URI+'" /></td>';
 					html += '	<td><p class="color-box" style="background: '+item.ENT_THME_COLOR+';"></p></td>';
 					html += '	<td><p class="color-box" style="background: '+item.APPL_BTN_COLOR+';"></p></td>';
 					html += '	<td>'+item.REG_DTTM+'</td>';
 					html += '	<td>'+'0'+'</td>';
 					html += '	<td>'+'0'+'</td>';
 					html += '	<td>'+item.REGR_ID+'</td>';
+					html += '	<td><a href="<?= $livesympoUrl ?>/stream/apply/'+item.PRJ_TITLE_URI+'" target="_stream">바로가기</a></td>';
+
 					html += '</tr>';
 					// console.log(html);
 				});
@@ -420,7 +428,6 @@ function getList (pageNo) {
 				// modal1('경고', '프로젝트 목록을 가져오는 도중 오류가 발생했습니다. 관리자에게 문의해주세요.<br><br>코드(resCode):'+data.resCode+'<br>메세지(resMsg):'+data.resMsg);
 				// centerModal1('경고', '프로젝트 목록을 가져오는 도중 오류가 발생했습니다. 관리자에게 문의해주세요.<br><br>코드(resCode):'+data.resCode+'<br>메세지(resMsg):'+data.resMsg);
 				alert('프로젝트 목록을 가져오는 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드(resCode):'+data.resCode+'\n메세지(resMsg):'+data.resMsg);
-
 				// hideSpinner();
 			}
 		},
@@ -429,11 +436,10 @@ function getList (pageNo) {
 			// modal1('경고', '프로젝트 목록을 가져오는 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드:'+xhr.status+'\n메세지:'+thrownError);
 			// centerModal1('경고', '프로젝트 목록을 가져오는 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드:'+xhr.status+'\n메세지:'+thrownError);
 			alert('프로젝트 목록을 가져오는 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드:'+xhr.status+'\n메세지:'+thrownError);
-
 			// hideSpinner();
 		},
 		complete : function () {
-			// hideSpinner();
+			hideSpinner();
 		}
 	});
 }

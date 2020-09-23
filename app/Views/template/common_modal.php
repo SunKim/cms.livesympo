@@ -158,7 +158,7 @@ FontAwesome
 
 
 <!-- Loading Spinner Modal -->
-<div id="spinnerModal" class="modal fade spinner-modal" data-backdrop="static" data-keyboard="false" tabindex="-1">
+<div id="spinnerModal" class="modal spinner-modal" data-backdrop="static" data-keyboard="false" tabindex="-1">
 	<div class="modal-dialog modal-sm">
 		<div class="modal-content">
 			<i class="fa fa-spinner fa-spin fa-3x" style="color:#fff"></i>

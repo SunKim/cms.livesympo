@@ -107,7 +107,7 @@
 									</colgroup>
 									<tbody>
 										<tr>
-											<th rowspan="5">프로젝트</th>
+											<th rowspan="6">프로젝트</th>
 											<th class="required">타이틀</th>
 											<td class="tl">
 												<input type="hidden" id="PRJ_SEQ" name="PRJ_SEQ" value="<?= $prjSeq ?>" />
@@ -144,6 +144,14 @@
 												<span class="inblock tc" style="width: 20px;">-</span>
 												<input type="text" id="ED_DATE" name="ED_DATE" class="common-input w10 datepicker" />
 												<input type="text" id="ED_TIME" name="ED_TIME" class="common-input w10" value="23:59" />
+											</td>
+										</tr>
+										<tr>
+											<th class="required">사전등록 항목</th>
+											<td class="tl">
+												<p class="desc">* 6개까지 등록 가능합니다. 성명/연락처/병원명/과명은 기본항목입니다. Placeholder는 없으면 빈칸으로 두세요.</p>
+												<div class="ent-info-container">
+												</div>
 											</td>
 										</tr>
 										<tr>
@@ -246,6 +254,7 @@
 
 <!-- 메인 script -->
 <script language="javascript">
+const ENT_INFO_CNT = 6;
 
 // 초기화
 function fnInit () {
@@ -258,6 +267,8 @@ function fnInit () {
 	};
 	$('.datepicker').flatpickr(dpOption);
 
+	// 사전신청 등록정보 설정(신규등록시의 기본. 기존 등록은 데이터 다 불러오고 나서 설정)
+	setBaseEnterInfo();
 
 	// 수정페이지면 데이터 가져오기
 	if (<?= $prjSeq ?> > 0) {
@@ -268,7 +279,35 @@ function fnInit () {
 		// 신규등록이면 바로 color-picker 설정.
 		// color picker 설정. https://www.jqueryscript.net/other/Color-Picker-Plugin-jQuery-MiniColors.html
 		$('.color-picker').minicolors();
+
+		// 1,2,3,4는 성명, 연락처, 병원명, 과명 으로 설정
+		$('#ENT_INFO_TITLE_1').val('성명');
+		$('#ENT_INFO_TITLE_2').val('연락처');
+		$('#ENT_INFO_PHOLDR_2').val('-는 제외하고 입력해주세요.');
+		$('#ENT_INFO_TITLE_3').val('병원명');
+		$('#ENT_INFO_TITLE_4').val('과명');
 	}
+}
+
+// 신규등록시 사전신청 등록정보 설정
+function setBaseEnterInfo () {
+	let html = '';
+
+	for (let i = 1; i <= ENT_INFO_CNT; i++) {
+		html += '<div class="mt10 mb10">';
+		html += '	<span class="ent-info-title">항목명</span>';
+		html += '	<input type="text" id="ENT_INFO_TITLE_'+i+'" name="ENT_INFO_TITLE_'+i+'" class="common-input w20" value="" />';
+		html += '	<span class="ent-info-title ml20">Placeholder</span>';
+		html += '	<input type="text" id="ENT_INFO_PHOLDR_'+i+'" name="ENT_INFO_PHOLDR_'+i+'" class="common-input w20" value="" />';
+		html += '	<span class="ent-info-title ml20">필수여부</span>';
+		html += '	<select class="common-select w20" id="REQUIRED_YN_'+i+'" name="REQUIRED_YN_'+i+'" value="1">';
+		html += '		<option value="1">Y</option>';
+		html += '		<option value="0">N</option>';
+		html += '	</select>';
+		html += '</div>';
+	}
+
+	$('.ent-info-container').append(html);
 }
 
 // 저장
@@ -293,6 +332,24 @@ function save () {
 		$('#ST_DATE').focus();
 		return;
 	}
+	// 신규등록일 경우 필수 이미지 체크
+	if (<?= $prjSeq ?> == 0) {
+		if (isEmpty( $('#MAIN_IMG').val() )) {
+			alert('메인 이미지를 선택해주세요.');
+			$('#MAIN_IMG').focus();
+			return;
+		}
+		if (isEmpty( $('#AGENDA_IMG').val() )) {
+			alert('어젠다 이미지를 선택해주세요.');
+			$('#AGENDA_IMG').focus();
+			return;
+		}
+		if (isEmpty( $('#FOOTER_IMG').val() )) {
+			alert('푸터 이미지를 선택해주세요.');
+			$('#FOOTER_IMG').focus();
+			return;
+		}
+	}
 
 	const form = $('form')[0];
 	const formData = new FormData(form);
@@ -307,8 +364,9 @@ function save () {
         cache: false,
         timeout: 10000,
         success: function (res) {
+			console.log(res);
         	alert('저장되었습니다. 이전페이지로 이동합니다.');
-			history.back();
+			// history.back();
         },
         error: function (e) {
             console.log('ERROR : ', e);
@@ -352,6 +410,13 @@ function getDetail (prjSeq) {
 
 				// update면 데이터 다 불러오고 나서 color-picker 설정. (바로하면 색상반영이 안됨)
 				$('.color-picker').minicolors();
+
+				// 사전신청 등록정보 설정(신규등록시의 기본. 기존 등록은 데이터 다 불러오고 나서 설정)
+				for(const entInfoItem of data.item.entInfoList) {
+					$('#ENT_INFO_TITLE_' + entInfoItem.SERL_NO).val(entInfoItem.ENT_INFO_TITLE);
+					$('#ENT_INFO_PHOLDR_' + entInfoItem.SERL_NO).val(entInfoItem.ENT_INFO_PHOLDR);
+					$('#REQUIRED_YN_' + entInfoItem.SERL_NO).val(entInfoItem.REQUIRED_YN);
+				}
 			} else {
 				// modal1('경고', '프로젝트 목록을 가져오는 도중 오류가 발생했습니다. 관리자에게 문의해주세요.<br><br>코드(resCode):'+data.resCode+'<br>메세지(resMsg):'+data.resMsg);
 				// centerModal1('경고', '프로젝트 목록을 가져오는 도중 오류가 발생했습니다. 관리자에게 문의해주세요.<br><br>코드(resCode):'+data.resCode+'<br>메세지(resMsg):'+data.resMsg);

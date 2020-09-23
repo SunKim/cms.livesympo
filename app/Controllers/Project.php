@@ -103,16 +103,20 @@ class Project extends BaseController {
 
 		// 프로젝트 아이템
 		$prjList = $this->projectModel->detail($prjSeq);
+		$entInfoList = $this->projectModel->entInfoList($prjSeq);
 
 		$data['resCode'] = '0000';
 		$data['resMsg'] = '정상적으로 처리되었습니다.';
 		$data['item'] = $prjList;
+		$data['item']['entInfoList'] = $entInfoList;
 
 		return $this->response->setJSON($data);
 	}
 
 	// 저장
 	public function save ($prjSeq = 0) {
+		$insOrUpd = $prjSeq > 0 ? 'upd' : 'ins';
+
 		// 기본 업로드 path. ex) /Users/seonjungkim/workspace_php/cms.livesympo/public/uploads/project
 		$uploadPath = $_ENV['UPLOAD_BASE_PATH'];
 
@@ -136,7 +140,7 @@ class Project extends BaseController {
 		$db->transStart();
 
 		// 0이면 신규등록. 프로젝트 insert 해서 PRJ_SEQ 받아옴
-		if ($prjSeq == 0) {
+		if ($insOrUpd === 'ins') {
 			$data['REGR_ID'] = $this->request->getPost('EMAIL');
 
 			$prjSeq = $this->projectModel->insertProject($data);
@@ -191,6 +195,28 @@ class Project extends BaseController {
 			}
 		} catch (Exception $e) {
 			log_message('error', "exception - ".$e->getMessage());
+		}
+
+		// 프로젝트 사전신청 입력항목 insert
+		for ($i = 1; $i <= 6; $i++) {
+			$entInfoData['ENT_INFO_TITLE'] = $this->request->getPost("ENT_INFO_TITLE_$i");
+			$entInfoData['ENT_INFO_PHOLDR'] = $this->request->getPost("ENT_INFO_PHOLDR_$i");
+			$entInfoData['REQUIRED_YN'] = $this->request->getPost("REQUIRED_YN_$i");
+			log_message('info', "Project.php - save. ENT_INFO_TITLE : ".$entInfoData['ENT_INFO_TITLE']);
+
+			// ENT_INFO_TITLE에 값이 있으면 DB 처리(빈칸도 있음)
+			if (isset($entInfoData['ENT_INFO_TITLE']) && $entInfoData['ENT_INFO_TITLE'] != '') {
+				// 신규등록이면 insert
+				if ($insOrUpd === 'ins') {
+					$entInfoData['PRJ_SEQ'] = $prjSeq;
+					$entInfoData['SERL_NO'] = $i;
+					$entInfoData['REGR_ID'] = $this->request->getPost('EMAIL');
+
+					$prjEntInfoSeq = $this->projectModel->insertEntInfo($entInfoData);
+				} else {
+					$affectedRows = $this->projectModel->updateEntInfo($prjSeq, $i, $entInfoData);
+				}
+			}
 		}
 
 		$db->transComplete();

@@ -30,7 +30,6 @@ table.table-detail { border-collapse: collapse; border: 1px solid #D6D6D6; font-
 table.table-detail th { height: 44px; min-width: 70px; background-color: #F3F3F3; border: 1px solid #D6D6D6; font-weight: 500; }
 table.table-detail th.required::before { content: '*'; display: inline-block; margin-left: 3px; font-size: 15px; color: #E12222; }
 table.table-detail td { height: 44px; padding: 10px; background-color: #FFF; border: 1px solid #D6D6D6; }
-table.table-detail tbody tr:hover td { background-color: #f7fdff; }
 table th.required::before { content: '*'; display: inline-block; margin-left: 3px; font-size: 15px; color: #E12222; }
 
 /* 목록의 상단 영역 */
@@ -59,3 +58,9 @@ button.btn-sub { height:30px; padding: 0 10px; font-size: 12px; font-weight: 500
 
 /* 프로젝트 수정시 기존 등록된 이미지 */
 img.update-img-view { display: block; width: 50%; margin: 20px 0; max-width: 400px; }
+
+/* 프로젝트 사전등록 항목 입력시 title */
+span.ent-info-title { display: inline-block; margin-right: 10px; }
+
+/* desc */
+p.desc { font-size: 14px; color: #999; }

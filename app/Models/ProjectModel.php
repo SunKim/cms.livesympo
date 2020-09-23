@@ -136,4 +136,36 @@ class ProjectModel extends Model {
 
         return $this->db->affectedRows();
 	}
+
+    // 프로젝트 사전신청 등록정보 목록
+    public function entInfoList ($prjSeq) {
+        $strQry    = "";
+
+        $strQry .= "SELECT 	\n";
+        $strQry .= "	PRJ_ENT_INFO_SEQ, SERL_NO	\n";
+        $strQry .= "	, ENT_INFO_TITLE, ENT_INFO_PHOLDR, REQUIRED_YN	\n";
+        $strQry .= "FROM TB_PRJ_ENT_INFO_M	\n";
+        $strQry .= "WHERE 1=1	\n";
+        $strQry .= "	AND DEL_YN = 0	\n";
+        $strQry .= "	AND PRJ_SEQ = ".$this->db->escape($prjSeq)."	\n";
+        $strQry .= "ORDER BY SERL_NO ASC	\n";
+
+        $strQry .= ";";
+
+        return $this->db->query($strQry)->getResultArray();
+    }
+
+    // 프로젝트 사전신청 등록정보(TB_PRJ_ENT_INFO_M) insert
+    public function insertEntInfo ($data) {
+		$this->db->table('TB_PRJ_ENT_INFO_M')->insert($data);
+        return $this->db->insertID();
+	}
+
+    // 프로젝트 사전신청 등록정보(TB_PRJ_ENT_INFO_M) update
+    public function updateEntInfo ($prjSeq, $serlNo, $data) {
+        $builder = $this->db->table('TB_PRJ_ENT_INFO_M');
+		$builder->where(['PRJ_SEQ' => $prjSeq, 'SERL_NO' => $serlNo])->update($data);
+
+        return $this->db->affectedRows();
+	}
 }

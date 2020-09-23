@@ -308,6 +308,15 @@ function setBaseEnterInfo () {
 	}
 
 	$('.ent-info-container').append(html);
+
+	// 성명, 연락처, 병원명, 과명은 readonly로 하자
+	$('#ENT_INFO_TITLE_1').attr('readonly', true);
+	$('#ENT_INFO_TITLE_2').attr('readonly', true);
+	$('#ENT_INFO_TITLE_3').attr('readonly', true);
+	$('#ENT_INFO_TITLE_4').attr('readonly', true);
+
+	$('#REQUIRED_YN_1 option').attr('disabled', true);
+	$('#REQUIRED_YN_2 option').attr('disabled', true);
 }
 
 // 저장
@@ -366,7 +375,7 @@ function save () {
         success: function (res) {
 			console.log(res);
         	alert('저장되었습니다. 이전페이지로 이동합니다.');
-			// history.back();
+			history.back();
         },
         error: function (e) {
             console.log('ERROR : ', e);

@@ -161,7 +161,6 @@ class Project extends BaseController {
 					// echo "key : $key, file : $file\n";
 					// $key : form/input에서의 name
 					// $file : 서버에 임시저장된 파일명. ex) /private/var/tmp/phpvnBwzw
-					log_message('info', "Project.php - save(). key : $key, file : $file");
 
 					if (isset($file) && $file->isValid() && !$file->hasMoved()) {
 						$src = $file->getRealPath();
@@ -169,6 +168,7 @@ class Project extends BaseController {
 
 						// echo "src : $src, ext : $ext, uploadPath : $uploadPath\n";
 						$path = $uploadPath.DIRECTORY_SEPARATOR.$prjSeq;
+						log_message('info', "Project.php - save(). key : $key, file : $file, path: $path");
 
 						// directory가 없으면 생성
 						if ( !is_dir($path) ) {

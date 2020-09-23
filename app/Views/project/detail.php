@@ -250,7 +250,7 @@
 <!-- MiniColors. https://www.jqueryscript.net/other/Color-Picker-Plugin-jQuery-MiniColors.html -->
 <script src="/vendor/minicolors/jquery.minicolors.js"></script>
 
-<script src="/js/sum.common.20200914.js"></script>
+<script src="/js/sun.common.20200914.js"></script>
 
 <!-- 메인 script -->
 <script language="javascript">

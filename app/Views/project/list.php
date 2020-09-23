@@ -261,7 +261,7 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
 
-<script src="/js/sum.common.20200914.js"></script>
+<script src="/js/sun.common.20200914.js"></script>
 
 <!-- 메인 script -->
 <script language="javascript">

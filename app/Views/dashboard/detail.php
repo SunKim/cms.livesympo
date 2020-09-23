@@ -226,7 +226,7 @@
 <!-- Custom scripts for all pages-->
 <script src="/js/sb-admin-2.min.js"></script>
 
-<script src="/js/sum.common.20200914.js"></script>
+<script src="/js/sun.common.20200914.js"></script>
 
 <!-- 메인 script -->
 <script language="javascript">

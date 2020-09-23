@@ -167,7 +167,7 @@ class Project extends BaseController {
 						$ext = $file->getExtension();
 
 						// echo "src : $src, ext : $ext, uploadPath : $uploadPath\n";
-						$path = $uploadPath.DIRECTORY_SEPARATOR.$prjSeq;
+						$path = $uploadPath.DIRECTORY_SEPARATOR.'project'.DIRECTORY_SEPARATOR.$prjSeq;
 						log_message('info', "Project.php - save(). key : $key, file : $file, path: $path");
 
 						// directory가 없으면 생성
@@ -235,7 +235,7 @@ class Project extends BaseController {
 			$res['resMsg'] = '정상적으로 처리되었습니다.';
 		}
 
-		return $this->response->setJSON($data);
+		return $this->response->setJSON($res);
 	}
 
 	// 페이지리스트의 param(itemsPerPage, pageNo을 포함한 obj)를 받아서 beginIndex, endIndex return

@@ -378,7 +378,7 @@ function getList (pageNo) {
 					html += '	<td>'+'0'+'</td>';
 					html += '	<td>'+'0'+'</td>';
 					html += '	<td>'+item.REGR_ID+'</td>';
-					html += '	<td><a href="<?= $livesympoUrl ?>/stream/apply/'+item.PRJ_TITLE_URI+'" target="_stream">바로가기</a></td>';
+					html += '	<td><a href="<?= $livesympoUrl ?>/'+item.PRJ_TITLE_URI+'" target="_stream">바로가기</a></td>';
 
 					html += '</tr>';
 					// console.log(html);

@@ -315,8 +315,8 @@ function setBaseEnterInfo () {
 	$('#ENT_INFO_TITLE_3').attr('readonly', true);
 	$('#ENT_INFO_TITLE_4').attr('readonly', true);
 
-	$('#REQUIRED_YN_1 option').attr('disabled', true);
-	$('#REQUIRED_YN_2 option').attr('disabled', true);
+	// $('#REQUIRED_YN_1 option').attr('disabled', true);
+	// $('#REQUIRED_YN_2 option').attr('disabled', true);
 }
 
 // 저장
@@ -362,6 +362,7 @@ function save () {
 
 	const form = $('form')[0];
 	const formData = new FormData(form);
+	console.log(`formData - ${JSON.stringify(formData)}`)
 
 	$.ajax({
         type: 'POST',

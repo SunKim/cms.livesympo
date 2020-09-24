@@ -168,24 +168,25 @@ class Project extends BaseController {
 
 						// echo "src : $src, ext : $ext, uploadPath : $uploadPath\n";
 						$path = $uploadPath.DIRECTORY_SEPARATOR.'project'.DIRECTORY_SEPARATOR.$prjSeq;
-						log_message('info', "Project.php - save(). key : $key, file : $file, path: $path");
 
 						// directory가 없으면 생성
 						if ( !is_dir($path) ) {
 							// mkdir(path, mode, recursive). recursive는 꼭 true로!!
 							mkdir($path, 0755, true);
+							log_message('info', "Project.php - save(). 파일저장용 directory 생성 - $path");
 						}
 
 						// 새로운 파일명에 extension 붙여줌
 						// $key : form의 input의 name. MAIN_IMG, AGENDA_IMG, FOOTER_IMG => MAIN_IMG_1.png 형태로
 						$newFileName = $key.'_'.$prjSeq.'.'.$ext;
 
+						// 파일 이동
+						$file->move($path, $newFileName);
+						log_message('info', "Project.php - save(). key : $key, file : $file, path: $path, newFileName: $newFileName");
+
 						$updateUriData[$key.'_URI'] = '/uploads/project/'.$prjSeq.'/'.$newFileName;
 						// DB update (파일이 있을때만)
 						$this->projectModel->updateProject($prjSeq, $updateUriData);
-
-						// 파일 이동
-						$file->move($path, $newFileName);
 					} else {
 						// 프로젝트 수정시 파일을 안건드리면 파일이 안올라오므로 에러를 띄우면 안됨
 						// log_message('error', $file->getErrorString().'('.$file->getError().')');
@@ -202,7 +203,7 @@ class Project extends BaseController {
 			$entInfoData['ENT_INFO_TITLE'] = $this->request->getPost("ENT_INFO_TITLE_$i");
 			$entInfoData['ENT_INFO_PHOLDR'] = $this->request->getPost("ENT_INFO_PHOLDR_$i");
 			$entInfoData['REQUIRED_YN'] = $this->request->getPost("REQUIRED_YN_$i");
-			log_message('info', "Project.php - save. ENT_INFO_TITLE : ".$entInfoData['ENT_INFO_TITLE']);
+			// log_message('info', "Project.php - save. ENT_INFO_TITLE : ".$entInfoData['ENT_INFO_TITLE'].", ENT_INFO_PHOLDR : ".$entInfoData['ENT_INFO_PHOLDR'].", REQUIRED_YN : ".$entInfoData['REQUIRED_YN']);
 
 			// ENT_INFO_TITLE에 값이 있으면 DB 처리(빈칸도 있음)
 			if (isset($entInfoData['ENT_INFO_TITLE']) && $entInfoData['ENT_INFO_TITLE'] != '') {

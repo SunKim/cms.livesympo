@@ -61,6 +61,7 @@ class Login extends BaseController {
 				$sessData = array(
 					'email' => $adminData['EMAIL']
 					, 'admSeq' => $adminData['ADM_SEQ']
+					, 'admNm' => $adminData['ADM_NM']
 					, 'lvl' => $adminData['LVL']
 					, 'logged_in' => 1
 				);

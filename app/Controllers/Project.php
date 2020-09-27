@@ -38,13 +38,6 @@ class Project extends BaseController {
 
 		$data['livesympoUrl'] = $_ENV['app.livesympoBaseUrl'];
 
-		$data['cntItem'] = array(
-			'CNT_ALL' => 57
-			, 'CNT_COMP' => 40
-			, 'CNT_ING' => 2
-			, 'CNT_COMING' => 15
-		);
-
 		return view('project/list', $data);
 	}
 
@@ -85,7 +78,9 @@ class Project extends BaseController {
 		$data['resCode'] = '0000';
 		$data['resMsg'] = '정상적으로 처리되었습니다.';
 		$data['list'] = $prjList;
+		// 전체건수
 		$data['totCnt'] = $totCntItem['CNT_ALL'];
+		// 건수들 아이템(진행완료, 진행중, 향후진행)
 		$data['item'] = $totCntItem;
 
 		// 받은 parameter는 그대로 response

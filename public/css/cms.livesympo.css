@@ -1,4 +1,5 @@
 /* global DOM */
+html, body { font-size: 16px; }
 input, span { display: inline-block; }
 hr { color: #fff; background: #fff; border: 0; height: 1px; margin: 0 0.4rem 0.6rem 0.4rem; }
 
@@ -64,3 +65,7 @@ span.ent-info-title { display: inline-block; margin-right: 10px; }
 
 /* desc */
 p.desc { font-size: 14px; color: #999; }
+
+/* 패스워드 변경 테이블 */
+table.table-password { font-size: 14px; }
+table.table-password th, table.table-password td { height: 44px; }

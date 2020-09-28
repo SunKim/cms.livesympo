@@ -17,6 +17,7 @@
 namespace App\Controllers;
 
 use App\Models\ProjectModel;
+use App\Models\QuestionModel;
 
 class Project extends BaseController {
 
@@ -24,6 +25,7 @@ class Project extends BaseController {
 
 	public function __construct() {
     	$this->projectModel = new ProjectModel();
+		$this->questionModel = new QuestionModel();
   	}
 
 	public function index() {
@@ -50,6 +52,19 @@ class Project extends BaseController {
 		$data['prjSeq'] = $prjSeq;
 
 		return view('project/detail', $data);
+	}
+
+	// 질문관리 화면
+	public function question ($prjSeq = 0) {
+		$data['menu'] = 'project';
+		// get('session name') 에서 session name을 안주면 전체 session정보.
+		$data['session'] = $this->session->get();
+
+		$data['prjSeq'] = $prjSeq;
+		$data['project'] = $this->projectModel->detail($prjSeq);
+		$data['livesympoUrl'] = $_ENV['app.livesympoBaseUrl'];
+
+		return view('project/question', $data);
 	}
 
 	//ajax - 프로젝트 리스트
@@ -92,18 +107,37 @@ class Project extends BaseController {
 	//ajax - 프로젝트 상세
 	public function getDetail() {
 		// param 받기
-		// $param = $this->request->getJSON();
-		// $param = $this->request->getPost('email');
 		$prjSeq = $this->request->getPost('prjSeq');
+		$lvl = $this->request->getPost('lvl');
+
+		// 프로젝트 아이템
+		$prjItem = $this->projectModel->detail($prjSeq);
+		$entInfoList = $this->projectModel->entInfoList($prjSeq);
+
+		$data['resCode'] = '0000';
+		$data['resMsg'] = '정상적으로 처리되었습니다.';
+		$data['item'] = $prjItem;
+		$data['item']['entInfoList'] = $entInfoList;
+
+		return $this->response->setJSON($data);
+	}
+
+	//ajax - 프로젝트 질문 리스트
+	public function getQuestionList() {
+		// param 받기
+		$prjSeq = $this->request->getPost('prjSeq');
+		$lvl = $this->request->getPost('lvl');
 
 		// 프로젝트 아이템
 		$prjList = $this->projectModel->detail($prjSeq);
 		$entInfoList = $this->projectModel->entInfoList($prjSeq);
+		$questionList = $this->questionModel->list($prjSeq, $lvl == 1 ? 1 : 0);
 
 		$data['resCode'] = '0000';
 		$data['resMsg'] = '정상적으로 처리되었습니다.';
 		$data['item'] = $prjList;
 		$data['item']['entInfoList'] = $entInfoList;
+		$data['item']['questionList'] = $questionList;
 
 		return $this->response->setJSON($data);
 	}

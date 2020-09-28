@@ -24,7 +24,7 @@
 <meta name="robots" content="noindex,nofollow">
 <!-- meta name="robots" content="all" -->
 
-<title>Live Sympo 관리자 프로젝트</title>
+<title>Live Sympo 관리자 프로젝트 질문관리</title>
 
 <!-- stylesheets -->
 <link href="/css/sun.common.20200914.css" rel="stylesheet">
@@ -52,6 +52,10 @@
 
 <!-- START) 메인 css -->
 <style type="text/css">
+.question-container { width: calc(100% - 420px - 40px); }
+ul.question-list p { margin: 0 !important; }
+ul.question-list p.regr { color: #666; }
+ul.question-list p.reg-dttm { font-size: 14px; color: #999; }
 </style>
 <!-- END) 메인 css -->
 
@@ -95,114 +99,154 @@
 
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
-							<h6 class="m-0 font-weight-bold text-primary">프로젝트 상세</h6>
+							<h6 class="m-0 font-weight-bold text-primary">프로젝트 질문관리</h6>
 						</div>
-						<div class="card-body">
-							<form method="POST">
-								<table class="table-detail">
-									<colgroup>
-										<col width="10%" />
-										<col width="15%" />
-										<col width="75%" />
-									</colgroup>
-									<tbody>
-										<tr>
-											<th rowspan="6">프로젝트</th>
-											<th class="required">타이틀</th>
-											<td class="tl">
-												<input type="hidden" id="PRJ_SEQ" name="PRJ_SEQ" value="<?= $prjSeq ?>" />
-												<input type="hidden" id="EMAIL" name="EMAIL" value="<?= $email ?>" />
-												<input type="text" id="PRJ_TITLE" name="PRJ_TITLE" class="common-input w90" />
-											</td>
-										</tr>
-										<tr>
-											<th class="required">URI</th>
-											<td class="tl">
-												<input type="text" id="PRJ_TITLE_URI" name="PRJ_TITLE_URI" class="common-input w90" placeholder="drug-a-20200922 형식으로 입력해주세요." />
-											</td>
-										</tr>
-										<tr>
-											<th class="required">스트리밍 URL</th>
-											<td class="tl">
-												<input type="text" id="STREAM_URL" name="STREAM_URL" class="common-input w90" placeholder="https://stream.com/xxxx 형식으로 입력해주세요." />
-											</td>
-										</tr>
-										<!-- <tr>
-											<th class="required">아젠다 추가페이지</th>
-											<td class="tl">
-												<select class="common-select w90" id="AGENDA_PAGE_YN" name="AGENDA_PAGE_YN">
-													<option value="0">N</option>
-													<option value="1">Y</option>
-												</select>
-											</td>
-										</tr> -->
-										<tr>
-											<th class="required">프로젝트 일시</th>
-											<td class="tl">
-												<input type="text" id="ST_DATE" name="ST_DATE" class="common-input w10 datepicker" />
-												<input type="text" id="ST_TIME" name="ST_TIME" class="common-input w10" value="00:00" />
-												<span class="inblock tc" style="width: 20px;">-</span>
-												<input type="text" id="ED_DATE" name="ED_DATE" class="common-input w10 datepicker" />
-												<input type="text" id="ED_TIME" name="ED_TIME" class="common-input w10" value="23:59" />
-											</td>
-										</tr>
-										<tr>
-											<th class="required">사전등록 항목</th>
-											<td class="tl">
-												<p class="desc">* 6개까지 등록 가능합니다. 성명/연락처/병원명/과명은 기본항목입니다. Placeholder는 없으면 빈칸으로 두세요.</p>
-												<div class="ent-info-container">
-												</div>
-											</td>
-										</tr>
-										<tr>
-											<th rowspan="3">이미지</th>
-											<th class="required">메인 이미지</th>
-											<td class="tl">
-												<img class="update-img-view" id="MAIN_IMG_URL" />
-												<input type="file" id="MAIN_IMG" name="MAIN_IMG" class="common-input w50" accept="image/x-png,image/gif,image/jpeg" />
-											</td>
-										</tr>
-										<tr>
-											<th class="required">아젠다 이미지</th>
-											<td class="tl">
-												<img class="update-img-view" id="AGENDA_IMG_URL" />
-												<input type="file" id="AGENDA_IMG" name="AGENDA_IMG" class="common-input w50" accept="image/x-png,image/gif,image/jpeg" />
-											</td>
-										</tr>
-										<tr>
-											<th class="required">푸터 이미지</th>
-											<td class="tl">
-												<img class="update-img-view" id="FOOTER_IMG_URL" />
-												<input type="file" id="FOOTER_IMG" name="FOOTER_IMG" class="common-input w50" accept="image/x-png,image/gif,image/jpeg" />
-											</td>
-										</tr>
-										<tr>
-											<th rowspan="2">색상</th>
-											<th class="required">테마 색상</th>
-											<td class="tl">
-												<input type="text" id="ENT_THME_COLOR" name="ENT_THME_COLOR" class="common-input w90 color-picker" value="#ffffff" style="height: 28px !important;" />
-											</td>
-										</tr>
-										<tr>
-											<th class="required">사전등록버튼 색상</th>
-											<td class="tl">
-												<input type="text" id="APPL_BTN_COLOR" name="APPL_BTN_COLOR" class="common-input w90 color-picker" value="#ffffff" style="height: 28px !important;" />
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							</form>
+						<div class="card-body d-flex justify-content-between align-items-start">
+							<iframe src="<?= $livesympoUrl ?>/<?= $project['PRJ_TITLE_URI'] ?>" style="width: 420px; height: 1013px; border: 1px solid #999;"></iframe>
+							<div class="question-container">
+								<div class="tr">
+									<button class="btn-sub btn-blue" onclick="forceRefresh();">수동 새로고침</button>
+								</div>
+								<ul class="question-list mt10">
+									<li class="mb20">
+										<div class="d-flex justify-content-between align-items-center">
+											<p class="regr">
+												<span>김성명</span>
+												<span>(010-0000-1111)</span>
+												<span>우리한방병원</span>
+												<span>간호학과</span>
+											</p>
+											<p class="reg-dttm">2020-09-28 20:21:50</p>
+										</div>
+										<textarea maxlength="400" rows="4" class="common-textarea w100 mt10 mb10" style="padding: 4px;" readonly>하이루</textarea>
+									</li>
+									<li class="mb20">
+										<div class="d-flex justify-content-between align-items-center">
+											<p class="regr">
+												<span>김성명</span>
+												<span>(010-0000-1111)</span>
+												<span>우리한방병원</span>
+												<span>간호학과</span>
+											</p>
+											<p class="reg-dttm">2020-09-28 20:21:50</p>
+										</div>
+										<textarea maxlength="400" rows="4" class="common-textarea w100 mt10 mb10" style="padding: 4px;" readonly>하이루</textarea>
+									</li>
+									<li class="mb20">
+										<div class="d-flex justify-content-between align-items-center">
+											<p class="regr">
+												<span>김성명</span>
+												<span>(010-0000-1111)</span>
+												<span>우리한방병원</span>
+												<span>간호학과</span>
+											</p>
+											<p class="reg-dttm">2020-09-28 20:21:50</p>
+										</div>
+										<textarea maxlength="400" rows="4" class="common-textarea w100 mt10 mb10" style="padding: 4px;" readonly>하이루</textarea>
+									</li>
+									<li class="mb20">
+										<div class="d-flex justify-content-between align-items-center">
+											<p class="regr">
+												<span>김성명</span>
+												<span>(010-0000-1111)</span>
+												<span>우리한방병원</span>
+												<span>간호학과</span>
+											</p>
+											<p class="reg-dttm">2020-09-28 20:21:50</p>
+										</div>
+										<textarea maxlength="400" rows="4" class="common-textarea w100 mt10 mb10" style="padding: 4px;" readonly>하이루</textarea>
+									</li>
+									<li class="mb20">
+										<div class="d-flex justify-content-between align-items-center">
+											<p class="regr">
+												<span>김성명</span>
+												<span>(010-0000-1111)</span>
+												<span>우리한방병원</span>
+												<span>간호학과</span>
+											</p>
+											<p class="reg-dttm">2020-09-28 20:21:50</p>
+										</div>
+										<textarea maxlength="400" rows="4" class="common-textarea w100 mt10 mb10" style="padding: 4px;" readonly>하이루</textarea>
+									</li>
+									<li class="mb20">
+										<div class="d-flex justify-content-between align-items-center">
+											<p class="regr">
+												<span>김성명</span>
+												<span>(010-0000-1111)</span>
+												<span>우리한방병원</span>
+												<span>간호학과</span>
+											</p>
+											<p class="reg-dttm">2020-09-28 20:21:50</p>
+										</div>
+										<textarea maxlength="400" rows="4" class="common-textarea w100 mt10 mb10" style="padding: 4px;" readonly>하이루</textarea>
+									</li>
+									<li class="mb20">
+										<div class="d-flex justify-content-between align-items-center">
+											<p class="regr">
+												<span>김성명</span>
+												<span>(010-0000-1111)</span>
+												<span>우리한방병원</span>
+												<span>간호학과</span>
+											</p>
+											<p class="reg-dttm">2020-09-28 20:21:50</p>
+										</div>
+										<textarea maxlength="400" rows="4" class="common-textarea w100 mt10 mb10" style="padding: 4px;" readonly>하이루</textarea>
+									</li>
+									<li class="mb20">
+										<div class="d-flex justify-content-between align-items-center">
+											<p class="regr">
+												<span>김성명</span>
+												<span>(010-0000-1111)</span>
+												<span>우리한방병원</span>
+												<span>간호학과</span>
+											</p>
+											<p class="reg-dttm">2020-09-28 20:21:50</p>
+										</div>
+										<textarea maxlength="400" rows="4" class="common-textarea w100 mt10 mb10" style="padding: 4px;" readonly>하이루</textarea>
+									</li>
+									<li class="mb20">
+										<div class="d-flex justify-content-between align-items-center">
+											<p class="regr">
+												<span>김성명</span>
+												<span>(010-0000-1111)</span>
+												<span>우리한방병원</span>
+												<span>간호학과</span>
+											</p>
+											<p class="reg-dttm">2020-09-28 20:21:50</p>
+										</div>
+										<textarea maxlength="400" rows="4" class="common-textarea w100 mt10 mb10" style="padding: 4px;" readonly>하이루</textarea>
+									</li>
+									<li class="mb20">
+										<div class="d-flex justify-content-between align-items-center">
+											<p class="regr">
+												<span>김성명</span>
+												<span>(010-0000-1111)</span>
+												<span>우리한방병원</span>
+												<span>간호학과</span>
+											</p>
+											<p class="reg-dttm">2020-09-28 20:21:50</p>
+										</div>
+										<textarea maxlength="400" rows="4" class="common-textarea w100 mt10 mb10" style="padding: 4px;" readonly>하이루</textarea>
+									</li>
+									<li class="mb20">
+										<div class="d-flex justify-content-between align-items-center">
+											<p class="regr">
+												<span>김성명</span>
+												<span>(010-0000-1111)</span>
+												<span>우리한방병원</span>
+												<span>간호학과</span>
+											</p>
+											<p class="reg-dttm">2020-09-28 20:21:50</p>
+										</div>
+										<textarea maxlength="400" rows="4" class="common-textarea w100 mt10 mb10" style="padding: 4px;" readonly>하이루</textarea>
+									</li>
+								</ul>
+							</div>
 						</div>
 
 						<div class="d-flex align-items-center justify-content-between pa20">
 							<button class="btn-main btn-white mr15" onclick="history.back();">뒤로</button>
-<?php
-	// 레벨9만 보이도록
-	if ($lvl == 9) {
-		echo '<button class="btn-main btn-red" onclick="test()">테스트</button>';
-		echo '<button class="btn-main btn-light-indigo" onclick="save()">저장</button>';
-	}
-?>
+							<span>&nbsp;</span>
 						</div>
 					</div>
 
@@ -404,7 +448,6 @@ function getDetail (prjSeq) {
 				$('#PRJ_TITLE').val(data.item.PRJ_TITLE);
 				$('#PRJ_TITLE_URI').val(data.item.PRJ_TITLE_URI);
 				$('#STREAM_URL').val(data.item.STREAM_URL);
-				// $('#AGENDA_PAGE_YN').val(data.item.AGENDA_PAGE_YN);
 				$('#ST_DATE').val(data.item.ST_DATE);
 				$('#ST_TIME').val(data.item.ST_TIME);
 				$('#ED_DATE').val(data.item.ED_DATE);
@@ -452,7 +495,6 @@ function test () {
 	$('#PRJ_TITLE').val('테스트 타이틀');
 	$('#PRJ_TITLE_URI').val('test-title-20200923');
 	$('#STREAM_URL').val('https://stream.com/test/stream?param=0');
-	// $('#AGENDA_PAGE_YN').val('0');
 	$('#ST_DATE').val('2020-09-25');
 	$('#ST_TIME').val('10:30');
 	$('#ED_DATE').val('2020-09-25');

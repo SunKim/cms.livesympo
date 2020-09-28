@@ -25,7 +25,7 @@ class ProjectModel extends Model {
 
 	// 프로젝트 목록
     public function list ($filter, $beginIndex, $endIndex) {
-        $strQry    = "";
+        $strQry  = "";
 
         $strQry .= "SELECT	\n";
 		$strQry .= "	P.PRJ_SEQ, P.PRJ_TITLE, P.PRJ_TITLE_URI	\n";

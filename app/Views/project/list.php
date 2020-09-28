@@ -157,7 +157,7 @@
 							<!-- END) 테이블 타이틀 영역 -->
 
 							<div style="width: 100%; overflow-x: scroll;">
-								<table class="table-list" id="prj-list" style="min-width: 1600px;">
+								<table class="table-list" id="prj-list" style="min-width: 2000px;">
 									<!-- <colgroup>
 										<col width="34%" />
 										<col width="33%" />
@@ -179,7 +179,7 @@
 											<th>사전신청자</th>
 											<th>시청자</th>
 											<th>프로젝트등록ID</th>
-											<th>버튼</th>
+											<th>기능</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -378,7 +378,10 @@ function getList (pageNo) {
 					html += '	<td>'+'0'+'</td>';
 					html += '	<td>'+'0'+'</td>';
 					html += '	<td>'+item.REGR_ID+'</td>';
-					html += '	<td><a href="<?= $livesympoUrl ?>/'+item.PRJ_TITLE_URI+'" target="_stream">바로가기</a></td>';
+					html += '	<td>';
+					html += '		<a href="<?= $livesympoUrl ?>/'+item.PRJ_TITLE_URI+'" target="_stream">바로가기</a>';
+					html += '		<a href="/project/question/'+item.PRJ_SEQ+'" target="_question" class="ml20">질문관리</a>';
+					html += '	</td>';
 
 					html += '</tr>';
 					// console.log(html);

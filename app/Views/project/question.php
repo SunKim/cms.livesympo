@@ -52,6 +52,7 @@
 
 <!-- START) 메인 css -->
 <style type="text/css">
+iframe { width: 420px; height: 1013px; border: 1px solid #ddd; border-radius: 5px; }
 .question-container { width: calc(100% - 420px - 40px); }
 ul.question-list p { margin: 0 !important; }
 ul.question-list p.regr { color: #666; }
@@ -102,7 +103,7 @@ ul.question-list p.reg-dttm { font-size: 14px; color: #999; }
 							<h6 class="m-0 font-weight-bold text-primary">프로젝트 질문관리</h6>
 						</div>
 						<div class="card-body d-flex justify-content-between align-items-start">
-							<iframe src="<?= $livesympoUrl ?>/<?= $project['PRJ_TITLE_URI'] ?>" style="width: 420px; height: 1013px; border: 1px solid #999;"></iframe>
+							<iframe src="<?= $livesympoUrl ?>/<?= $project['PRJ_TITLE_URI'] ?>"></iframe>
 							<div class="question-container">
 								<div class="tr">
 									<button class="btn-sub btn-blue" onclick="forceRefresh();">수동 새로고침</button>

@@ -67,6 +67,13 @@ class Project extends BaseController {
 		return view('project/question', $data);
 	}
 
+	// 스트리밍 방송자용 질문목록 화면
+	public function moderator ($prjSeq = 0) {
+		$data['project'] = $this->projectModel->detail($prjSeq);
+
+		return view('project/moderator', $data);
+	}
+
 	//ajax - 프로젝트 리스트
 	public function getList() {
 		// param 받기
@@ -126,9 +133,11 @@ class Project extends BaseController {
 	public function getQuestionList() {
 		// param 받기
 		$prjSeq = $this->request->getPost('prjSeq');
+		$aprvYn = $this->request->getPost('aprvYn');
+		// log_message('info', "Project.php - getQuestionList. prjSeq: $prjSeq, aprvYn: $aprvYn");
 
 		// 프로젝트 아이템
-		$questionList = $this->questionModel->list($prjSeq);
+		$questionList = $this->questionModel->list($prjSeq, $aprvYn);
 
 		$data['resCode'] = '0000';
 		$data['resMsg'] = '정상적으로 처리되었습니다.';

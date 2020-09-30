@@ -19,7 +19,7 @@ use CodeIgniter\Model;
 
 class QuestionModel extends Model {
 	// 하나의 프로젝트에 딸린 질문 list. $aprvYn = 1로 오면 승인된것만, 0이면 전체 다
-	public function list($prjSeq, $aprvYn = 0) {
+	public function list($prjSeq, $aprvYn = 1) {
 		$strQry  = "";
 
 		$strQry .= "SELECT Q.QST_SEQ, Q.PRJ_SEQ, Q.REQR_SEQ, Q.QST_DESC, Q.REG_DTTM, Q.APRV_YN	\n";
@@ -33,13 +33,14 @@ class QuestionModel extends Model {
 		$strQry .= "WHERE 1=1	\n";
 		$strQry .= "	AND Q.PRJ_SEQ = ".$this->db->escape($prjSeq)."	\n";
 
-		if ($aprvYn === 1) {
+		if ($aprvYn == 1) {
 			$strQry .= "	AND Q.APRV_YN = 1	\n";
 		}
 		$strQry .= "GROUP BY Q.QST_SEQ, Q.PRJ_SEQ, Q.REQR_SEQ, Q.QST_DESC, Q.REG_DTTM, Q.APRV_YN	\n";
 		$strQry .= "ORDER BY QST_SEQ DESC	\n";
 
 		$strQry .= ";";
+		// log_message('info', "QuestionModel - list. Qry - \n$strQry");
 
 		return $this->db->query($strQry)->getResultArray();
 	}

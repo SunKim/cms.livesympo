@@ -368,7 +368,9 @@ function getList (pageNo) {
 					html += '	<td><a href="/project/detail/'+item.PRJ_SEQ+'">'+item.PRJ_TITLE+'</a></td>';
 					html += '	<td>'+item.ST_DTTM+'</td>';
 					html += '	<td>'+item.ED_DTTM+'</td>';
-					html += '	<td>'+item.PRJ_TITLE_URI+'</td>';
+					html += '	<td>';
+					html += '		<a href="<?= $livesympoUrl ?>/'+item.PRJ_TITLE_URI+'" target="_stream">'+item.PRJ_TITLE_URI+'</a>';
+					html += '	</td>';
 					html += '	<td><img class="thumb" src="'+item.MAIN_IMG_URI+'" /></td>';
 					html += '	<td><img class="thumb" src="'+item.AGENDA_IMG_URI+'" /></td>';
 					html += '	<td><img class="thumb" src="'+item.FOOTER_IMG_URI+'" /></td>';
@@ -379,8 +381,8 @@ function getList (pageNo) {
 					html += '	<td>'+'0'+'</td>';
 					html += '	<td>'+item.REGR_ID+'</td>';
 					html += '	<td>';
-					html += '		<a href="<?= $livesympoUrl ?>/'+item.PRJ_TITLE_URI+'" target="_stream">바로가기</a>';
-					html += '		<a href="/project/question/'+item.PRJ_SEQ+'" target="_question" class="ml20">질문관리</a>';
+					html += '		<a href="/project/question/'+item.PRJ_SEQ+'" target="_question" class="">질문관리</a>';
+					html += '		<a href="/project/moderator/'+item.PRJ_SEQ+'" target="_moderator" class="ml20">모더레이터</a>';
 					html += '	</td>';
 
 					html += '</tr>';

@@ -208,7 +208,6 @@ const REFRESH_TERM = 30 * 1000;
 
 var refreshIntv;
 
-
 // 초기화
 function fnInit () {
 	// 해당 메뉴에 active
@@ -233,7 +232,8 @@ function getQuestionList (prjSeq) {
 		dataType: 'json',
 		cache: false,
 		data: {
-			prjSeq
+			prjSeq,
+			aprvYn: 0
 		},
 
 		success: function(data) {

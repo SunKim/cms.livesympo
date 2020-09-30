@@ -126,18 +126,13 @@ class Project extends BaseController {
 	public function getQuestionList() {
 		// param 받기
 		$prjSeq = $this->request->getPost('prjSeq');
-		$lvl = $this->request->getPost('lvl');
 
 		// 프로젝트 아이템
-		$prjList = $this->projectModel->detail($prjSeq);
-		$entInfoList = $this->projectModel->entInfoList($prjSeq);
-		$questionList = $this->questionModel->list($prjSeq, $lvl == 1 ? 1 : 0);
+		$questionList = $this->questionModel->list($prjSeq);
 
 		$data['resCode'] = '0000';
 		$data['resMsg'] = '정상적으로 처리되었습니다.';
-		$data['item'] = $prjList;
-		$data['item']['entInfoList'] = $entInfoList;
-		$data['item']['questionList'] = $questionList;
+		$data['list'] = $questionList;
 
 		return $this->response->setJSON($data);
 	}
@@ -287,6 +282,26 @@ class Project extends BaseController {
 			'beginIndex' => $beginIndex,
 			'endIndex' => $endIndex,
 		];
+	}
+
+	// 질문 승인(APRV_YN)
+	public function approveQuestion () {
+		// param들 받기
+		$qstSeq = $this->request->getPost('qstSeq');
+		$aprvYn = $this->request->getPost('aprvYn');
+
+		$data['APRV_YN'] = $aprvYn;
+		$affectedRows = $this->questionModel->updateQuestion($qstSeq, $data);
+
+		if ($affectedRows > 0) {
+			$resData['resCode'] = '0000';
+			$resData['resMsg'] = '정상적으로 처리되었습니다.';
+		} else {
+			$resData['resCode'] = '9001';
+			$resData['resMsg'] = '질문 승인 도중 DB오류가 발생했습니다.';
+		}
+
+		return $this->response->setJSON($resData);
 	}
 
 	// 랜덤 파일명 생성

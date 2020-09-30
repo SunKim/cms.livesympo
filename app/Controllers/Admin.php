@@ -54,6 +54,46 @@ class Admin extends BaseController {
 		return $this->response->setJSON($data);
 	}
 
+	// 관리자 등록
+	public function save () {
+		// param들 받기
+		$email = $this->request->getPost('email');
+		$pwd = $this->request->getPost('pwd');
+		$admNm = $this->request->getPost('admNm');
+		$lvl = $this->request->getPost('lvl');
+		$regrId = $this->request->getPost('regrId');
+
+		// 기존 등록된 이메일 있는지 확인
+		$adminData = $this->adminModel->getDetailByEmail($email);
+		if (isset($adminData)) {
+			$resData['resCode'] = '7004';
+			$resData['resMsg'] = '이미 등록된 관리자 이메일 입니다.';
+			return $this->response->setJSON($resData);
+		}
+
+		$data = array(
+			'EMAIL' => $email
+			, 'ADM_NM' => $admNm
+			, 'LVL' => $lvl
+			, 'REGR_ID' => $regrId
+		);
+		// 패스워드 암호화
+		$options = ['cost' => 14];
+		$data['PWD'] = password_hash($pwd, PASSWORD_BCRYPT, $options);
+
+		$admSeq = $this->adminModel->insertAdmin($data);
+
+		if ($admSeq > 0) {
+			$resData['resCode'] = '0000';
+			$resData['resMsg'] = '정상적으로 처리되었습니다.';
+		} else {
+			$resData['resCode'] = '7005';
+			$resData['resMsg'] = '관리자를 등록하는 도중 DB오류가 발생했습니다.';
+		}
+
+		return $this->response->setJSON($resData);
+	}
+
 	// 패스워드 변경
 	public function changePwd () {
 		// param들 받기

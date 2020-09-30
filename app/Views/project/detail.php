@@ -107,7 +107,7 @@
 									</colgroup>
 									<tbody>
 										<tr>
-											<th rowspan="6">프로젝트</th>
+											<th rowspan="5">프로젝트</th>
 											<th class="required">타이틀</th>
 											<td class="tl">
 												<input type="hidden" id="PRJ_SEQ" name="PRJ_SEQ" value="<?= $prjSeq ?>" />

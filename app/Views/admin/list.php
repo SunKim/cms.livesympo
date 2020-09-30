@@ -45,6 +45,9 @@
 
 <!-- START) 메인 css -->
 <style type="text/css">
+table.table-admin-reg { font-size: 14px; }
+table.table-admin-reg th { font-weight: 500; }
+table.table-admin-reg td { padding: 4px 10px; }
 </style>
 <!-- END) 메인 css -->
 
@@ -199,6 +202,69 @@
 		</div>
 	</div>
 
+	<!-- 관리자 신규등록 Modal-->
+	<div class="modal fade" id="adminRegModal" tabindex="-1" role="dialog" aria-labelledby="adminRegModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="adminRegModalLabel">관리자 등록</h5>
+					<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<table class="table-admin-reg">
+						<colgroup>
+							<col style="width: 30%;" />
+							<col style="width: 70%;" />
+						</colgroup>
+                    	<tbody>
+							<tr>
+								<th>이메일</th>
+								<td>
+									<input type="text" id="email" class="common-input w100" autocomplete="none" />
+								</td>
+							</tr>
+							<tr>
+								<th>패스워드</th>
+								<td>
+									<input type="password" id="pwd" class="common-input w100" autocomplete="none" />
+								</td>
+							</tr>
+							<tr>
+								<th>패스워드확인</th>
+								<td>
+									<input type="password" id="pwd2" class="common-input w100" autocomplete="none" />
+								</td>
+							</tr>
+							<tr>
+								<th>관리자명</th>
+								<td>
+									<input type="text" id="admNm" class="common-input w100" autocomplete="none" />
+								</td>
+							</tr>
+							<tr>
+								<th>관리자레벨</th>
+								<td>
+									<select id="lvl" class="common-select w100">
+										<option value="1">일반관리자</option>
+										<option value="9">최고관리자</option>
+									</select>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" type="button" data-dismiss="modal">취소</button>
+					<a class="btn btn-blue" href="javascript: testAdmin();">테스트</a>
+					<a class="btn btn-primary" href="javascript: saveAdmin();">확인</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 관리자 신규등록 Modal-->
+
 <!-- 공통모달 -->
 <?php include_once APPPATH.'Views/template/common_modal.php'; ?>
 
@@ -237,6 +303,86 @@ function fnInit () {
 function openChangePwd (admSeq) {
 	$('#pwdAdminSeq').val(admSeq);
 	$('#changePwdModal').modal('show');
+}
+
+// 관리자 등록창 오픈
+function openRegPopup () {
+	$('#adminRegModal').modal('show');
+}
+
+// 관리자 테스트데이터 입력
+function testAdmin () {
+	$('#email').val('test1@livesympo.kr');
+	$('#pwd').val('1234');
+	$('#pwd2').val('1234');
+	$('#admNm').val('테스트1');
+	$('#lvl').val('1');
+}
+
+// 관리자 등록
+function saveAdmin () {
+	// validation
+	if (!checkEmail($('#email').val())) {
+		alert('관리자 이메일을 형식에 맞게 입력해주세요.');
+		$('#email').focus();
+		return;
+	}
+	if (isEmpty($('#pwd').val())) {
+		alert('패스워드를 입력해주세요.');
+		$('#newPwd').focus();
+		return;
+	}
+	if ($('#pwd').val() != $('#pwd2').val()) {
+		alert('패스워드와 패스워드 확인을 동일하게 입력해주세요.');
+		$('#pwd2').focus();
+		return;
+	}
+	if (isEmpty($('#admNm').val())) {
+		alert('관리자명을 입력해주세요.');
+		$('#admNm').focus();
+		return;
+	}
+
+	showSpinner();
+
+	$.ajax({
+		type: 'POST',
+		url: '/admin/save',
+		dataType: 'json',
+		cache: false,
+		data: {
+			email: $('#email').val(),
+			pwd: $('#pwd').val(),
+			admNm: $('#admNm').val(),
+			lvl: $('#lvl').val(),
+			regrId: '<?= $email ?>'
+		},
+
+		success: function(data) {
+			console.log(data);
+			if ( data.resCode == '0000' ) {
+				alert('신규 관리자를 등록했습니다.');
+
+				getList();
+			} else {
+				alert('신규 관리자를 등록하는 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드(resCode):'+data.resCode+'\n메세지(resMsg):'+data.resMsg);
+			}
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.error(xhr);
+			alert('신규 관리자를 등록하는 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드:'+xhr.status+'\n메세지:'+thrownError);
+		},
+		complete : function () {
+			hideSpinner();
+
+			$('#email').val('');
+			$('#pwd').val('');
+			$('#pwd2').val('');
+			$('#admNm').val('');
+			$('#lvl').val('1');
+			$('#adminRegModal').modal('hide');
+		}
+	});
 }
 
 // 패스워드 변경
@@ -344,6 +490,7 @@ function getList () {
 		success: function(data) {
 			// console.log(data);
 			if ( data.resCode == '0000' ) {
+				$('span#cnt-all').text(data.item.CNT_ALL);
 				$('span#cnt-9').text(data.item.CNT_9);
 				$('span#cnt-1').text(data.item.CNT_1);
 

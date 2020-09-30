@@ -91,6 +91,24 @@ class AdminModel extends Model {
       return $this->db->query($strQry)->getRowArray();
     }
 
+	// 관리자 상세 (이메일로)
+    public function getDetailByEmail($email) {
+      $strQry  = "";
+
+	  $strQry .= "SELECT A.ADM_SEQ, A.EMAIL, A.ADM_NM, A.REGR_ID, A.REG_DTTM, A.LVL, A.PWD	\n";
+	  $strQry .= "	, CASE WHEN A.LVL = 9 THEN '최고관리자'	\n";
+	  $strQry .= "		WHEN A.LVL = 1 THEN '일반관리자'	\n";
+	  $strQry .= "	END AS LVL_NM	\n";
+	  $strQry .= "FROM TB_ADMIN_M AS A	\n";
+	  $strQry .= "WHERE 1=1	\n";
+	  $strQry .= "	AND A.DEL_YN = 0	\n";
+	  $strQry .= "	AND A.EMAIL = ".$this->db->escape($email)."	\n";
+
+      $strQry .= ";";
+
+      return $this->db->query($strQry)->getRowArray();
+    }
+
 	// 신규관리자(TB_ADMIN_M) insert
     public function insertAdmin ($data) {
 		$this->db->table('TB_ADMIN_M')->insert($data);

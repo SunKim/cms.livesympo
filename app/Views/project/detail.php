@@ -122,9 +122,10 @@
 											</td>
 										</tr>
 										<tr>
-											<th class="required">스트리밍 URL</th>
+											<th class="required">임베디드 코드</th>
 											<td class="tl">
-												<input type="text" id="STREAM_URL" name="STREAM_URL" class="common-input w90" placeholder="https://stream.com/xxxx 형식으로 입력해주세요." />
+												<!-- <input type="text" id="STREAM_URL" name="STREAM_URL" class="common-input w90" placeholder="https://stream.com/xxxx 형식으로 입력해주세요." /> -->
+												<textarea id="STREAM_URL" name="STREAM_URL" class="common-textarea w90 mt10 mb10" maxlength="1000" rows="4" placeholder="스트리밍 서비스의 임베디드 코드를 입력해주세요."></textarea>
 											</td>
 										</tr>
 										<!-- <tr>
@@ -331,11 +332,11 @@ function save () {
 		$('#PRJ_TITLE_URI').focus();
 		return;
 	}
-	if (!checkUrl( $('#STREAM_URL').val() )) {
-		alert('스트리밍 URL을 형식에 맞게 입력해주세요.');
-		$('#STREAM_URL').focus();
-		return;
-	}
+	// if (!checkUrl( $('#STREAM_URL').val() )) {
+	// 	alert('임베디드 코드을 형식에 맞게 입력해주세요.');
+	// 	$('#STREAM_URL').focus();
+	// 	return;
+	// }
 	if (!checkDate( $('#ST_DATE').val() )) {
 		alert('시작일자를 형식에 맞게 입력해주세요.(2020-01-01)');
 		$('#ST_DATE').focus();
@@ -374,13 +375,8 @@ function save () {
         cache: false,
         timeout: 10000,
         success: function (data) {
-<<<<<<< HEAD
-			if ( data.resCode == '0000' ) {
-				console.log(res);
-=======
 			console.log(data);
 			if ( data.resCode == '0000' ) {
->>>>>>> d960fec693ee708e583c5862188476f3563663b1
 				alert('저장되었습니다. 이전페이지로 이동합니다.');
 				history.back();
 			} else {

@@ -134,7 +134,7 @@ li.approved textarea { border: 1px solid #3f65cc99; border-radius: 4px; color: #
 
 <!-- 메인 script -->
 <script language="javascript">
-const REFRESH_TERM = 30 * 1000;
+const REFRESH_TERM = 10 * 1000;
 
 var refreshIntv;
 
@@ -152,7 +152,7 @@ function fnInit () {
 
 // 질문목록 불러오기
 function getQuestionList (prjSeq) {
-	showSpinner();
+	// showSpinner();
 
 	$.ajax({
 		type: 'POST',
@@ -175,9 +175,9 @@ function getQuestionList (prjSeq) {
 					html += '	<div class="d-flex justify-content-between align-items-center">';
 					html += '		<p class="regr">';
 					html += '			<span>'+item.REQR_NM+'</span>';
-					html += '			<span>('+maskPhone(formatMobile(item.MBILNO))+')</span>';
-					html += '			<span>'+item.HSPTL_NM+'</span>';
-					html += '			<span>'+item.SUBJ_NM+'</span>';
+					// html += '			<span>('+maskPhone(formatMobile(item.MBILNO))+')</span>';
+					// html += '			<span>'+item.HSPTL_NM+'</span>';
+					// html += '			<span>'+item.SUBJ_NM+'</span>';
 					html += '		</p>';
 					html += '		<p class="reg-dttm">'+item.REG_DTTM+'</p>';
 					html += '	</div>';
@@ -196,7 +196,7 @@ function getQuestionList (prjSeq) {
 			alert('프로젝트 질문 데이터를 가져오는 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드:'+xhr.status+'\n메세지:'+thrownError);
 		},
 		complete : function () {
-			hideSpinner();
+			// hideSpinner();
 		}
 	});
 }

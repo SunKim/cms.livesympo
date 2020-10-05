@@ -52,14 +52,12 @@
 
 <!-- START) 메인 css -->
 <style type="text/css">
-p { margin: 0 !important; }
-iframe { width: 420px; height: 1013px; border: 1px solid #ddd; border-radius: 5px; }
-
 .question-container { width: calc(100% - 420px - 40px); }
 ul.question-list p { margin: 0 !important; }
 ul.question-list p.regr { color: #999; }
 ul.question-list p.reg-dttm { font-size: 14px; color: #bbb; }
-textarea { padding: 10px 14px; border: 1px solid #eee; border-radius: 4px; color: #bbb; }
+
+textarea { border: 1px solid #eee; color: #bbb; }
 
 li.approved p.regr { color: #3f65cc; }
 ul.question-list p.reg-dttm { font-size: 14px; color: #999; }

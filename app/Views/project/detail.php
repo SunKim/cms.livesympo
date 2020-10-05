@@ -374,8 +374,13 @@ function save () {
         cache: false,
         timeout: 10000,
         success: function (data) {
+<<<<<<< HEAD
 			if ( data.resCode == '0000' ) {
 				console.log(res);
+=======
+			console.log(data);
+			if ( data.resCode == '0000' ) {
+>>>>>>> d960fec693ee708e583c5862188476f3563663b1
 				alert('저장되었습니다. 이전페이지로 이동합니다.');
 				history.back();
 			} else {

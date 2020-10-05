@@ -252,6 +252,7 @@ class Project extends BaseController {
 						// log_message('info', "Project.php - save(). key : $key, file : $file, path: $path, newFileName: $newFileName");
 
 						$updateUriData[$key.'_URI'] = '/uploads/project/'.$prjSeq.'/'.$newFileName;
+						$updateUriData[$key.'_THUMB_URI'] = '/uploads/project/'.$prjSeq.'/'.$thumbNm;
 						// DB update (파일이 있을때만)
 						$this->projectModel->updateProject($prjSeq, $updateUriData);
 					} else {
@@ -357,9 +358,9 @@ class Project extends BaseController {
 	// 썸네일 생성
 	// cf) https://pqina.nl/blog/creating-thumbnails-with-php/
 	protected static function generateThumbnail ($src, $path, $thumbNm) {
-		log_message('info', "Project.php - generateThumbnail. src: $src, path: $path, thumbNm: $thumbNm");
+		// log_message('info', "Project.php - generateThumbnail. src: $src, path: $path, thumbNm: $thumbNm");
 		$type = exif_imagetype($src);
-		log_message('info', "Project.php - generateThumbnail. type: $type");
+		// log_message('info', "Project.php - generateThumbnail. type: $type");
 
 		if (!$type || !self::IMAGE_HANDLERS[$type]) {
 			return null;

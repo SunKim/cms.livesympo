@@ -29,7 +29,7 @@ class ProjectModel extends Model {
 
         $strQry .= "SELECT	\n";
 		$strQry .= "	P.PRJ_SEQ, P.PRJ_TITLE, P.PRJ_TITLE_URI	\n";
-		$strQry .= "	, P.STREAM_URL, P.MAIN_IMG_URI, P.AGENDA_IMG_URI, P.FOOTER_IMG_URI	\n";
+		$strQry .= "	, P.STREAM_URL, P.MAIN_IMG_URI, P.MAIN_IMG_THUMB_URI, P.AGENDA_IMG_URI, P.AGENDA_IMG_THUMB_URI, P.FOOTER_IMG_URI, P.FOOTER_IMG_THUMB_URI	\n";
 		$strQry .= "	, P.APPL_BTN_COLOR, P.ENT_THME_COLOR, P.AGENDA_PAGE_YN	\n";
 		$strQry .= "	, DATE_FORMAT(P.ST_DTTM, '%Y-%m-%d %H:%i') AS ST_DTTM	\n";
 		$strQry .= "	, DATE_FORMAT(P.ED_DTTM, '%Y-%m-%d %H:%i') AS ED_DTTM	\n";

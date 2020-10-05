@@ -371,9 +371,9 @@ function getList (pageNo) {
 					html += '	<td>';
 					html += '		<a href="<?= $livesympoUrl ?>/'+item.PRJ_TITLE_URI+'" target="_stream">'+item.PRJ_TITLE_URI+'</a>';
 					html += '	</td>';
-					html += '	<td><img class="thumb" src="'+item.MAIN_IMG_URI+'" /></td>';
-					html += '	<td><img class="thumb" src="'+item.AGENDA_IMG_URI+'" /></td>';
-					html += '	<td><img class="thumb" src="'+item.FOOTER_IMG_URI+'" /></td>';
+					html += '	<td><img class="thumb" src="'+item.MAIN_IMG_THUMB_URI+'" /></td>';
+					html += '	<td><img class="thumb" src="'+item.AGENDA_IMG_THUMB_URI+'" /></td>';
+					html += '	<td><img class="thumb" src="'+item.FOOTER_IMG_THUMB_URI+'" /></td>';
 					html += '	<td><p class="color-box" style="background: '+item.ENT_THME_COLOR+';"></p></td>';
 					html += '	<td><p class="color-box" style="background: '+item.APPL_BTN_COLOR+';"></p></td>';
 					html += '	<td>'+item.REG_DTTM+'</td>';

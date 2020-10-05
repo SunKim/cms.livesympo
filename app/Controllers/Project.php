@@ -23,6 +23,27 @@ class Project extends BaseController {
 
 	const DEFAULT_ITEMS_PER_PAGE = 20;
 
+	// 썸네일 생성용 php 내장 function 정의
+	const IMAGE_HANDLERS = [
+	    IMAGETYPE_JPEG => [
+	        'load' => 'imagecreatefromjpeg',
+	        'save' => 'imagejpeg',
+	        'quality' => 100
+	    ],
+	    IMAGETYPE_PNG => [
+	        'load' => 'imagecreatefrompng',
+	        'save' => 'imagepng',
+	        'quality' => 0
+	    ],
+	    IMAGETYPE_GIF => [
+	        'load' => 'imagecreatefromgif',
+	        'save' => 'imagegif'
+	    ]
+	];
+	// 기본 썸네일 width
+	const THUMBNAIL_WIDTH = 200;
+
+
 	public function __construct() {
     	$this->projectModel = new ProjectModel();
 		$this->questionModel = new QuestionModel();
@@ -134,10 +155,11 @@ class Project extends BaseController {
 		// param 받기
 		$prjSeq = $this->request->getPost('prjSeq');
 		$aprvYn = $this->request->getPost('aprvYn');
+		$orderBy = $this->request->getPost('orderBy');
 		// log_message('info', "Project.php - getQuestionList. prjSeq: $prjSeq, aprvYn: $aprvYn");
 
 		// 프로젝트 아이템
-		$questionList = $this->questionModel->list($prjSeq, $aprvYn);
+		$questionList = $this->questionModel->list($prjSeq, $aprvYn, $orderBy);
 
 		$data['resCode'] = '0000';
 		$data['resMsg'] = '정상적으로 처리되었습니다.';
@@ -184,6 +206,13 @@ class Project extends BaseController {
 			$affectedRows = $this->projectModel->updateProject($prjSeq, $data);
 		}
 
+		if (($insOrUpd === 'ins' && $prjSeq == 0) || ($insOrUpd === 'upd' && $affectedRows == 0)) {
+			$resData['resCode'] = '9999';
+			$resData['resMsg'] = '프로젝트 저장에 실패했습니다.';
+
+			return $this->response->setJSON($resData);
+		}
+
 		// 파일들 받기
 		// http://ci4doc.cikorea.net/libraries/uploaded_files.html
 		$files = $this->request->getFiles();
@@ -201,21 +230,26 @@ class Project extends BaseController {
 
 						// echo "src : $src, ext : $ext, uploadPath : $uploadPath\n";
 						$path = $uploadPath.DIRECTORY_SEPARATOR.'project'.DIRECTORY_SEPARATOR.$prjSeq;
+						// log_message('info', "Project.php - save(). prjSeq: $prjSeq, path: $path");
 
 						// directory가 없으면 생성
 						if ( !is_dir($path) ) {
 							// mkdir(path, mode, recursive). recursive는 꼭 true로!!
 							mkdir($path, 0755, true);
-							log_message('info', "Project.php - save(). 파일저장용 directory 생성 - $path");
+							// log_message('info', "Project.php - save(). 파일저장용 directory 생성 - $path");
 						}
 
 						// 새로운 파일명에 extension 붙여줌
 						// $key : form의 input의 name. MAIN_IMG, AGENDA_IMG, FOOTER_IMG => MAIN_IMG_1.png 형태로
 						$newFileName = $key.'_'.$prjSeq.'.'.$ext;
+						$thumbNm = $key.'_'.$prjSeq.'_THUMB.'.$ext;
+
+						// 썸네일 생성
+						$thumbResult = self::generateThumbnail($src, $path, $thumbNm);
 
 						// 파일 이동
 						$file->move($path, $newFileName);
-						log_message('info', "Project.php - save(). key : $key, file : $file, path: $path, newFileName: $newFileName");
+						// log_message('info', "Project.php - save(). key : $key, file : $file, path: $path, newFileName: $newFileName");
 
 						$updateUriData[$key.'_URI'] = '/uploads/project/'.$prjSeq.'/'.$newFileName;
 						// DB update (파일이 있을때만)
@@ -318,5 +352,66 @@ class Project extends BaseController {
 		// return substr(md5(time()), 0, $limit);
 		$chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 		return substr(str_shuffle($chars), 0, $limit);
+	}
+
+	// 썸네일 생성
+	// cf) https://pqina.nl/blog/creating-thumbnails-with-php/
+	protected static function generateThumbnail ($src, $path, $thumbNm) {
+		$type = exif_imagetype($src);
+
+		if (!$type || !self::IMAGE_HANDLERS[$type]) {
+			return null;
+		}
+
+		$image = call_user_func(self::IMAGE_HANDLERS[$type]['load'], $src);
+
+		// no image found at supplied location -> exit
+		if (!$image) {
+			return null;
+		}
+
+		// 원본 사이즈 및 resize용 사이즈
+		$orgWidth = imagesx($image);
+		$orgHeight = imagesy($image);
+		$ratio = $orgWidth / $orgHeight;
+		$targetWidth = self::THUMBNAIL_WIDTH;
+		$targetHeight = floor(self::THUMBNAIL_WIDTH / $ratio);
+
+		// create duplicate image based on calculated target size
+		$thumbnail = imagecreatetruecolor($targetWidth, $targetHeight);
+
+		// gif, png용 옵션 적용(투명도)
+		if ($type == IMAGETYPE_GIF || $type == IMAGETYPE_PNG) {
+			// 투명도 적용
+			imagecolortransparent(
+				$thumbnail,
+				imagecolorallocate($thumbnail, 0, 0, 0)
+			);
+
+			// PNG용 추가 설정
+			if ($type == IMAGETYPE_PNG) {
+				imagealphablending($thumbnail, false);
+				imagesavealpha($thumbnail, true);
+			}
+		}
+
+		// 원본 이미지 복사 및 resize
+		imagecopyresampled(
+			$thumbnail,
+			$image,
+			0, 0, 0, 0,
+			$targetWidth, $targetHeight,
+			$orgWidth, $orgHeight
+		);
+
+		// 이미지 저장
+		$dest = $path.DIRECTORY_SEPARATOR.$thumbNm;
+
+		return call_user_func(
+			self::IMAGE_HANDLERS[$type]['save'],
+			$thumbnail,
+			$dest,
+			self::IMAGE_HANDLERS[$type]['quality']
+		);
 	}
 }

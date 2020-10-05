@@ -34,17 +34,24 @@ class ProjectModel extends Model {
 		$strQry .= "	, DATE_FORMAT(P.ST_DTTM, '%Y-%m-%d %H:%i') AS ST_DTTM	\n";
 		$strQry .= "	, DATE_FORMAT(P.ED_DTTM, '%Y-%m-%d %H:%i') AS ED_DTTM	\n";
 		$strQry .= "	, REGR_ID,  DATE_FORMAT(P.REG_DTTM, '%Y-%m-%d %H:%i') AS REG_DTTM	\n";
+		$strQry .= "	, IFNULL(R.REQR_CNT, 0) AS REQR_CNT	\n";
         $strQry .= "FROM TB_PRJ_M AS P	\n";
+		$strQry .= "LEFT OUTER JOIN (	\n";
+		$strQry .= "	SELECT PRJ_SEQ, COUNT(DISTINCT REQR_SEQ) AS REQR_CNT	\n";
+		$strQry .= "	FROM TB_PRJ_ENT_INFO_REQR_H	\n";
+		$strQry .= "	GROUP BY PRJ_SEQ	\n";
+		$strQry .= ") AS R	\n";
+		$strQry .= "		ON (P.PRJ_SEQ = R.PRJ_SEQ)	\n";
         $strQry .= "WHERE 1=1	\n";
         $strQry .= "	AND P.DEL_YN = 0	\n";
 
         // 프로젝트 타이틀
         if (isset($filter->prjTitle) && $filter->prjTitle != '') {
-            $strQry .= "	AND P.PRJ_TITLE LIKE '%".$this->db->escapeLikeString($filter->prjTitle)."%' \n";
+            $strQry .= "	AND P.PRJ_TITLE LIKE '%".$this->db->escapeLikeString($filter->prjTitle)."%'	\n";
         }
         // 프로젝트 타이틀 URI
         if (isset($filter->prjTitleUri) && $filter->prjTitleUri != '') {
-            $strQry .= "	AND P.PRJ_TITLE_URI LIKE '%".$this->db->escapeLikeString($filter->prjTitleUri)."%' \n";
+            $strQry .= "	AND P.PRJ_TITLE_URI LIKE '%".$this->db->escapeLikeString($filter->prjTitleUri)."%'	\n";
         }
         // 시작일시
     	if (isset($filter->stDttm) && $filter->stDttm != '') {
@@ -60,6 +67,7 @@ class ProjectModel extends Model {
 
         $strQry .= ";";
 
+		log_message('info', "ProjectModel - list. Qry - \n$strQry");
         return $this->db->query($strQry)->getResultArray();
     }
 

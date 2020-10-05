@@ -377,7 +377,7 @@ function getList (pageNo) {
 					html += '	<td><p class="color-box" style="background: '+item.ENT_THME_COLOR+';"></p></td>';
 					html += '	<td><p class="color-box" style="background: '+item.APPL_BTN_COLOR+';"></p></td>';
 					html += '	<td>'+item.REG_DTTM+'</td>';
-					html += '	<td>'+'0'+'</td>';
+					html += '	<td>'+item.REQR_CNT+'</td>';
 					html += '	<td>'+'0'+'</td>';
 					html += '	<td>'+item.REGR_ID+'</td>';
 					html += '	<td>';

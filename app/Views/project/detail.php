@@ -373,14 +373,18 @@ function save () {
         contentType: false,
         cache: false,
         timeout: 10000,
-        success: function (res) {
-			console.log(res);
-        	alert('저장되었습니다. 이전페이지로 이동합니다.');
-			history.back();
+        success: function (data) {
+			if ( data.resCode == '0000' ) {
+				console.log(res);
+				alert('저장되었습니다. 이전페이지로 이동합니다.');
+				history.back();
+			} else {
+				alert('프로젝트 데이터를 저장하는 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드(resCode):'+data.resCode+'\n메세지(resMsg):'+data.resMsg);
+			}
         },
-        error: function (e) {
-            console.log('ERROR : ', e);
-            alert('프로젝트 데이터 저장에 실패했습니다. 관리자에게 문의해주세요.');
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.error(xhr);
+			alert('프로젝트 데이터를 저장하는 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드:'+xhr.status+'\n메세지:'+thrownError);
         }
     });
 }
@@ -450,12 +454,12 @@ function getDetail (prjSeq) {
 // 테스트용 데이터
 function test () {
 	$('#PRJ_TITLE').val('테스트 타이틀');
-	$('#PRJ_TITLE_URI').val('test-title-20200923');
+	$('#PRJ_TITLE_URI').val('test-title-20201001');
 	$('#STREAM_URL').val('https://stream.com/test/stream?param=0');
 	// $('#AGENDA_PAGE_YN').val('0');
-	$('#ST_DATE').val('2020-09-25');
+	$('#ST_DATE').val('2020-10-14');
 	$('#ST_TIME').val('10:30');
-	$('#ED_DATE').val('2020-09-25');
+	$('#ED_DATE').val('2020-10-14');
 	$('#ED_TIME').val('12:00');
 
 	$('#ENT_THME_COLOR').val('#51633d');

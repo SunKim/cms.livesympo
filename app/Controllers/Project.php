@@ -357,7 +357,9 @@ class Project extends BaseController {
 	// 썸네일 생성
 	// cf) https://pqina.nl/blog/creating-thumbnails-with-php/
 	protected static function generateThumbnail ($src, $path, $thumbNm) {
+		log_message('info', "Project.php - generateThumbnail. src: $src, path: $path, thumbNm: $thumbNm");
 		$type = exif_imagetype($src);
+		log_message('info', "Project.php - generateThumbnail. type: $type");
 
 		if (!$type || !self::IMAGE_HANDLERS[$type]) {
 			return null;

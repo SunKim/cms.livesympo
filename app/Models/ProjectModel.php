@@ -67,7 +67,7 @@ class ProjectModel extends Model {
 
         $strQry .= ";";
 
-		log_message('info', "ProjectModel - list. Qry - \n$strQry");
+		// log_message('info', "ProjectModel - list. Qry - \n$strQry");
         return $this->db->query($strQry)->getResultArray();
     }
 

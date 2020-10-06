@@ -161,7 +161,8 @@ function getQuestionList (prjSeq) {
 		cache: false,
 		data: {
 			prjSeq,
-			aprvYn: 1
+			aprvYn: 1,
+			orderBy: 'APRV_DTTM'
 		},
 
 		success: function(data) {

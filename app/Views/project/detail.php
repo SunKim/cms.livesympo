@@ -122,9 +122,10 @@
 											</td>
 										</tr>
 										<tr>
-											<th class="required">스트리밍 URL</th>
+											<th class="required">임베디드 코드</th>
 											<td class="tl">
-												<input type="text" id="STREAM_URL" name="STREAM_URL" class="common-input w90" placeholder="https://stream.com/xxxx 형식으로 입력해주세요." />
+												<!-- <input type="text" id="STREAM_URL" name="STREAM_URL" class="common-input w90" placeholder="https://stream.com/xxxx 형식으로 입력해주세요." /> -->
+												<textarea id="STREAM_URL" name="STREAM_URL" class="common-textarea w90 mt10 mb10" maxlength="1000" rows="4" placeholder="스트리밍 서비스의 임베디드 코드를 입력해주세요."></textarea>
 											</td>
 										</tr>
 										<!-- <tr>
@@ -331,11 +332,11 @@ function save () {
 		$('#PRJ_TITLE_URI').focus();
 		return;
 	}
-	if (!checkUrl( $('#STREAM_URL').val() )) {
-		alert('스트리밍 URL을 형식에 맞게 입력해주세요.');
-		$('#STREAM_URL').focus();
-		return;
-	}
+	// if (!checkUrl( $('#STREAM_URL').val() )) {
+	// 	alert('임베디드 코드을 형식에 맞게 입력해주세요.');
+	// 	$('#STREAM_URL').focus();
+	// 	return;
+	// }
 	if (!checkDate( $('#ST_DATE').val() )) {
 		alert('시작일자를 형식에 맞게 입력해주세요.(2020-01-01)');
 		$('#ST_DATE').focus();
@@ -454,12 +455,12 @@ function getDetail (prjSeq) {
 // 테스트용 데이터
 function test () {
 	$('#PRJ_TITLE').val('테스트 타이틀');
-	$('#PRJ_TITLE_URI').val('test-title-20200923');
+	$('#PRJ_TITLE_URI').val('test-title-20201001');
 	$('#STREAM_URL').val('https://stream.com/test/stream?param=0');
 	// $('#AGENDA_PAGE_YN').val('0');
-	$('#ST_DATE').val('2020-09-25');
+	$('#ST_DATE').val('2020-10-14');
 	$('#ST_TIME').val('10:30');
-	$('#ED_DATE').val('2020-09-25');
+	$('#ED_DATE').val('2020-10-14');
 	$('#ED_TIME').val('12:00');
 
 	$('#ENT_THME_COLOR').val('#51633d');

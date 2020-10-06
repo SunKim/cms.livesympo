@@ -175,7 +175,7 @@ function getQuestionList (prjSeq) {
 					html += '<li class="mb20">';
 					html += '	<div class="d-flex justify-content-between align-items-center">';
 					html += '		<p class="regr">';
-					html += '			<span>'+item.REQR_NM+'</span>';
+					html += '			<span>'+(item.FAKE_YN == 0 ? item.REQR_NM : item.FAKE_NM)+'</span>';
 					// html += '			<span>('+maskPhone(formatMobile(item.MBILNO))+')</span>';
 					// html += '			<span>'+item.HSPTL_NM+'</span>';
 					// html += '			<span>'+item.SUBJ_NM+'</span>';

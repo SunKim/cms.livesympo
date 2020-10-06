@@ -22,13 +22,10 @@ class QuestionModel extends Model {
 	public function list($prjSeq, $aprvYn = 1, $orderBy = 'REG_DTTM') {
 		$strQry  = "";
 
-		$strQry .= "SELECT Q.QST_SEQ, Q.PRJ_SEQ, Q.REQR_SEQ, Q.QST_DESC, Q.REG_DTTM, Q.APRV_YN	\n";
-		$strQry .= "	, MAX(IF(I.SERL_NO = 1, I.INPUT_VAL, NULL)) AS REQR_NM	\n";
-		$strQry .= "    , MAX(IF(I.SERL_NO = 2, I.INPUT_VAL, NULL)) AS MBILNO	\n";
-		$strQry .= "    , MAX(IF(I.SERL_NO = 3, I.INPUT_VAL, NULL)) AS HSPTL_NM	\n";
-		$strQry .= "    , MAX(IF(I.SERL_NO = 4, I.INPUT_VAL, NULL)) AS SUBJ_NM	\n";
+		$strQry .= "SELECT Q.QST_SEQ, Q.PRJ_SEQ, Q.FAKE_YN, Q.REQR_SEQ, Q.FAKE_NM, Q.QST_DESC, Q.REG_DTTM, Q.APRV_YN	\n";
+		$strQry .= "	, I.REQR_NM, I.MBILNO, I.HSPTL_NM, I.SBJ_NM	\n";
 		$strQry .= "FROM TB_QST_M AS Q	\n";
-		$strQry .= "INNER JOIN TB_PRJ_ENT_INFO_REQR_H AS I	\n";
+		$strQry .= "LEFT OUTER JOIN TB_PRJ_ENT_INFO_REQR_H AS I	\n";
 		$strQry .= "		ON (Q.PRJ_SEQ = I.PRJ_SEQ AND Q.REQR_SEQ = I.REQR_SEQ)	\n";
 		$strQry .= "WHERE 1=1	\n";
 		$strQry .= "	AND Q.PRJ_SEQ = ".$this->db->escape($prjSeq)."	\n";
@@ -36,7 +33,6 @@ class QuestionModel extends Model {
 		if ($aprvYn == 1) {
 			$strQry .= "	AND Q.APRV_YN = 1	\n";
 		}
-		$strQry .= "GROUP BY Q.QST_SEQ, Q.PRJ_SEQ, Q.REQR_SEQ, Q.QST_DESC, Q.REG_DTTM, Q.APRV_YN	\n";
 		$strQry .= "ORDER BY $orderBy DESC	\n";
 
 		$strQry .= ";";

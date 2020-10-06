@@ -166,7 +166,7 @@ class Project extends BaseController {
 		return $this->response->setJSON($data);
 	}
 
-	// 저장
+	// ajax - 프로젝트 저장
 	public function save ($prjSeq = 0) {
 		$insOrUpd = $prjSeq > 0 ? 'upd' : 'ins';
 
@@ -302,6 +302,49 @@ class Project extends BaseController {
 		return $this->response->setJSON($res);
 	}
 
+	// ajax - 질문 승인(APRV_YN)
+	public function approveQuestion () {
+		// param들 받기
+		$qstSeq = $this->request->getPost('qstSeq');
+		$aprvYn = $this->request->getPost('aprvYn');
+
+		$data['APRV_YN'] = $aprvYn;
+		$data['APRV_DTTM'] = date('Y-m-d H:i:s');
+		$affectedRows = $this->questionModel->updateQuestion($qstSeq, $data);
+
+		if ($affectedRows > 0) {
+			$resData['resCode'] = '0000';
+			$resData['resMsg'] = '정상적으로 처리되었습니다.';
+		} else {
+			$resData['resCode'] = '9001';
+			$resData['resMsg'] = '질문 승인 도중 DB오류가 발생했습니다.';
+		}
+
+		return $this->response->setJSON($resData);
+	}
+
+	// ajax - 관리자 페이크질문 입력
+	public function fakeQuestion () {
+		// param들 받기
+		$data['PRJ_SEQ'] = $this->request->getPost('prjSeq');
+		$data['FAKE_YN'] = 1;
+		$data['REQR_SEQ'] = 0;
+		$data['FAKE_NM'] = $this->request->getPost('fakeNm');
+		$data['QST_DESC'] = $this->request->getPost('qstDesc');
+
+		$qstSeq = $this->questionModel->insertQuestion($data);
+
+		if ($qstSeq > 0) {
+			$resData['resCode'] = '0000';
+			$resData['resMsg'] = '정상적으로 처리되었습니다.';
+		} else {
+			$resData['resCode'] = '9001';
+			$resData['resMsg'] = '질문 저장 도중 DB오류가 발생했습니다.';
+		}
+
+		return $this->response->setJSON($resData);
+	}
+
 	// 페이지리스트의 param(itemsPerPage, pageNo을 포함한 obj)를 받아서 beginIndex, endIndex return
 	public function getPagingIndex ($param) {
 		$beginIndex = 0;
@@ -321,26 +364,6 @@ class Project extends BaseController {
 			'beginIndex' => $beginIndex,
 			'endIndex' => $endIndex,
 		];
-	}
-
-	// 질문 승인(APRV_YN)
-	public function approveQuestion () {
-		// param들 받기
-		$qstSeq = $this->request->getPost('qstSeq');
-		$aprvYn = $this->request->getPost('aprvYn');
-
-		$data['APRV_YN'] = $aprvYn;
-		$affectedRows = $this->questionModel->updateQuestion($qstSeq, $data);
-
-		if ($affectedRows > 0) {
-			$resData['resCode'] = '0000';
-			$resData['resMsg'] = '정상적으로 처리되었습니다.';
-		} else {
-			$resData['resCode'] = '9001';
-			$resData['resMsg'] = '질문 승인 도중 DB오류가 발생했습니다.';
-		}
-
-		return $this->response->setJSON($resData);
 	}
 
 	// 랜덤 파일명 생성

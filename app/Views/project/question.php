@@ -117,32 +117,18 @@ li.approved textarea { border: 1px solid #3f65cc99; border-radius: 4px; color: #
 									<button class="btn-sub btn-blue" onclick="getQuestionList(<?= $project['PRJ_SEQ'] ?>);">수동 새로고침</button>
 								</div>
 								<hr />
+								<div>
+									<div class="d-flex justify-content-between align-items-center">
+										<p>
+											질문자명 : <input type="text" id="fakeNm" name="fakeNm" class="common-input w60" />
+										</p>
+										<span>&nbsp;</span>
+										<button class="btn-sub btn-sky" onclick="fakeQuestion(<?= $project['PRJ_SEQ'] ?>);">질문등록</button>
+									</div>
+									<textarea id="qstDesc" name="qstDesc" maxlength="400" rows="4" class="w100 mt10 mb10"></textarea>
+								</div>
+								<hr />
 								<ul class="question-list mt10">
-									<!-- <li class="mb20 approved">
-										<div class="d-flex justify-content-between align-items-center">
-											<p class="regr">
-												<span>김성명</span>
-												<span>(010-0000-1111)</span>
-												<span>우리한방병원</span>
-												<span>간호학과</span>
-											</p>
-											<p class="reg-dttm">2020-09-28 20:21:50</p>
-										</div>
-										<textarea maxlength="400" rows="4" class="w100 mt10 mb10" readonly>하이루</textarea>
-									</li>
-									<li class="mb20">
-										<div class="d-flex justify-content-between align-items-center">
-											<p class="regr">
-												<span>김성명</span>
-												<span>(010-0000-1111)</span>
-												<span>우리한방병원</span>
-												<span>간호학과</span>
-												<button class="btn-sub btn-light-indigo ml10" onclick="approve();">승인</button>
-											</p>
-											<p class="reg-dttm">2020-09-28 20:21:50</p>
-										</div>
-										<textarea maxlength="400" rows="4" class="w100 mt10 mb10" readonly>하이루</textarea>
-									</li> -->
 								</ul>
 							</div>
 						</div>
@@ -245,10 +231,10 @@ function getQuestionList (prjSeq) {
 					html += '<li class="mb20 '+(item.APRV_YN == 1 ? 'approved' : '')+'">';
 					html += '	<div class="d-flex justify-content-between align-items-center">';
 					html += '		<p class="regr">';
-					html += '			<span>'+item.REQR_NM+'</span>';
-					html += '			<span>('+formatMobile(item.MBILNO)+')</span>';
-					html += '			<span>'+item.HSPTL_NM+'</span>';
-					html += '			<span>'+item.SUBJ_NM+'</span>';
+					html += '			<span>'+(item.FAKE_YN == 0 ? item.REQR_NM : item.FAKE_NM)+'</span>';
+					html += '			<span>'+(item.FAKE_YN == 0 ? `(${formatMobile(item.MBILNO)})` : '')+'</span>';
+					html += '			<span>'+(item.FAKE_YN == 0 ? item.HSPTL_NM : '')+'</span>';
+					html += '			<span>'+(item.FAKE_YN == 0 ? item.SBJ_NM : '')+'</span>';
 					if (item.APRV_YN == 0) {
 						html += '			<button class="btn-sub btn-light-indigo ml5" onclick="approve('+item.QST_SEQ+', 1);">승인</button>';
 					} else {
@@ -303,6 +289,52 @@ function approve (qstSeq, aprvYn) {
 		error: function (xhr, ajaxOptions, thrownError) {
 			console.error(xhr);
 			alert('질문 승인여부를 처리하는 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드:'+xhr.status+'\n메세지:'+thrownError);
+		},
+		complete : function () {
+			hideSpinner();
+		}
+	});
+}
+
+// 페이크질문 등록
+function fakeQuestion (prjSeq) {
+	// validation
+	if (isEmpty($('#fakeNm').val())) {
+		alert('질문자명을 입력해주세요.');
+		$('#fakeNm').focus();
+		return;
+	}
+	if (isEmpty($('#qstDesc').val())) {
+		alert('질문내용을 입력해주세요.');
+		$('#qstDesc').focus();
+		return;
+	}
+
+	showSpinner();
+
+	$.ajax({
+		type: 'POST',
+		url: '/project/fakeQuestion',
+		dataType: 'json',
+		cache: false,
+		data: {
+			prjSeq,
+			fakeNm: $('#fakeNm').val(),
+			qstDesc: $('#qstDesc').val(),
+		},
+
+		success: function(data) {
+			console.log(data);
+			if ( data.resCode == '0000' ) {
+				alert('질문을 등록했습니다.');
+				getQuestionList(<?= $project['PRJ_SEQ'] ?>);
+			} else {
+				alert('질문 정보를 저장하는 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드(resCode):'+data.resCode+'\n메세지(resMsg):'+data.resMsg);
+			}
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.error(xhr);
+			alert('질문 정보를 저장하는 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드:'+xhr.status+'\n메세지:'+thrownError);
 		},
 		complete : function () {
 			hideSpinner();

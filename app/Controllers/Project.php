@@ -140,12 +140,10 @@ class Project extends BaseController {
 
 		// 프로젝트 아이템
 		$prjItem = $this->projectModel->detail($prjSeq);
-		$entInfoList = $this->projectModel->entInfoList($prjSeq);
 
 		$data['resCode'] = '0000';
 		$data['resMsg'] = '정상적으로 처리되었습니다.';
 		$data['item'] = $prjItem;
-		$data['item']['entInfoList'] = $entInfoList;
 
 		return $this->response->setJSON($data);
 	}
@@ -187,6 +185,13 @@ class Project extends BaseController {
 		$data['CONN_ROUTE_1'] = $this->request->getPost('CONN_ROUTE_1');
 		$data['CONN_ROUTE_2'] = $this->request->getPost('CONN_ROUTE_2');
 		$data['CONN_ROUTE_3'] = $this->request->getPost('CONN_ROUTE_3');
+
+		$data['ENT_INFO_EXTRA_1'] = $this->request->getPost('ENT_INFO_EXTRA_1');
+		$data['ENT_INFO_EXTRA_PHOLDER_1'] = $this->request->getPost('ENT_INFO_EXTRA_PHOLDER_1');
+		$data['ENT_INFO_EXTRA_REQUIRED_1'] = $this->request->getPost('ENT_INFO_EXTRA_REQUIRED_1');
+		$data['ENT_INFO_EXTRA_2'] = $this->request->getPost('ENT_INFO_EXTRA_2');
+		$data['ENT_INFO_EXTRA_PHOLDER_2'] = $this->request->getPost('ENT_INFO_EXTRA_PHOLDER_2');
+		$data['ENT_INFO_EXTRA_REQUIRED_2'] = $this->request->getPost('ENT_INFO_EXTRA_REQUIRED_2');
 
 		$data['ENT_THME_COLOR'] = $this->request->getPost('ENT_THME_COLOR');
 		$data['APPL_BTN_COLOR'] = $this->request->getPost('APPL_BTN_COLOR');
@@ -276,28 +281,6 @@ class Project extends BaseController {
 			}
 		} catch (Exception $e) {
 			log_message('error', "exception - ".$e->getMessage());
-		}
-
-		// 프로젝트 사전신청 입력항목 insert
-		for ($i = 1; $i <= 6; $i++) {
-			$entInfoData['ENT_INFO_TITLE'] = $this->request->getPost("ENT_INFO_TITLE_$i");
-			$entInfoData['ENT_INFO_PHOLDR'] = $this->request->getPost("ENT_INFO_PHOLDR_$i");
-			$entInfoData['REQUIRED_YN'] = $this->request->getPost("REQUIRED_YN_$i");
-			// log_message('info', "Project.php - save. ENT_INFO_TITLE : ".$entInfoData['ENT_INFO_TITLE'].", ENT_INFO_PHOLDR : ".$entInfoData['ENT_INFO_PHOLDR'].", REQUIRED_YN : ".$entInfoData['REQUIRED_YN']);
-
-			// ENT_INFO_TITLE에 값이 있으면 DB 처리(빈칸도 있음)
-			if (isset($entInfoData['ENT_INFO_TITLE']) && $entInfoData['ENT_INFO_TITLE'] != '') {
-				// 신규등록이면 insert
-				if ($insOrUpd === 'ins') {
-					$entInfoData['PRJ_SEQ'] = $prjSeq;
-					$entInfoData['SERL_NO'] = $i;
-					$entInfoData['REGR_ID'] = $this->request->getPost('EMAIL');
-
-					$prjEntInfoSeq = $this->projectModel->insertEntInfo($entInfoData);
-				} else {
-					$affectedRows = $this->projectModel->updateEntInfo($prjSeq, $i, $entInfoData);
-				}
-			}
 		}
 
 		$db->transComplete();

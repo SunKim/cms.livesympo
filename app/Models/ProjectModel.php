@@ -122,6 +122,8 @@ class ProjectModel extends Model {
 		$strQry .= "	, DATE_FORMAT(P.ED_DTTM, '%Y-%m-%d') AS ED_DATE	\n";
         $strQry .= "	, DATE_FORMAT(P.ED_DTTM, '%H:%i') AS ED_TIME	\n";
         $strQry .= "	, CONN_ROUTE_1, CONN_ROUTE_2, CONN_ROUTE_3	\n";
+        $strQry .= "	, ENT_INFO_EXTRA_1, ENT_INFO_EXTRA_PHOLDER_1, ENT_INFO_EXTRA_REQUIRED_1	\n";
+        $strQry .= "	, ENT_INFO_EXTRA_2, ENT_INFO_EXTRA_PHOLDER_2, ENT_INFO_EXTRA_REQUIRED_2	\n";
         $strQry .= "FROM TB_PRJ_M AS P	\n";
         $strQry .= "WHERE 1=1	\n";
         $strQry .= "	AND P.DEL_YN = 0	\n";
@@ -159,38 +161,6 @@ class ProjectModel extends Model {
 	public function updateProject ($prjSeq, $data) {
 		$builder = $this->db->table('TB_PRJ_M');
 		$builder->where('PRJ_SEQ', $prjSeq)->update($data);
-
-        return $this->db->affectedRows();
-	}
-
-    // 프로젝트 사전신청 등록정보 목록
-    public function entInfoList ($prjSeq) {
-        $strQry    = "";
-
-        $strQry .= "SELECT 	\n";
-        $strQry .= "	PRJ_ENT_INFO_SEQ, SERL_NO	\n";
-        $strQry .= "	, ENT_INFO_TITLE, ENT_INFO_PHOLDR, REQUIRED_YN	\n";
-        $strQry .= "FROM TB_PRJ_ENT_INFO_M	\n";
-        $strQry .= "WHERE 1=1	\n";
-        $strQry .= "	AND DEL_YN = 0	\n";
-        $strQry .= "	AND PRJ_SEQ = ".$this->db->escape($prjSeq)."	\n";
-        $strQry .= "ORDER BY SERL_NO ASC	\n";
-
-        $strQry .= ";";
-
-        return $this->db->query($strQry)->getResultArray();
-    }
-
-    // 프로젝트 사전신청 등록정보(TB_PRJ_ENT_INFO_M) insert
-    public function insertEntInfo ($data) {
-		$this->db->table('TB_PRJ_ENT_INFO_M')->insert($data);
-        return $this->db->insertID();
-	}
-
-    // 프로젝트 사전신청 등록정보(TB_PRJ_ENT_INFO_M) update
-    public function updateEntInfo ($prjSeq, $serlNo, $data) {
-        $builder = $this->db->table('TB_PRJ_ENT_INFO_M');
-		$builder->where(['PRJ_SEQ' => $prjSeq, 'SERL_NO' => $serlNo])->update($data);
 
         return $this->db->affectedRows();
 	}

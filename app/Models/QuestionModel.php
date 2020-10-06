@@ -23,10 +23,10 @@ class QuestionModel extends Model {
 		$strQry  = "";
 
 		$strQry .= "SELECT Q.QST_SEQ, Q.PRJ_SEQ, Q.REQR_SEQ, Q.QST_DESC, Q.REG_DTTM, Q.APRV_YN	\n";
-		$strQry .= "	, MAX(IF(SERL_NO = 1, INPUT_VAL, NULL)) AS REQR_NM	\n";
-		$strQry .= "    , MAX(IF(SERL_NO = 2, INPUT_VAL, NULL)) AS MBILNO	\n";
-		$strQry .= "    , MAX(IF(SERL_NO = 3, INPUT_VAL, NULL)) AS HSPTL_NM	\n";
-		$strQry .= "    , MAX(IF(SERL_NO = 4, INPUT_VAL, NULL)) AS SUBJ_NM	\n";
+		$strQry .= "	, MAX(IF(I.SERL_NO = 1, I.INPUT_VAL, NULL)) AS REQR_NM	\n";
+		$strQry .= "    , MAX(IF(I.SERL_NO = 2, I.INPUT_VAL, NULL)) AS MBILNO	\n";
+		$strQry .= "    , MAX(IF(I.SERL_NO = 3, I.INPUT_VAL, NULL)) AS HSPTL_NM	\n";
+		$strQry .= "    , MAX(IF(I.SERL_NO = 4, I.INPUT_VAL, NULL)) AS SUBJ_NM	\n";
 		$strQry .= "FROM TB_QST_M AS Q	\n";
 		$strQry .= "INNER JOIN TB_PRJ_ENT_INFO_REQR_H AS I	\n";
 		$strQry .= "		ON (Q.PRJ_SEQ = I.PRJ_SEQ AND Q.REQR_SEQ = I.REQR_SEQ)	\n";

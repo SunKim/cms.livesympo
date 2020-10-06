@@ -184,12 +184,16 @@ class Project extends BaseController {
 		$data['ST_DTTM'] = $this->request->getPost('ST_DATE').' '.$this->request->getPost('ST_TIME').':00';
 		$data['ED_DTTM'] = $this->request->getPost('ED_DATE').' '.$this->request->getPost('ED_TIME').':00';
 
+		$data['CONN_ROUTE_1'] = $this->request->getPost('CONN_ROUTE_1');
+		$data['CONN_ROUTE_2'] = $this->request->getPost('CONN_ROUTE_2');
+		$data['CONN_ROUTE_3'] = $this->request->getPost('CONN_ROUTE_3');
+
 		$data['ENT_THME_COLOR'] = $this->request->getPost('ENT_THME_COLOR');
 		$data['APPL_BTN_COLOR'] = $this->request->getPost('APPL_BTN_COLOR');
 		// print_r($data);
 
 		// 프로젝트 URI 체크 (프로젝트 저장시 기존에 입력된 동일한 URI 존재여부 체크)
-		if (count($this->projectModel->checkTitleUri($data['PRJ_TITLE_URI'])) > 0) {
+		if (count($this->projectModel->checkTitleUri($data['PRJ_TITLE_URI'], $prjSeq)) > 0) {
 			$res['resCode'] = '9998';
 			$res['resMsg'] = '이미 동일한 URI가 존재합니다. 다른 URI를 입력해주세요.';
 

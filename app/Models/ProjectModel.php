@@ -121,6 +121,7 @@ class ProjectModel extends Model {
         $strQry .= "	, DATE_FORMAT(P.ST_DTTM, '%H:%i') AS ST_TIME	\n";
 		$strQry .= "	, DATE_FORMAT(P.ED_DTTM, '%Y-%m-%d') AS ED_DATE	\n";
         $strQry .= "	, DATE_FORMAT(P.ED_DTTM, '%H:%i') AS ED_TIME	\n";
+        $strQry .= "	, CONN_ROUTE_1, CONN_ROUTE_2, CONN_ROUTE_3	\n";
         $strQry .= "FROM TB_PRJ_M AS P	\n";
         $strQry .= "WHERE 1=1	\n";
         $strQry .= "	AND P.DEL_YN = 0	\n";
@@ -132,13 +133,14 @@ class ProjectModel extends Model {
     }
 
 	// 프로젝트 URI 체크 (프로젝트 저장시 기존에 입력된 동일한 URI 존재여부 체크)
-    public function checkTitleUri ($titleUri) {
+    public function checkTitleUri ($titleUri, $prjSeq) {
         $strQry    = "";
 
         $strQry .= "SELECT 1	\n";
         $strQry .= "FROM TB_PRJ_M AS P	\n";
         $strQry .= "WHERE 1=1	\n";
         $strQry .= "	AND P.DEL_YN = 0	\n";
+        $strQry .= "	AND P.PRJ_SEQ <> ".$this->db->escape($prjSeq)."	\n";
         $strQry .= "	AND P.PRJ_TITLE_URI = ".$this->db->escape($titleUri)."	\n";
 
         $strQry .= ";";

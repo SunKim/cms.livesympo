@@ -52,6 +52,7 @@
 
 <!-- START) 메인 css -->
 <style type="text/css">
+ul { margin: 0; }
 </style>
 <!-- END) 메인 css -->
 
@@ -107,7 +108,7 @@
 									</colgroup>
 									<tbody>
 										<tr>
-											<th rowspan="5">프로젝트</th>
+											<th rowspan="6">프로젝트</th>
 											<th class="required">타이틀</th>
 											<td class="tl">
 												<input type="hidden" id="PRJ_SEQ" name="PRJ_SEQ" value="<?= $prjSeq ?>" />
@@ -148,6 +149,17 @@
 											</td>
 										</tr>
 										<tr>
+											<th class="required">접속경로 설정</th>
+											<td class="tl">
+												<p class="desc">* 최대 3개까지 등록 가능합니다. 없으면 빈칸으로 두세요.</p>
+												<ul>
+													<li class="mt10"><input type="text" id="CONN_ROUTE_1" name="CONN_ROUTE_1" class="common-input w90" /></li>
+													<li class="mt10"><input type="text" id="CONN_ROUTE_2" name="CONN_ROUTE_2" class="common-input w90" /></li>
+													<li class="mt10"><input type="text" id="CONN_ROUTE_3" name="CONN_ROUTE_3" class="common-input w90" /></li>
+												</ul>
+											</td>
+										</tr>
+										<tr>
 											<th class="required">사전등록 항목</th>
 											<td class="tl">
 												<p class="desc">* 6개까지 등록 가능합니다. 성명/연락처/병원명/과명은 기본항목입니다. Placeholder는 없으면 빈칸으로 두세요.</p>
@@ -159,6 +171,7 @@
 											<th rowspan="3">이미지</th>
 											<th class="required">메인 이미지</th>
 											<td class="tl">
+												<p class="desc">* 가로는 1170px 세로는 적당한 비율로 올려주세요.</p>
 												<img class="update-img-view" id="MAIN_IMG_URL" />
 												<input type="file" id="MAIN_IMG" name="MAIN_IMG" class="common-input w50" accept="image/x-png,image/gif,image/jpeg" />
 											</td>
@@ -166,6 +179,7 @@
 										<tr>
 											<th class="required">아젠다 이미지</th>
 											<td class="tl">
+												<p class="desc">* 가로는 1170px 세로는 556px로 올려주세요.</p>
 												<img class="update-img-view" id="AGENDA_IMG_URL" />
 												<input type="file" id="AGENDA_IMG" name="AGENDA_IMG" class="common-input w50" accept="image/x-png,image/gif,image/jpeg" />
 											</td>
@@ -173,6 +187,7 @@
 										<tr>
 											<th class="required">푸터 이미지</th>
 											<td class="tl">
+												<p class="desc">* 가로는 1170px 세로는 적당한 비율로 올려주세요.</p>
 												<img class="update-img-view" id="FOOTER_IMG_URL" />
 												<input type="file" id="FOOTER_IMG" name="FOOTER_IMG" class="common-input w50" accept="image/x-png,image/gif,image/jpeg" />
 											</td>
@@ -414,6 +429,10 @@ function getDetail (prjSeq) {
 				$('#ST_TIME').val(data.item.ST_TIME);
 				$('#ED_DATE').val(data.item.ED_DATE);
 				$('#ED_TIME').val(data.item.ED_TIME);
+
+				$('#CONN_ROUTE_1').val(data.item.CONN_ROUTE_1);
+				$('#CONN_ROUTE_2').val(data.item.CONN_ROUTE_2);
+				$('#CONN_ROUTE_3').val(data.item.CONN_ROUTE_3);
 
 				$('#ENT_THME_COLOR').val(data.item.ENT_THME_COLOR);
 				$('#APPL_BTN_COLOR').val(data.item.APPL_BTN_COLOR);

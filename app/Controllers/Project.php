@@ -188,6 +188,14 @@ class Project extends BaseController {
 		$data['APPL_BTN_COLOR'] = $this->request->getPost('APPL_BTN_COLOR');
 		// print_r($data);
 
+		// 프로젝트 URI 체크 (프로젝트 저장시 기존에 입력된 동일한 URI 존재여부 체크)
+		if (count($this->projectModel->checkTitleUri($data['PRJ_TITLE_URI'])) > 0) {
+			$res['resCode'] = '9998';
+			$res['resMsg'] = '이미 동일한 URI가 존재합니다. 다른 URI를 입력해주세요.';
+
+			return $this->response->setJSON($res);
+		}
+
 		/************************************
 		* START) Transaction 처리
 		************************************/

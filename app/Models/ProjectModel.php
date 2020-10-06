@@ -131,6 +131,22 @@ class ProjectModel extends Model {
         return $this->db->query($strQry)->getRowArray();
     }
 
+	// 프로젝트 URI 체크 (프로젝트 저장시 기존에 입력된 동일한 URI 존재여부 체크)
+    public function checkTitleUri ($titleUri) {
+        $strQry    = "";
+
+        $strQry .= "SELECT 1	\n";
+        $strQry .= "FROM TB_PRJ_M AS P	\n";
+        $strQry .= "WHERE 1=1	\n";
+        $strQry .= "	AND P.DEL_YN = 0	\n";
+        $strQry .= "	AND P.PRJ_TITLE_URI = ".$this->db->escape($titleUri)."	\n";
+
+        $strQry .= ";";
+
+		// log_message('info', "ProjectModel - checkTitleUri. Qry - \n$strQry");
+        return $this->db->query($strQry)->getResultArray();
+    }
+
     // 프로젝트 insert
 	public function insertProject ($data) {
 		$this->db->table('TB_PRJ_M')->insert($data);

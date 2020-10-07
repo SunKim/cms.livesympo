@@ -18,6 +18,7 @@ namespace App\Controllers;
 
 use App\Models\ProjectModel;
 use App\Models\QuestionModel;
+use App\Models\SurveyModel;
 
 class Project extends BaseController {
 
@@ -47,6 +48,7 @@ class Project extends BaseController {
 	public function __construct() {
     	$this->projectModel = new ProjectModel();
 		$this->questionModel = new QuestionModel();
+		$this->surveyModel = new SurveyModel();
   	}
 
 	public function index() {
@@ -86,6 +88,18 @@ class Project extends BaseController {
 		$data['livesympoUrl'] = $_ENV['app.livesympoBaseUrl'];
 
 		return view('project/question', $data);
+	}
+
+	// 설문관리 화면
+	public function survey ($prjSeq = 0) {
+		$data['menu'] = 'project';
+		// get('session name') 에서 session name을 안주면 전체 session정보.
+		$data['session'] = $this->session->get();
+
+		$data['prjSeq'] = $prjSeq;
+		$data['project'] = $this->projectModel->detail($prjSeq);
+
+		return view('project/survey', $data);
 	}
 
 	// 스트리밍 방송자용 질문목록 화면
@@ -144,24 +158,6 @@ class Project extends BaseController {
 		$data['resCode'] = '0000';
 		$data['resMsg'] = '정상적으로 처리되었습니다.';
 		$data['item'] = $prjItem;
-
-		return $this->response->setJSON($data);
-	}
-
-	//ajax - 프로젝트 질문 리스트
-	public function getQuestionList() {
-		// param 받기
-		$prjSeq = $this->request->getPost('prjSeq');
-		$aprvYn = $this->request->getPost('aprvYn');
-		$orderBy = $this->request->getPost('orderBy');
-		// log_message('info', "Project.php - getQuestionList. prjSeq: $prjSeq, aprvYn: $aprvYn");
-
-		// 프로젝트 아이템
-		$questionList = $this->questionModel->list($prjSeq, $aprvYn, $orderBy);
-
-		$data['resCode'] = '0000';
-		$data['resMsg'] = '정상적으로 처리되었습니다.';
-		$data['list'] = $questionList;
 
 		return $this->response->setJSON($data);
 	}
@@ -302,6 +298,24 @@ class Project extends BaseController {
 		return $this->response->setJSON($res);
 	}
 
+	// ajax - 프로젝트 질문 리스트
+	public function getQuestionList() {
+		// param 받기
+		$prjSeq = $this->request->getPost('prjSeq');
+		$aprvYn = $this->request->getPost('aprvYn');
+		$orderBy = $this->request->getPost('orderBy');
+		// log_message('info', "Project.php - getQuestionList. prjSeq: $prjSeq, aprvYn: $aprvYn");
+
+		// 질문목록
+		$questionList = $this->questionModel->list($prjSeq, $aprvYn, $orderBy);
+
+		$data['resCode'] = '0000';
+		$data['resMsg'] = '정상적으로 처리되었습니다.';
+		$data['list'] = $questionList;
+
+		return $this->response->setJSON($data);
+	}
+
 	// ajax - 질문 승인(APRV_YN)
 	public function approveQuestion () {
 		// param들 받기
@@ -343,6 +357,22 @@ class Project extends BaseController {
 		}
 
 		return $this->response->setJSON($resData);
+	}
+
+	// ajax - 프로젝트에 딸린 설문 질문 및 보기 목록
+	public function getSurveyList() {
+		// param 받기
+		$prjSeq = $this->request->getPost('prjSeq');
+		// log_message('info', "Project.php - getSurveyList. prjSeq: $prjSeq");
+
+		// 프로젝트 아이템
+		$data['surveyQstList'] = $this->surveyModel->surveyQstList($prjSeq);
+		$data['surveyQstChoiceList'] = $this->surveyModel->surveyQstChoiceList($prjSeq);
+
+		$data['resCode'] = '0000';
+		$data['resMsg'] = '정상적으로 처리되었습니다.';
+
+		return $this->response->setJSON($data);
 	}
 
 	// 페이지리스트의 param(itemsPerPage, pageNo을 포함한 obj)를 받아서 beginIndex, endIndex return

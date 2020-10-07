@@ -381,7 +381,8 @@ function getList (pageNo) {
 					html += '	<td>'+'0'+'</td>';
 					html += '	<td>'+item.REGR_ID+'</td>';
 					html += '	<td>';
-					html += '		<a href="/project/question/'+item.PRJ_SEQ+'" class="">질문관리</a>';
+					html += '		<a href="/project/survey/'+item.PRJ_SEQ+'" class="">설문관리</a>';
+					html += '		<a href="/project/question/'+item.PRJ_SEQ+'" class="ml20">질문관리</a>';
 					html += '		<a href="/project/moderator/'+item.PRJ_SEQ+'" target="_moderator" class="ml20">모더레이터</a>';
 					html += '	</td>';
 

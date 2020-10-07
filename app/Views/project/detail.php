@@ -284,7 +284,7 @@ ul { margin: 0; }
 	// 레벨9만 보이도록
 	if ($lvl == 9) {
 		echo '<button class="btn-main btn-red" onclick="test()">테스트</button>';
-		echo '<button class="btn-main btn-light-indigo" onclick="save()">저장</button>';
+		echo '<button class="btn-main btn-light-indigo" onclick="save();">저장</button>';
 	}
 ?>
 						</div>

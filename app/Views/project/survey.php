@@ -45,11 +45,9 @@
 
 <!-- START) 메인 css -->
 <style type="text/css">
-ul.survey-qst-list { padding: 20px 40px; }
-ul.survey-qst-list li {  }
-ul.survey-qst-list span.qst-no { width: 32px; height: 32px; line-height: 32px; background: #0274C3; color: #fff; border: 1px solid #0274C3; border-radius: 4px; text-align: center; vertical-align: middle; font-weight: 700; }
+span.qst-no { width: 32px; height: 32px; line-height: 32px; background: #0274C3; color: #fff; border: 1px solid #0274C3; border-radius: 4px; text-align: center; vertical-align: middle; font-weight: 700; }
 
-ul.qst-choice-list { min-height: 48px; padding: 10px; border: 1px solid #bbb; border-radius: 10px; }
+ul.qst-choice-list { min-height: 48px; padding: 10px; border: 1px solid #0274C355; border-radius: 10px; }
 ul.qst-choice-list li { margin-top: 10px; }
 ul.qst-choice-list li:first-child { margin-top: 0; }
 span.choice-no { width: 20px; height: 20px; line-height: 20px; border: 1px solid #999; border-radius: 10px; text-align: center; vertical-align: middle; font-size: 14px; font-weight: 600; }
@@ -99,8 +97,9 @@ span.choice { margin-left: 4px; font-size: 14px; }
 						<div class="card-header py-3">
 							<h6 class="m-0 font-weight-bold text-primary">프로젝트 설문관리</h6>
 						</div>
-						<div>
-							<ul class="survey-qst-list">
+						<div style="padding: 20px 40px;">
+							<p class="desc">* 설문항목은 총 10개까지 입력 가능합니다. </p>
+							<ul class="survey-qst-list mt20">
 								<li QST_NO="1" class="survey-qst-item d-flex align-items-start justify-content-around">
 									<span class="qst-no">1</span>
 									<div class="w90">
@@ -166,6 +165,7 @@ span.choice { margin-left: 4px; font-size: 14px; }
 										</div>
 									</div>
 								</li>
+								<hr />
 							</ul>
 						</div>
 

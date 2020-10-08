@@ -98,12 +98,12 @@ span.choice { margin-left: 4px; font-size: 14px; }
 							<h6 class="m-0 font-weight-bold text-primary">프로젝트 설문관리</h6>
 						</div>
 						<div style="padding: 20px 40px;">
-							<p class="desc">* 설문항목은 총 10개까지 입력 가능합니다. </p>
+							<p class="desc">* 설문항목은 총 10개까지 입력 가능하며 한 번 등록시 수정은 불가합니다. (질문항목은 100자, 보기는 40자 입력 가능)</p>
 							<ul class="survey-qst-list mt20">
 								<li QST_NO="1" class="survey-qst-item d-flex align-items-start justify-content-around">
 									<span class="qst-no">1</span>
 									<div class="w90">
-										<input type="text" class="common-input w100 qst-title" value="" placeholder="설문 질문항목을 입력하세요." />
+										<input type="text" class="common-input w100 qst-title" value="" placeholder="설문 질문항목을 입력하세요." maxlength="100" />
 										<div class="mt10">
 											<select class="common-select w20 qst-tp">
 												<option value="주관식" checked>주관식</option>
@@ -124,7 +124,7 @@ span.choice { margin-left: 4px; font-size: 14px; }
 											</ul>
 
 											<div class="mt10">
-												<input type="text" class="common-input w60 input-choice" value="" placeholder="보기를 입력하세요." />
+												<input type="text" class="common-input w60 input-choice" value="" placeholder="보기를 입력하세요." maxlength="40" />
 												<button class="btn-sub btn-blue ml10">보기추가</button>
 											</div>
 										</div>
@@ -134,7 +134,7 @@ span.choice { margin-left: 4px; font-size: 14px; }
 								<li QST_NO="2" class="survey-qst-item d-flex align-items-start justify-content-around">
 									<span class="qst-no">2</span>
 									<div class="w90">
-										<input type="text" class="common-input w100 qst-title" value="" placeholder="설문 질문항목을 입력하세요." />
+										<input type="text" class="common-input w100 qst-title" value="" placeholder="설문 질문항목을 입력하세요." maxlength="100" />
 										<div class="mt10">
 											<select class="common-select w20 qst-tp">
 												<option value="주관식" checked>주관식</option>
@@ -159,7 +159,7 @@ span.choice { margin-left: 4px; font-size: 14px; }
 											</ul>
 
 											<div class="mt10">
-												<input type="text" class="common-input w60 input-choice" value="" placeholder="보기를 입력하세요." />
+												<input type="text" class="common-input w60 input-choice" value="" placeholder="보기를 입력하세요." maxlength="40" />
 												<button class="btn-sub btn-blue ml10">보기추가</button>
 											</div>
 										</div>
@@ -172,7 +172,7 @@ span.choice { margin-left: 4px; font-size: 14px; }
 						<div class="d-flex align-items-center justify-content-between pa20">
 							<button class="btn-main btn-white mr15" onclick="history.back();">뒤로</button>
 							<span>&nbsp;</span>
-							<button class="btn-main btn-light-indigo" onclick="save();">저장</button>
+							<button class="btn-main btn-light-indigo btn-save" onclick="save();">저장</button>
 						</div>
 					</div>
 
@@ -223,7 +223,47 @@ function fnInit () {
 	// 해당 메뉴에 active
 	$('.nav-item.<?= $menu ?>').addClass('active');
 
+	setBaseForm();
+
 	getSurveyList(<?= $project['PRJ_SEQ'] ?>);
+}
+
+// 기본 설문항목 10개 추가
+function setBaseForm () {
+	let html = '';
+
+	for (let i=1; i <= 10; i++) {
+		html += '<li QST_NO="'+i+'" class="survey-qst-item d-flex align-items-start justify-content-around">';
+		html += '	<span class="qst-no">'+i+'</span>';
+		html += '	<div class="w90">';
+		html += '		<input type="text" class="common-input w100 qst-title" value="" placeholder="설문 질문항목을 입력하세요." maxlength="100" />';
+		html += '		<div class="mt10">';
+		html += '			<select class="common-select w20 qst-tp">';
+		html += '				<option value="주관식" checked>주관식</option>';
+		html += '				<option value="객관식">객관식</option>';
+		html += '			</select>';
+		html += '			<select class="common-select w20 qst-multi-yn">';
+		html += '				<option value="0" checked>복수응답 불가</option>';
+		html += '				<option value="1">복수응답 가능</option>';
+		html += '			</select>';
+		html += '		</div>';
+		html += '		<div class="mt30">';
+		html += '			<h6>보기</h6>';
+		html += '			<ul class="qst-choice-list">';
+		html += '			</ul>';
+		html += '			<div class="mt10">';
+		html += '				<input type="text" class="common-input w60 input-choice" value="" placeholder="보기를 입력하세요." maxlength="40" />';
+		html += '				<button class="btn-sub btn-blue ml10" onclick="javascript:addChoice('+i+');">보기추가</button>';
+		html += '			</div>';
+		html += '		</div>';
+		html += '	</div>';
+		html += '</li>';
+	}
+}
+
+// 보기 추가
+function addChoice (qstNo) {
+	alert('addChoice');
 }
 
 // 질문목록 불러오기
@@ -244,6 +284,11 @@ function getSurveyList (prjSeq) {
 			if ( data.resCode == '0000' ) {
 				const surveyQstList = data.surveyQstList;
 				const surveyQstChoiceList = data.surveyQstChoiceList;
+
+				// 기존에 등록된게 있으면 수정 못하도록
+				if (surveyQstList.length > 0) {
+					$('button.btn-save').attr('disabled', true);
+				}
 
 				let html = '';
 				// surveyQstList.forEach(item => {

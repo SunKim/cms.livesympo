@@ -368,6 +368,7 @@ class Project extends BaseController {
 		// 프로젝트 아이템
 		$data['surveyQstList'] = $this->surveyModel->surveyQstList($prjSeq);
 		$data['surveyQstChoiceList'] = $this->surveyModel->surveyQstChoiceList($prjSeq);
+		$data['surveyAswList'] = $this->surveyModel->surveyAswList($prjSeq);
 
 		$data['resCode'] = '0000';
 		$data['resMsg'] = '정상적으로 처리되었습니다.';

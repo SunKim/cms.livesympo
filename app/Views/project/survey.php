@@ -45,6 +45,7 @@
 
 <!-- START) 메인 css -->
 <style type="text/css">
+input::placeholder { color: #ddd; }
 span.qst-no { width: 32px; height: 32px; line-height: 32px; background: #0274C3; color: #fff; border: 1px solid #0274C3; border-radius: 4px; text-align: center; vertical-align: middle; font-weight: 700; }
 
 ul.qst-choice-list { min-height: 48px; padding: 10px; border: 1px solid #0274C355; border-radius: 10px; }
@@ -93,12 +94,12 @@ span.choice { margin-left: 4px; font-size: 14px; }
 						<!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> -->
 					</div>
 
-					<div class="card shadow mb-4">
+					<div class="card shadow mb-4 survey-container">
 						<div class="card-header py-3">
 							<h6 class="m-0 font-weight-bold text-primary">프로젝트 설문관리</h6>
 						</div>
 						<div style="padding: 20px 40px;">
-							<p class="desc">* 설문항목은 총 10개까지 입력 가능하며 한 번 등록시 수정은 불가합니다. (질문항목은 100자, 보기는 40자 입력 가능)</p>
+							<p class="desc">* 설문항목은 총 10개까지 입력 가능하며 참여자가 한명이라도 있으면 수정은 불가합니다. (질문항목은 100자, 보기는 40자 입력 가능)</p>
 							<ul class="survey-qst-list mt20">
 								<li QST_NO="1" class="survey-qst-item d-flex align-items-start justify-content-around">
 									<span class="qst-no">1</span>
@@ -174,8 +175,17 @@ span.choice { margin-left: 4px; font-size: 14px; }
 							<span>&nbsp;</span>
 							<button class="btn-main btn-light-indigo btn-save" onclick="save();">저장</button>
 						</div>
+
 					</div>
 
+					<!-- 설문답변 영역 -->
+					<div class="card shadow mb-4 answer-container">
+						<div class="card-header py-3">
+							<h6 class="m-0 font-weight-bold text-primary">프로젝트 설문답변</h6>
+						</div>
+						<div style="padding: 20px 40px;">
+						</div>
+					</div>
 				</div>
 				<!-- /.container-fluid -->
 
@@ -225,6 +235,16 @@ function fnInit () {
 
 	setBaseForm();
 
+	$('body').on('change', 'select.qst-tp', function () {
+		// alert($(this).val());
+		if ($(this).val() === '주관식') {
+			$(this).closest('li.survey-qst-item').find('div.qst-choice-container').hide();
+			$(this).closest('li.survey-qst-item').find('ul.qst-choice-list').empty();
+		} else {
+			$(this).closest('li.survey-qst-item').find('div.qst-choice-container').show();
+		}
+	});
+
 	getSurveyList(<?= $project['PRJ_SEQ'] ?>);
 }
 
@@ -233,21 +253,21 @@ function setBaseForm () {
 	let html = '';
 
 	for (let i=1; i <= 10; i++) {
-		html += '<li QST_NO="'+i+'" class="survey-qst-item d-flex align-items-start justify-content-around">';
+		html += '<li QST_NO="'+i+'" class="survey-qst-item d-flex align-items-start justify-content-around mt30 mb30">';
 		html += '	<span class="qst-no">'+i+'</span>';
 		html += '	<div class="w90">';
 		html += '		<input type="text" class="common-input w100 qst-title" value="" placeholder="설문 질문항목을 입력하세요." maxlength="100" />';
 		html += '		<div class="mt10">';
 		html += '			<select class="common-select w20 qst-tp">';
-		html += '				<option value="주관식" checked>주관식</option>';
-		html += '				<option value="객관식">객관식</option>';
+		html += '				<option value="객관식" checked>객관식</option>';
+		html += '				<option value="주관식">주관식</option>';
 		html += '			</select>';
 		html += '			<select class="common-select w20 qst-multi-yn">';
 		html += '				<option value="0" checked>복수응답 불가</option>';
 		html += '				<option value="1">복수응답 가능</option>';
 		html += '			</select>';
 		html += '		</div>';
-		html += '		<div class="mt30">';
+		html += '		<div class="qst-choice-container mt30">';
 		html += '			<h6>보기</h6>';
 		html += '			<ul class="qst-choice-list">';
 		html += '			</ul>';
@@ -258,6 +278,10 @@ function setBaseForm () {
 		html += '		</div>';
 		html += '	</div>';
 		html += '</li>';
+		html += '<hr />';
+
+		$('.survey-qst-list').empty();
+		$('.survey-qst-list').append(html);
 	}
 }
 
@@ -284,35 +308,41 @@ function getSurveyList (prjSeq) {
 			if ( data.resCode == '0000' ) {
 				const surveyQstList = data.surveyQstList;
 				const surveyQstChoiceList = data.surveyQstChoiceList;
+				const surveyAswList = data.surveyAswList;
 
-				// 기존에 등록된게 있으면 수정 못하도록
-				if (surveyQstList.length > 0) {
+				if (surveyAswList.length > 0) {
 					$('button.btn-save').attr('disabled', true);
 				}
 
-				let html = '';
-				// surveyQstList.forEach(item => {
-				// 	html += '<li class="mb20 '+(item.APRV_YN == 1 ? 'approved' : '')+'">';
-				// 	html += '	<div class="d-flex justify-content-between align-items-center">';
-				// 	html += '		<p class="regr">';
-				// 	html += '			<span>'+(item.FAKE_YN == 0 ? item.REQR_NM : item.FAKE_NM)+'</span>';
-				// 	html += '			<span>'+(item.FAKE_YN == 0 ? `(${formatMobile(item.MBILNO)})` : '')+'</span>';
-				// 	html += '			<span>'+(item.FAKE_YN == 0 ? item.HSPTL_NM : '')+'</span>';
-				// 	html += '			<span>'+(item.FAKE_YN == 0 ? item.SBJ_NM : '')+'</span>';
-				// 	if (item.APRV_YN == 0) {
-				// 		html += '			<button class="btn-sub btn-light-indigo ml5" onclick="approve('+item.QST_SEQ+', 1);">승인</button>';
-				// 	} else {
-				// 		html += '			<button class="btn-sub btn-white ml5" onclick="approve('+item.QST_SEQ+', 0);">승인취소</button>';
-				// 	}
-				// 	html += '		</p>';
-				// 	html += '		<p class="reg-dttm">'+item.REG_DTTM+'</p>';
-				// 	html += '	</div>';
-				// 	html += '	<textarea maxlength="400" rows="4" class="w100 mt10 mb10" readonly>'+item.QST_DESC+'</textarea>';
-				// 	html += '</li>';
-				// });
+				surveyQstList.forEach(item => {
+					$('.survey-qst-list li[QST_NO='+item.QST_NO+'] input.qst-title').val(item.QST_TITLE);
+					$('.survey-qst-list li[QST_NO='+item.QST_NO+'] select.qst-tp').val(item.QST_TP);
+					$('.survey-qst-list li[QST_NO='+item.QST_NO+'] select.qst-multi-yn').val(item.QST_MULTI_YN);
 
-				// $('.survey-qst-list').empty();
-				// $('.survey-qst-list').append(html);
+					if (item.QST_TP == '주관식') {
+						$('.survey-qst-list li[QST_NO='+item.QST_NO+'] div.qst-choice-container').hide();
+						$('.survey-qst-list li[QST_NO='+item.QST_NO+'] ul.qst-choice-list').hide();
+					} else {
+						$('.survey-qst-list li[QST_NO='+item.QST_NO+'] div.qst-choice-container').show();
+					}
+				});
+
+				surveyQstChoiceList.forEach(item => {
+					let html = '';
+
+					html += '<li>';
+					html += '	<span class="choice-no">'+item.CHOICE_NO+'</span>';
+					html += '	<span class="choice">'+item.CHOICE+'</span>';
+					html += '</li>';
+
+					$('.survey-qst-list li[QST_NO='+item.QST_NO+'] ul.qst-choice-list').append(html);
+				});
+
+				if (surveyAswList.length > 0) {
+					$('div.answer-container').show();
+				} else {
+					$('div.answer-container').hide();
+				}
 			} else {
 				alert('프로젝트 설문 데이터를 가져오는 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드(resCode):'+data.resCode+'\n메세지(resMsg):'+data.resMsg);
 			}
@@ -329,6 +359,12 @@ function getSurveyList (prjSeq) {
 
 // 설문 저장
 function saveSurvey () {
+	// validation
+
+
+	// 설문 답변목록이 하나라도 있으면 수정 못하도록
+
+
 	showSpinner();
 
 	$.ajax({

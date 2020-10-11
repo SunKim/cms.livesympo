@@ -54,9 +54,18 @@ class SurveyModel extends Model {
 	public function surveyAswList($prjSeq) {
 		$strQry  = "";
 
-		$strQry .= "SELECT SA.SURVEY_ASW_SEQ, SA.PRJ_SEQ, SA.REQR_SEQ	\n";
-		$strQry .= "	, SA.AWS_1, SA.AWS_2, SA.AWS_3, SA.AWS_4, SA.AWS_5, SA.AWS_6, SA.AWS_7, SA.AWS_8, SA.AWS_9, SA.AWS_10	\n";
-		$strQry .= "    , EI.REQR_NM, EI.HSPTL_NM, EI.SBJ_NM	\n";
+		$strQry .= "SELECT SA.SURVEY_ASW_SEQ, SA.PRJ_SEQ, SA.REQR_SEQ, DATE_FORMAT(SA.REG_DTTM, '%Y-%m-%d %H:%i') AS ASW_DTTM	\n";
+		$strQry .= "	, IFNULL(SA.AWS_1, '') AS AWS_1	\n";
+		$strQry .= "	, IFNULL(SA.AWS_2, '') AS AWS_2	\n";
+		$strQry .= "	, IFNULL(SA.AWS_3, '') AS AWS_3	\n";
+		$strQry .= "	, IFNULL(SA.AWS_4, '') AS AWS_4	\n";
+		$strQry .= "	, IFNULL(SA.AWS_5, '') AS AWS_5	\n";
+		$strQry .= "	, IFNULL(SA.AWS_6, '') AS AWS_6	\n";
+		$strQry .= "	, IFNULL(SA.AWS_7, '') AS AWS_7	\n";
+		$strQry .= "	, IFNULL(SA.AWS_8, '') AS AWS_8	\n";
+		$strQry .= "	, IFNULL(SA.AWS_9, '') AS AWS_9	\n";
+		$strQry .= "	, IFNULL(SA.AWS_10, '') AS AWS_10	\n";
+		$strQry .= "    , EI.MBILNO, EI.REQR_NM, EI.HSPTL_NM, EI.SBJ_NM	\n";
 		$strQry .= "FROM TB_SURVEY_ASW_REQR_H AS SA	\n";
 		$strQry .= "INNER JOIN TB_PRJ_ENT_INFO_REQR_H AS EI	\n";
 		$strQry .= "		ON (SA.REQR_SEQ = EI.REQR_SEQ)	\n";

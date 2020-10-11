@@ -165,21 +165,33 @@
 									</colgroup> -->
 									<thead>
 										<tr>
-											<th>Seq.</th>
+											<th rowspan="2">Seq.</th>
+											<th colspan="6">프로젝트 일반</th>
+											<th colspan="5">디자인</th>
+											<th colspan="3">설문조사</th>
+											<th colspan="2">등록</th>
+											<th rowspan="2">기능</th>
+										</tr>
+										<tr>
 											<th>타이틀</th>
+											<th>URI</th>
 											<th>시작일시</th>
 											<th>종료일시</th>
-											<th>URI</th>
+											<th>사전신청자</th>
+											<th>시청자</th>
+
 											<th>메인이미지</th>
 											<th>어젠다</th>
 											<th>푸터</th>
 											<th>메인색상</th>
 											<th>버튼색상</th>
+
+											<th>객관식항목</th>
+											<th>주관식항목</th>
+											<th>설문참여자</th>
+
 											<th>등록일시</th>
-											<th>사전신청자</th>
-											<th>시청자</th>
 											<th>프로젝트등록ID</th>
-											<th>기능</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -366,19 +378,22 @@ function getList (pageNo) {
 					html += '<tr prj-seq="'+item.PRJ_SEQ+'">';
 					html += '	<td>'+item.PRJ_SEQ+'</td>';
 					html += '	<td><a href="/project/detail/'+item.PRJ_SEQ+'">'+item.PRJ_TITLE+'</a></td>';
-					html += '	<td>'+item.ST_DTTM+'</td>';
-					html += '	<td>'+item.ED_DTTM+'</td>';
 					html += '	<td>';
 					html += '		<a href="<?= $livesympoUrl ?>/'+item.PRJ_TITLE_URI+'" target="_stream">'+item.PRJ_TITLE_URI+'</a>';
 					html += '	</td>';
+					html += '	<td>'+item.ST_DTTM+'</td>';
+					html += '	<td>'+item.ED_DTTM+'</td>';
+					html += '	<td>'+item.REQR_CNT+'</td>';
+					html += '	<td>0</td>';
 					html += '	<td><img class="thumb" src="'+item.MAIN_IMG_THUMB_URI+'" /></td>';
 					html += '	<td><img class="thumb" src="'+item.AGENDA_IMG_THUMB_URI+'" /></td>';
 					html += '	<td><img class="thumb" src="'+item.FOOTER_IMG_THUMB_URI+'" /></td>';
 					html += '	<td><p class="color-box" style="background: '+item.ENT_THME_COLOR+';"></p></td>';
 					html += '	<td><p class="color-box" style="background: '+item.APPL_BTN_COLOR+';"></p></td>';
+					html += '	<td>'+item.CNT_CHOICE+'</td>';
+					html += '	<td>'+item.CNT_SBJ+'</td>';
+					html += '	<td>'+item.ASW_CNT+'</td>';
 					html += '	<td>'+item.REG_DTTM+'</td>';
-					html += '	<td>'+item.REQR_CNT+'</td>';
-					html += '	<td>'+'0'+'</td>';
 					html += '	<td>'+item.REGR_ID+'</td>';
 					html += '	<td>';
 					html += '		<a href="/project/survey/'+item.PRJ_SEQ+'" class="">설문관리</a>';

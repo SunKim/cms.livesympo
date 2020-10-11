@@ -35,6 +35,8 @@ class ProjectModel extends Model {
 		$strQry .= "	, DATE_FORMAT(P.ED_DTTM, '%Y-%m-%d %H:%i') AS ED_DTTM	\n";
 		$strQry .= "	, REGR_ID,  DATE_FORMAT(P.REG_DTTM, '%Y-%m-%d %H:%i') AS REG_DTTM	\n";
 		$strQry .= "	, IFNULL(R.REQR_CNT, 0) AS REQR_CNT	\n";
+		$strQry .= "	, IFNULL(SQ.CNT_CHOICE, 0) AS CNT_CHOICE, IFNULL(SQ.CNT_SBJ, 0) AS CNT_SBJ	\n";
+		$strQry .= "	, IFNULL(SA.ASW_CNT, 0) AS ASW_CNT	\n";
         $strQry .= "FROM TB_PRJ_M AS P	\n";
 		$strQry .= "LEFT OUTER JOIN (	\n";
 		$strQry .= "	SELECT PRJ_SEQ, COUNT(DISTINCT REQR_SEQ) AS REQR_CNT	\n";
@@ -42,6 +44,21 @@ class ProjectModel extends Model {
 		$strQry .= "	GROUP BY PRJ_SEQ	\n";
 		$strQry .= ") AS R	\n";
 		$strQry .= "		ON (P.PRJ_SEQ = R.PRJ_SEQ)	\n";
+		$strQry .= "LEFT OUTER JOIN (	\n";
+		$strQry .= "	SELECT 	\n";
+		$strQry .= "		PRJ_SEQ	\n";
+		$strQry .= "		, IFNULL(SUM(IF (QST_TP = '객관식', 1, 0)), 0) AS CNT_CHOICE	\n";
+		$strQry .= "		, IFNULL(SUM(IF (QST_TP = '주관식', 1, 0)), 0) AS CNT_SBJ	\n";
+		$strQry .= "	FROM TB_SURVEY_QST_M	\n";
+		$strQry .= "	GROUP BY PRJ_SEQ	\n";
+		$strQry .= ") AS SQ	\n";
+		$strQry .= "		ON (P.PRJ_SEQ = SQ.PRJ_SEQ)	\n";
+		$strQry .= "LEFT OUTER JOIN (	\n";
+		$strQry .= "	SELECT PRJ_SEQ, COUNT(REQR_SEQ) AS ASW_CNT	\n";
+		$strQry .= "        FROM TB_SURVEY_ASW_REQR_H	\n";
+		$strQry .= "        GROUP BY PRJ_SEQ	\n";
+		$strQry .= ") AS SA	\n";
+		$strQry .= "		ON (P.PRJ_SEQ = SA.PRJ_SEQ)	\n";
         $strQry .= "WHERE 1=1	\n";
         $strQry .= "	AND P.DEL_YN = 0	\n";
 

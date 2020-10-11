@@ -376,6 +376,66 @@ class Project extends BaseController {
 		return $this->response->setJSON($data);
 	}
 
+	// ajax - 설문 질문 및 객관식 보기 등록
+	public function saveSurvey ($prjSeq = 0) {
+		if ($prjSeq == 0) {
+			$res['resCode'] = '9980';
+			$res['resMsg'] = '프로젝트 시퀀스가 올바르지 않습니다.';
+			return $this->response->setJSON($res);
+		}
+
+		// param들 받기
+		$surveyQstList = $this->request->getPost('surveyQstList');
+		$surveyQstChoiceList = $this->request->getPost('surveyQstChoiceList');
+
+		/************************************
+		* START) Transaction 처리
+		************************************/
+		$db = \Config\Database::connect();
+		$db->transStart();
+
+		// update 없이 delete 후 insert. 우선 기존 등록된걸 지움.
+		$this->surveyModel->deleteSurveyQst($prjSeq);
+		$this->surveyModel->deleteSurveyChoice($prjSeq);
+
+		for ($i = 0; $i < count($surveyQstList); $i++) {
+			$surveyQstItem = $surveyQstList[$i];
+
+			// 보기들을 넣으려면 $surveyQstSeq를 알아야함
+			$surveyQstSeq = $this->surveyModel->insertSurveyQst($surveyQstItem);
+
+			// 해당 설문항목에 맞는 보기만 insert
+			for ($j = 0; $j < count($surveyQstChoiceList); $j++) {
+				$surveyQstChoiceItem = $surveyQstChoiceList[$j];
+
+				// 같은 설문항목(질문)이면 보기를 해당 SURVE_QST_SEQ로 저장
+				if ($surveyQstChoiceItem['QST_NO'] === $surveyQstItem['QST_NO']) {
+					$surveyQstChoiceItem['SURVEY_QST_SEQ'] = $surveyQstSeq;
+
+					$surveyQstChoiceSeq = $this->surveyModel->insertSurveyChoice($surveyQstChoiceItem);
+				}
+			}
+		}
+
+		$db->transComplete();
+		/************************************
+		* END) Transaction 처리
+		************************************/
+
+		if ($db->transStatus() === FALSE) {
+			// generate an error... or use the log_message() function to log your error
+			log_message('error', 'Project.php - saveSurvey : 트랜잭션 처리 에러');
+
+			$res['resCode'] = '9999';
+			$res['resMsg'] = '프로젝트 저장에 실패했습니다.';
+		} else {
+			$res['resCode'] = '0000';
+			$res['resMsg'] = '정상적으로 처리되었습니다.';
+		}
+
+		return $this->response->setJSON($res);
+	}
+
 	// 페이지리스트의 param(itemsPerPage, pageNo을 포함한 obj)를 받아서 beginIndex, endIndex return
 	public function getPagingIndex ($param) {
 		$beginIndex = 0;

@@ -329,7 +329,7 @@ function addChoice (qstNo) {
 	$(choiceInputObj).focus();
 }
 
-// 질문목록 불러오기
+// 설문목록 (설문 질문목록, 보기목록, 답변목록) 불러오기
 function getSurveyList (prjSeq) {
 	showSpinner();
 
@@ -398,16 +398,16 @@ function getSurveyList (prjSeq) {
 					html += '	<td>'+item.SBJ_NM+'</td>';
 					// html += '	<td>'+formatMobile(item.MBILNO)+'</td>';
 
-					html += '	<td>'+item.AWS_1+'</td>';
-					html += '	<td>'+item.AWS_2+'</td>';
-					html += '	<td>'+item.AWS_3+'</td>';
-					html += '	<td>'+item.AWS_4+'</td>';
-					html += '	<td>'+item.AWS_5+'</td>';
-					html += '	<td>'+item.AWS_6+'</td>';
-					html += '	<td>'+item.AWS_7+'</td>';
-					html += '	<td>'+item.AWS_8+'</td>';
-					html += '	<td>'+item.AWS_9+'</td>';
-					html += '	<td>'+item.AWS_10+'</td>';
+					html += '	<td>'+item.ASW_1+'</td>';
+					html += '	<td>'+item.ASW_2+'</td>';
+					html += '	<td>'+item.ASW_3+'</td>';
+					html += '	<td>'+item.ASW_4+'</td>';
+					html += '	<td>'+item.ASW_5+'</td>';
+					html += '	<td>'+item.ASW_6+'</td>';
+					html += '	<td>'+item.ASW_7+'</td>';
+					html += '	<td>'+item.ASW_8+'</td>';
+					html += '	<td>'+item.ASW_9+'</td>';
+					html += '	<td>'+item.ASW_10+'</td>';
 
 					html += '	<td>'+item.ASW_DTTM+'</td>';
 					html += '</tr>';

@@ -55,20 +55,20 @@ class SurveyModel extends Model {
 		$strQry  = "";
 
 		$strQry .= "SELECT SA.SURVEY_ASW_SEQ, SA.PRJ_SEQ, SA.REQR_SEQ, DATE_FORMAT(SA.REG_DTTM, '%Y-%m-%d %H:%i') AS ASW_DTTM	\n";
-		$strQry .= "	, IFNULL(SA.AWS_1, '') AS AWS_1	\n";
-		$strQry .= "	, IFNULL(SA.AWS_2, '') AS AWS_2	\n";
-		$strQry .= "	, IFNULL(SA.AWS_3, '') AS AWS_3	\n";
-		$strQry .= "	, IFNULL(SA.AWS_4, '') AS AWS_4	\n";
-		$strQry .= "	, IFNULL(SA.AWS_5, '') AS AWS_5	\n";
-		$strQry .= "	, IFNULL(SA.AWS_6, '') AS AWS_6	\n";
-		$strQry .= "	, IFNULL(SA.AWS_7, '') AS AWS_7	\n";
-		$strQry .= "	, IFNULL(SA.AWS_8, '') AS AWS_8	\n";
-		$strQry .= "	, IFNULL(SA.AWS_9, '') AS AWS_9	\n";
-		$strQry .= "	, IFNULL(SA.AWS_10, '') AS AWS_10	\n";
+		$strQry .= "	, IFNULL(SA.ASW_1, '') AS ASW_1	\n";
+		$strQry .= "	, IFNULL(SA.ASW_2, '') AS ASW_2	\n";
+		$strQry .= "	, IFNULL(SA.ASW_3, '') AS ASW_3	\n";
+		$strQry .= "	, IFNULL(SA.ASW_4, '') AS ASW_4	\n";
+		$strQry .= "	, IFNULL(SA.ASW_5, '') AS ASW_5	\n";
+		$strQry .= "	, IFNULL(SA.ASW_6, '') AS ASW_6	\n";
+		$strQry .= "	, IFNULL(SA.ASW_7, '') AS ASW_7	\n";
+		$strQry .= "	, IFNULL(SA.ASW_8, '') AS ASW_8	\n";
+		$strQry .= "	, IFNULL(SA.ASW_9, '') AS ASW_9	\n";
+		$strQry .= "	, IFNULL(SA.ASW_10, '') AS ASW_10	\n";
 		$strQry .= "    , EI.MBILNO, EI.REQR_NM, EI.HSPTL_NM, EI.SBJ_NM	\n";
 		$strQry .= "FROM TB_SURVEY_ASW_REQR_H AS SA	\n";
 		$strQry .= "INNER JOIN TB_PRJ_ENT_INFO_REQR_H AS EI	\n";
-		$strQry .= "		ON (SA.REQR_SEQ = EI.REQR_SEQ)	\n";
+		$strQry .= "		ON (SA.PRJ_SEQ = EI.PRJ_SEQ AND SA.REQR_SEQ = EI.REQR_SEQ)	\n";
 		$strQry .= "WHERE 1=1	\n";
 		$strQry .= "	AND SA.PRJ_SEQ = ".$this->db->escape($prjSeq)."	\n";
 

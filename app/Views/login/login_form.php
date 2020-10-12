@@ -77,10 +77,16 @@
                   </div>
                   <form class="user">
                     <div class="form-group">
-                      <input type="email" class="form-control form-control-user" id="email" aria-describedby="emailHelp" placeholder="Email" value="admin@livesympo.kr" />
+                      <?php
+                        // <input type="email" class="form-control form-control-user" id="email" aria-describedby="emailHelp" placeholder="Email" value="admin@livesympo.kr" />
+                      ?>
+                      <input type="email" class="form-control form-control-user" id="email" aria-describedby="emailHelp" placeholder="Email" value="" />
                     </div>
                     <div class="form-group">
-                      <input type="password" class="form-control form-control-user" id="pwd" placeholder="Password" value="1234" />
+                      <?php
+                        // <input type="password" class="form-control form-control-user" id="pwd" placeholder="Password" value="1234" />
+                      ?>
+                      <input type="password" class="form-control form-control-user" id="pwd" placeholder="Password" value="" />
                     </div>
                     <div class="form-group">
                       <div class="custom-control custom-checkbox small">

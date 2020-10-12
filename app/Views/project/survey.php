@@ -101,7 +101,7 @@ table.tbl-survey-asw th, table.tbl-survey-asw td { padding: 4px !important; min-
 							<h6 class="m-0 font-weight-bold text-primary">프로젝트 설문관리</h6>
 						</div>
 						<div style="padding: 20px 40px;">
-							<p class="desc">* 설문항목은 총 10개까지 입력 가능하며 참여자가 한명이라도 있으면 수정은 불가합니다. (질문항목은 100자, 보기는 40자 입력 가능)</p>
+							<p class="desc">* 설문항목은 총 10개까지 입력 가능합니다. (질문항목은 100자, 보기는 40자 입력 가능)</p>
 							<ul class="survey-qst-list mt20">
 								<li QST_NO="1" class="survey-qst-item d-flex align-items-start justify-content-around">
 									<span class="qst-no">1</span>
@@ -300,6 +300,7 @@ function setBaseForm () {
 		html += '			<div class="mt10">';
 		html += '				<input type="text" class="common-input w60 input-choice" value="" placeholder="보기를 입력하세요." maxlength="40" />';
 		html += '				<button class="btn-sub btn-blue ml10" onclick="javascript:addChoice('+i+');">보기추가</button>';
+		html += '				<button class="btn-sub btn-white ml10" onclick="javascript:removeChoice('+i+');">최근보기 삭제</button>';
 		html += '			</div>';
 		html += '		</div>';
 		html += '	</div>';
@@ -329,6 +330,16 @@ function addChoice (qstNo) {
 	$(choiceInputObj).focus();
 }
 
+// 최근보기 삭제
+function removeChoice (qstNo) {
+	const lastChoiceNo = $('li.survey-qst-item[QST_NO='+qstNo+'] ul.qst-choice-list li:last-child span.choice-no').text() * 1;
+
+	if (confirm(`${lastChoiceNo}번 보기를 삭제하시겠습니까?`)) {
+		$('li.survey-qst-item[QST_NO='+qstNo+'] ul.qst-choice-list li:last-child').remove();
+	}
+	$(choiceInputObj).focus();
+}
+
 // 설문목록 (설문 질문목록, 보기목록, 답변목록) 불러오기
 function getSurveyList (prjSeq) {
 	showSpinner();
@@ -352,10 +363,10 @@ function getSurveyList (prjSeq) {
 				// 설문 참여자 답변 목록
 				const surveyAswList = data.surveyAswList;
 
-				// 답변이 하나라도 있으면 수정버튼 disable
-				if (surveyAswList.length > 0) {
-					$('button.btn-save').attr('disabled', true);
-				}
+				// 답변이 하나라도 있으면 수정버튼 disable => 답변이 있어도 수정 가능하도록
+				// if (surveyAswList.length > 0) {
+				// 	$('button.btn-save').attr('disabled', true);
+				// }
 
 				// 우선 다 비워줌
 				$('.survey-qst-list input.qst-title').val('');
@@ -455,6 +466,13 @@ function saveSurvey () {
 	if (valMsg !== '') {
 		alert(valMsg);
 		return;
+	}
+
+	const surveyAswListLength = $('table.tbl-survey-asw tbody tr').length;
+	if (surveyAswListLength > 0) {
+		if (!confirm(`설문참여자가 ${surveyAswListLength}명 있으며 설문을 변경해도 기존 참여한 설문답변은 변경되지 않습니다. 그래도 변경하시겠습니까?`)) {
+			return false;
+		}
 	}
 
 	const surveyQstList = [];

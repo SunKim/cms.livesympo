@@ -30,7 +30,7 @@ class ProjectModel extends Model {
         $strQry .= "SELECT	\n";
 		$strQry .= "	P.PRJ_SEQ, P.PRJ_TITLE, P.PRJ_TITLE_URI	\n";
 		$strQry .= "	, P.STREAM_URL, P.MAIN_IMG_URI, P.MAIN_IMG_THUMB_URI, P.AGENDA_IMG_URI, P.AGENDA_IMG_THUMB_URI, P.FOOTER_IMG_URI, P.FOOTER_IMG_THUMB_URI	\n";
-		$strQry .= "	, P.APPL_BTN_COLOR, P.ENT_THME_COLOR, P.AGENDA_PAGE_YN	\n";
+		$strQry .= "	, P.APPL_BTN_COLR, P.ENT_THME_COLR, P.AGENDA_PAGE_YN	\n";
 		$strQry .= "	, DATE_FORMAT(P.ST_DTTM, '%Y-%m-%d %H:%i') AS ST_DTTM	\n";
 		$strQry .= "	, DATE_FORMAT(P.ED_DTTM, '%Y-%m-%d %H:%i') AS ED_DTTM	\n";
 		$strQry .= "	, REGR_ID,  DATE_FORMAT(P.REG_DTTM, '%Y-%m-%d %H:%i') AS REG_DTTM	\n";
@@ -133,7 +133,7 @@ class ProjectModel extends Model {
         $strQry .= "	, CONCAT('".$_ENV['app.baseURL']."', P.MAIN_IMG_URI) AS MAIN_IMG_URL	\n";
         $strQry .= "	, CONCAT('".$_ENV['app.baseURL']."', P.AGENDA_IMG_URI) AS AGENDA_IMG_URL	\n";
         $strQry .= "	, CONCAT('".$_ENV['app.baseURL']."', P.FOOTER_IMG_URI) AS FOOTER_IMG_URL	\n";
-		$strQry .= "	, P.APPL_BTN_COLOR, P.ENT_THME_COLOR, P.AGENDA_PAGE_YN	\n";
+		$strQry .= "	, P.APPL_BTN_COLR, P.ENT_THME_COLR, P.AGENDA_PAGE_YN	\n";
 		$strQry .= "	, DATE_FORMAT(P.ST_DTTM, '%Y-%m-%d') AS ST_DATE	\n";
         $strQry .= "	, DATE_FORMAT(P.ST_DTTM, '%H:%i') AS ST_TIME	\n";
 		$strQry .= "	, DATE_FORMAT(P.ED_DTTM, '%Y-%m-%d') AS ED_DATE	\n";
@@ -180,5 +180,36 @@ class ProjectModel extends Model {
 		$builder->where('PRJ_SEQ', $prjSeq)->update($data);
 
         return $this->db->affectedRows();
+	}
+
+	// 프로젝트 입장가이드 목록
+    public function enterGuideList ($prjSeq) {
+        $strQry    = "";
+
+        $strQry .= "SELECT *	\n";
+        $strQry .= "FROM TB_PRJ_ENT_GUIDE_M AS EG	\n";
+        $strQry .= "WHERE 1=1	\n";
+        $strQry .= "	AND EG.DEL_YN = 0	\n";
+        $strQry .= "	AND EG.PRJ_SEQ = ".$this->db->escape($prjSeq)."	\n";
+		$strQry .= "ORDER BY SERL_NO	\n";
+
+        $strQry .= ";";
+
+		// log_message('info', "ProjectModel - checkTitleUri. Qry - \n$strQry");
+        return $this->db->query($strQry)->getResultArray();
+    }
+
+	// 프로젝트 입장가이드 insert
+	public function insertEnterGuide ($data) {
+		$this->db->table('TB_PRJ_ENT_GUIDE_M')->insert($data);
+        return $this->db->insertID();
+	}
+
+	// 프로젝트 입장가이드 delete (update가 아니라 delete 후 insert)
+	public function deleteEnterGuide ($prjSeq) {
+		$builder = $this->db->table('TB_PRJ_ENT_GUIDE_M');
+		$builder->where('PRJ_SEQ', $prjSeq)->delete();
+
+		return $this->db->affectedRows();
 	}
 }

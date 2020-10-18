@@ -388,8 +388,8 @@ function getList (pageNo) {
 					html += '	<td><img class="thumb" src="'+item.MAIN_IMG_THUMB_URI+'" /></td>';
 					html += '	<td><img class="thumb" src="'+item.AGENDA_IMG_THUMB_URI+'" /></td>';
 					html += '	<td><img class="thumb" src="'+item.FOOTER_IMG_THUMB_URI+'" /></td>';
-					html += '	<td><p class="color-box" style="background: '+item.ENT_THME_COLOR+';"></p></td>';
-					html += '	<td><p class="color-box" style="background: '+item.APPL_BTN_COLOR+';"></p></td>';
+					html += '	<td><p class="color-box" style="background: '+item.ENT_THME_COLR+';"></p></td>';
+					html += '	<td><p class="color-box" style="background: '+item.APPL_BTN_COLR+';"></p></td>';
 					html += '	<td>'+item.CNT_CHOICE+'</td>';
 					html += '	<td>'+item.CNT_SBJ+'</td>';
 					html += '	<td>'+item.ASW_CNT+'</td>';

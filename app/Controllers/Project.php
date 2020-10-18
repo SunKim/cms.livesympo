@@ -158,6 +158,7 @@ class Project extends BaseController {
 		$data['resCode'] = '0000';
 		$data['resMsg'] = '정상적으로 처리되었습니다.';
 		$data['item'] = $prjItem;
+		$data['entGuideList'] = $this->projectModel->enterGuideList($prjSeq);
 
 		return $this->response->setJSON($data);
 	}
@@ -189,9 +190,13 @@ class Project extends BaseController {
 		$data['ENT_INFO_EXTRA_PHOLDER_2'] = $this->request->getPost('ENT_INFO_EXTRA_PHOLDER_2');
 		$data['ENT_INFO_EXTRA_REQUIRED_2'] = $this->request->getPost('ENT_INFO_EXTRA_REQUIRED_2');
 
-		$data['ENT_THME_COLOR'] = $this->request->getPost('ENT_THME_COLOR');
-		$data['APPL_BTN_COLOR'] = $this->request->getPost('APPL_BTN_COLOR');
+		$data['ENT_THME_COLR'] = $this->request->getPost('ENT_THME_COLR');
+		$data['APPL_BTN_COLR'] = $this->request->getPost('APPL_BTN_COLR');
 		// print_r($data);
+
+		$entGuideList = json_decode($this->request->getPost('entGuideList'));
+		// print_r($entGuideList);
+		// return;
 
 		// 프로젝트 URI 체크 (프로젝트 저장시 기존에 입력된 동일한 URI 존재여부 체크)
 		if (count($this->projectModel->checkTitleUri($data['PRJ_TITLE_URI'], $prjSeq)) > 0) {
@@ -277,6 +282,22 @@ class Project extends BaseController {
 			}
 		} catch (Exception $e) {
 			log_message('error', "exception - ".$e->getMessage());
+		}
+
+		// 입장가이드 delete 후 insert
+		$this->projectModel->deleteEnterGuide($prjSeq);
+
+		for ($i = 0; $i < count($entGuideList); $i++) {
+			$entGuideData = array(
+				'PRJ_SEQ' => $prjSeq
+				, 'SERL_NO' => $i+1
+				, 'GUIDE_DESC' => $entGuideList[$i]
+				, 'REGR_ID' => $this->request->getPost('EMAIL')
+				, 'REG_DTTM' => date('Y-m-d H:i:s')
+				, 'DEL_YN' => 0
+			);
+
+			$this->projectModel->insertEnterGuide($entGuideData);
 		}
 
 		$db->transComplete();

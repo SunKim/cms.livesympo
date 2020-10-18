@@ -174,7 +174,7 @@ class Project extends BaseController {
 		$data['PRJ_TITLE'] = $this->request->getPost('PRJ_TITLE');
 		$data['PRJ_TITLE_URI'] = $this->request->getPost('PRJ_TITLE_URI');
 		$data['STREAM_URL'] = $this->request->getPost('STREAM_URL');
-		$data['AGENDA_PAGE_YN'] = $this->request->getPost('AGENDA_PAGE_YN') !== null ? $this->request->getPost('AGENDA_PAGE_YN') : 0;
+		// $data['AGENDA_PAGE_YN'] = $this->request->getPost('AGENDA_PAGE_YN') !== null ? $this->request->getPost('AGENDA_PAGE_YN') : 0;
 
 		$data['ST_DTTM'] = $this->request->getPost('ST_DATE').' '.$this->request->getPost('ST_TIME').':00';
 		$data['ED_DTTM'] = $this->request->getPost('ED_DATE').' '.$this->request->getPost('ED_TIME').':00';
@@ -190,8 +190,23 @@ class Project extends BaseController {
 		$data['ENT_INFO_EXTRA_PHOLDER_2'] = $this->request->getPost('ENT_INFO_EXTRA_PHOLDER_2');
 		$data['ENT_INFO_EXTRA_REQUIRED_2'] = $this->request->getPost('ENT_INFO_EXTRA_REQUIRED_2');
 
+		$data['AGENDA_BTN_TEXT'] = $this->request->getPost('AGENDA_BTN_TEXT');
+		$data['SURVEY_BTN_TEXT'] = $this->request->getPost('SURVEY_BTN_TEXT');
+		$data['QST_BTN_TEXT'] = $this->request->getPost('QST_BTN_TEXT');
+
+		$data['APPL_BODY_COLR'] = $this->request->getPost('APPL_BODY_COLR');
+		$data['APPL_BTN_BG_COLR'] = $this->request->getPost('APPL_BTN_BG_COLR');
+		$data['APPL_BTN_FONT_COLR'] = $this->request->getPost('APPL_BTN_FONT_COLR');
+		$data['APPL_BTN_ALIGN'] = $this->request->getPost('APPL_BTN_ALIGN');
+
 		$data['ENT_THME_COLR'] = $this->request->getPost('ENT_THME_COLR');
-		$data['APPL_BTN_COLR'] = $this->request->getPost('APPL_BTN_COLR');
+		$data['ENT_THME_HEIGHT'] = $this->request->getPost('ENT_THME_HEIGHT');
+
+		$data['STREAM_BODY_COLR'] = $this->request->getPost('STREAM_BODY_COLR');
+		$data['STREAM_BTN_BG_COLR'] = $this->request->getPost('STREAM_BTN_BG_COLR');
+		$data['STREAM_BTN_FONT_COLR'] = $this->request->getPost('STREAM_BTN_FONT_COLR');
+		$data['STREAM_QA_BG_COLR'] = $this->request->getPost('STREAM_QA_BG_COLR');
+		$data['STREAM_QA_FONT_COLR'] = $this->request->getPost('STREAM_QA_FONT_COLR');
 		// print_r($data);
 
 		$entGuideList = json_decode($this->request->getPost('entGuideList'));

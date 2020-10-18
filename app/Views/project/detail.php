@@ -55,6 +55,8 @@
 ul { margin: 0; }
 ul.enter-guide li { margin-bottom: 10px; }
 ul.enter-guide li:last-child { margin-bottom: 0; }
+
+span.input-title { display: inline-block; min-width: 140px; }
 </style>
 <!-- END) 메인 css -->
 
@@ -110,7 +112,7 @@ ul.enter-guide li:last-child { margin-bottom: 0; }
 									</colgroup>
 									<tbody>
 										<tr>
-											<th rowspan="7">프로젝트</th>
+											<th rowspan="8">프로젝트</th>
 											<th class="required">타이틀</th>
 											<td class="tl">
 												<input type="hidden" id="PRJ_SEQ" name="PRJ_SEQ" value="<?= $prjSeq ?>" />
@@ -249,6 +251,23 @@ ul.enter-guide li:last-child { margin-bottom: 0; }
 											</td>
 										</tr>
 										<tr>
+											<th class="required">스트리밍 페이지 버튼명</th>
+											<td class="tl">
+												<p>
+													<span class="input-title">아젠다확인 버튼</span>
+													<input type="text" id="AGENDA_BTN_TEXT" name="AGENDA_BTN_TEXT" class="common-input w30" value="아젠다확인" />
+												</p>
+												<p class="mt10">
+													<span class="input-title">설문참여 버튼</span>
+													<input type="text" id="SURVEY_BTN_TEXT" name="SURVEY_BTN_TEXT" class="common-input w30" value="설문참여" />
+												</p>
+												<p class="mt10">
+													<span class="input-title">질문등록 버튼</span>
+													<input type="text" id="QST_BTN_TEXT" name="QST_BTN_TEXT" class="common-input w30" value="질문등록" />
+												</p>
+											</td>
+										</tr>
+										<tr>
 											<th rowspan="3">이미지</th>
 											<th class="required">메인 이미지</th>
 											<td class="tl">
@@ -274,16 +293,73 @@ ul.enter-guide li:last-child { margin-bottom: 0; }
 											</td>
 										</tr>
 										<tr>
-											<th rowspan="2">색상</th>
-											<th class="required">테마 색상</th>
+											<th rowspan="3"><p>사전등록</p><p>디자인</p></th>
+											<th class="required">전체 배경색</th>
 											<td class="tl">
-												<input type="text" id="ENT_THME_COLR" name="ENT_THME_COLR" class="common-input w90 color-picker" value="#ffffff" style="height: 28px !important;" />
+												<input type="text" id="APPL_BODY_COLR" name="APPL_BODY_COLR" class="common-input w90 color-picker" value="#ffffff" style="height: 28px !important;" />
 											</td>
 										</tr>
 										<tr>
-											<th class="required">사전등록버튼 색상</th>
+											<th class="required">사전등록버튼</th>
 											<td class="tl">
-												<input type="text" id="APPL_BTN_COLR" name="APPL_BTN_COLR" class="common-input w90 color-picker" value="#ffffff" style="height: 28px !important;" />
+												<p>
+													<span class="input-title">배경색상</span>
+													<input type="text" id="APPL_BTN_BG_COLR" name="APPL_BTN_BG_COLR" class="common-input w90 color-picker" value="#ffffff" style="height: 28px !important;" />
+												</p>
+												<p class="mt10">
+													<span class="input-title">글씨색상</span>
+													<input type="text" id="APPL_BTN_FONT_COLR" name="APPL_BTN_FONT_COLR" class="common-input w90 color-picker" value="#ffffff" style="height: 28px !important;" />
+												</p>
+												<p class="mt10">
+													<span>배열</span>
+													라디오로
+												</p>
+											</td>
+										</tr>
+										<tr>
+											<th class="required">입장정보 영역</th>
+											<td class="tl">
+												<p>
+													<span class="input-title">배경색상</span>
+													<input type="text" id="ENT_THME_COLR" name="ENT_THME_COLR" class="common-input w90 color-picker" value="#ffffff" style="height: 28px !important;" />
+												</p>
+												<p class="mt10">
+													<span class="input-title">높이</span>
+													<input type="text" id="ENT_THME_HEIGHT" name="ENT_THME_HEIGHT" class="common-input w10" value="556" /> px
+												</p>
+											</td>
+										</tr>
+										<tr>
+											<th rowspan="3"><p>스트리밍</p><p>디자인</p></th>
+											<th class="required">전체 배경색</th>
+											<td class="tl">
+												<input type="text" id="STREAM_BODY_COLR" name="STREAM_BODY_COLR" class="common-input w90 color-picker" value="#ffffff" style="height: 28px !important;" />
+											</td>
+										</tr>
+										<tr>
+											<th class="required">전체 버튼</th>
+											<td class="tl">
+												<p>
+													<span class="input-title">배경색상</span>
+													<input type="text" id="STREAM_BTN_BG_COLR" name="STREAM_BTN_BG_COLR" class="common-input w90 color-picker" value="#ffffff" style="height: 28px !important;" />
+												</p>
+												<p class="mt10">
+													<span class="input-title">글씨색상</span>
+													<input type="text" id="STREAM_BTN_FONT_COLR" name="STREAM_BTN_FONT_COLR" class="common-input w90 color-picker" value="#ffffff" style="height: 28px !important;" />
+												</p>
+											</td>
+										</tr>
+										<tr>
+											<th class="required">질문 Box</th>
+											<td class="tl">
+												<p>
+													<span class="input-title">배경색상</span>
+													<input type="text" id="STREAM_QA_BG_COLR" name="STREAM_QA_BG_COLR" class="common-input w90 color-picker" value="#ffffff" style="height: 28px !important;" />
+												</p>
+												<p class="mt10">
+													<span class="input-title">글씨색상</span>
+													<input type="text" id="STREAM_QA_FONT_COLR" name="STREAM_QA_FONT_COLR" class="common-input w90 color-picker" value="#ffffff" style="height: 28px !important;" />
+												</p>
 											</td>
 										</tr>
 									</tbody>
@@ -529,8 +605,23 @@ function getDetail (prjSeq) {
 				$('#ENT_INFO_EXTRA_PHOLDER_2').val(data.item.ENT_INFO_EXTRA_PHOLDER_2);
 				$('#ENT_INFO_EXTRA_REQUIRED_2').val(data.item.ENT_INFO_EXTRA_REQUIRED_2);
 
+				$('#AGENDA_BTN_TEXT').val(data.item.AGENDA_BTN_TEXT);
+				$('#SURVEY_BTN_TEXT').val(data.item.SURVEY_BTN_TEXT);
+				$('#QST_BTN_TEXT').val(data.item.QST_BTN_TEXT);
+
+				$('#APPL_BODY_COLR').val(data.item.APPL_BODY_COLR);
+				$('#APPL_BTN_BG_COLR').val(data.item.APPL_BTN_BG_COLR);
+				$('#APPL_BTN_FONT_COLR').val(data.item.APPL_BTN_FONT_COLR);
+				$('#APPL_BTN_ALIGN').val(data.item.APPL_BTN_ALIGN);
+
 				$('#ENT_THME_COLR').val(data.item.ENT_THME_COLR);
-				$('#APPL_BTN_COLR').val(data.item.APPL_BTN_COLR);
+				$('#ENT_THME_HEIGHT').val(data.item.ENT_THME_HEIGHT);
+
+				$('#STREAM_BODY_COLR').val(data.item.STREAM_BODY_COLR);
+				$('#STREAM_BTN_BG_COLR').val(data.item.STREAM_BTN_BG_COLR);
+				$('#STREAM_BTN_FONT_COLR').val(data.item.STREAM_BTN_FONT_COLR);
+				$('#STREAM_QA_BG_COLR').val(data.item.STREAM_QA_BG_COLR);
+				$('#STREAM_QA_FONT_COLR').val(data.item.STREAM_QA_FONT_COLR);
 
 				// 기존 등록된 이미지를 보여줌
 				$('#MAIN_IMG_URL').attr('src', data.item.MAIN_IMG_URL);
@@ -594,7 +685,7 @@ function test () {
 	$('#ENT_INFO_EXTRA_REQUIRED_2').val('0');
 
 	$('#ENT_THME_COLR').val('#51633d');
-	$('#APPL_BTN_COLR').val('#e09238');
+	$('#APPL_BTN_BG_COLR').val('#e09238');
 }
 
 $(document).ready(function () {

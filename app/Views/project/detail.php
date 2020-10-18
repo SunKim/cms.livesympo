@@ -311,8 +311,12 @@ span.input-title { display: inline-block; min-width: 140px; }
 													<input type="text" id="APPL_BTN_FONT_COLR" name="APPL_BTN_FONT_COLR" class="common-input w90 color-picker" value="#ffffff" style="height: 28px !important;" />
 												</p>
 												<p class="mt10">
-													<span>배열</span>
-													라디오로
+													<span class="input-title">배열</span>
+													<select class="common-select w10" id="APPL_BTN_ALIGN" name="APPL_BTN_ALIGN">
+														<option value="center" selected>중앙</option>
+														<option value="left">좌측</option>
+														<option value="right">우측</option>
+													</select>
 												</p>
 											</td>
 										</tr>

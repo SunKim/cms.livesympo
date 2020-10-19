@@ -182,7 +182,7 @@ function login () {
 			console.log(data);
 			if ( data.resCode == '0000' ) {
 				// home으로 이동
-				location.href='/dashboard';
+				location.href='/project';
 			} else {
 				modal1('경고', '로그인 도중 오류가 발생했습니다. 관리자에게 문의해주세요.<br><br>코드(resCode):'+data.resCode+'<br>메세지(resMsg):'+data.resMsg);
 				// centerModal1('경고', '로그인 도중 오류가 발생했습니다. 관리자에게 문의해주세요.<br><br>코드(resCode):'+data.resCode+'<br>메세지(resMsg):'+data.resMsg);

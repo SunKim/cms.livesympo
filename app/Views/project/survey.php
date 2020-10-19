@@ -318,6 +318,12 @@ function addChoice (qstNo) {
 	const choiceInputObj = $('li.survey-qst-item[QST_NO='+qstNo+'] input.input-choice');
 	const lastChoiceNo = $('li.survey-qst-item[QST_NO='+qstNo+'] ul.qst-choice-list li:last-child span.choice-no').text() * 1;
 
+	if (isEmpty($(choiceInputObj).val())) {
+		alert('보기 내용을 입력해주세요.');
+		$(choiceInputObj).focus();
+		return;
+	}
+
 	let html = '';
 
 	html += '<li>';

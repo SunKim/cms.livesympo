@@ -189,6 +189,18 @@ class Project extends BaseController {
 		$data['ENT_INFO_EXTRA_2'] = $this->request->getPost('ENT_INFO_EXTRA_2');
 		$data['ENT_INFO_EXTRA_PHOLDER_2'] = $this->request->getPost('ENT_INFO_EXTRA_PHOLDER_2');
 		$data['ENT_INFO_EXTRA_REQUIRED_2'] = $this->request->getPost('ENT_INFO_EXTRA_REQUIRED_2');
+		$data['ENT_INFO_EXTRA_3'] = $this->request->getPost('ENT_INFO_EXTRA_3');
+		$data['ENT_INFO_EXTRA_PHOLDER_3'] = $this->request->getPost('ENT_INFO_EXTRA_PHOLDER_3');
+		$data['ENT_INFO_EXTRA_REQUIRED_3'] = $this->request->getPost('ENT_INFO_EXTRA_REQUIRED_3');
+		$data['ENT_INFO_EXTRA_4'] = $this->request->getPost('ENT_INFO_EXTRA_4');
+		$data['ENT_INFO_EXTRA_PHOLDER_4'] = $this->request->getPost('ENT_INFO_EXTRA_PHOLDER_4');
+		$data['ENT_INFO_EXTRA_REQUIRED_4'] = $this->request->getPost('ENT_INFO_EXTRA_REQUIRED_4');
+		$data['ENT_INFO_EXTRA_5'] = $this->request->getPost('ENT_INFO_EXTRA_5');
+		$data['ENT_INFO_EXTRA_PHOLDER_5'] = $this->request->getPost('ENT_INFO_EXTRA_PHOLDER_5');
+		$data['ENT_INFO_EXTRA_REQUIRED_5'] = $this->request->getPost('ENT_INFO_EXTRA_REQUIRED_5');
+		$data['ENT_INFO_EXTRA_6'] = $this->request->getPost('ENT_INFO_EXTRA_6');
+		$data['ENT_INFO_EXTRA_PHOLDER_6'] = $this->request->getPost('ENT_INFO_EXTRA_PHOLDER_6');
+		$data['ENT_INFO_EXTRA_REQUIRED_6'] = $this->request->getPost('ENT_INFO_EXTRA_REQUIRED_6');
 
 		$data['AGENDA_BTN_TEXT'] = $this->request->getPost('AGENDA_BTN_TEXT');
 		$data['SURVEY_BTN_TEXT'] = $this->request->getPost('SURVEY_BTN_TEXT');

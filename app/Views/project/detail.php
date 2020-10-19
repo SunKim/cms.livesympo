@@ -236,6 +236,54 @@ span.input-title { display: inline-block; min-width: 140px; }
 															<option value="0">N</option>
 														</select>
 													</div>
+													<div class="mt10 mb10">
+														<span class="ent-info-title">항목명</span>
+														<input type="text" id="ENT_INFO_EXTRA_3" name="ENT_INFO_EXTRA_3" class="common-input w20" value="" />
+														<span class="ent-info-title ml20">Placeholder</span>
+														<input type="text" id="ENT_INFO_EXTRA_PHOLDER_3" name="ENT_INFO_EXTRA_PHOLDER_3" class="common-input w20" value="" />
+														<span class="ent-info-title ml20">필수여부</span>
+														<select class="common-select w20" id="ENT_INFO_EXTRA_REQUIRED_3" name="ENT_INFO_EXTRA_REQUIRED_3">
+															<option value="">선택</option>
+															<option value="1">Y</option>
+															<option value="0">N</option>
+														</select>
+													</div>
+													<div class="mt10 mb10">
+														<span class="ent-info-title">항목명</span>
+														<input type="text" id="ENT_INFO_EXTRA_4" name="ENT_INFO_EXTRA_4" class="common-input w20" value="" />
+														<span class="ent-info-title ml20">Placeholder</span>
+														<input type="text" id="ENT_INFO_EXTRA_PHOLDER_4" name="ENT_INFO_EXTRA_PHOLDER_4" class="common-input w20" value="" />
+														<span class="ent-info-title ml20">필수여부</span>
+														<select class="common-select w20" id="ENT_INFO_EXTRA_REQUIRED_4" name="ENT_INFO_EXTRA_REQUIRED_4">
+															<option value="">선택</option>
+															<option value="1">Y</option>
+															<option value="0">N</option>
+														</select>
+													</div>
+													<div class="mt10 mb10">
+														<span class="ent-info-title">항목명</span>
+														<input type="text" id="ENT_INFO_EXTRA_5" name="ENT_INFO_EXTRA_5" class="common-input w20" value="" />
+														<span class="ent-info-title ml20">Placeholder</span>
+														<input type="text" id="ENT_INFO_EXTRA_PHOLDER_5" name="ENT_INFO_EXTRA_PHOLDER_5" class="common-input w20" value="" />
+														<span class="ent-info-title ml20">필수여부</span>
+														<select class="common-select w20" id="ENT_INFO_EXTRA_REQUIRED_5" name="ENT_INFO_EXTRA_REQUIRED_5">
+															<option value="">선택</option>
+															<option value="1">Y</option>
+															<option value="0">N</option>
+														</select>
+													</div>
+													<div class="mt10 mb10">
+														<span class="ent-info-title">항목명</span>
+														<input type="text" id="ENT_INFO_EXTRA_6" name="ENT_INFO_EXTRA_6" class="common-input w20" value="" />
+														<span class="ent-info-title ml20">Placeholder</span>
+														<input type="text" id="ENT_INFO_EXTRA_PHOLDER_6" name="ENT_INFO_EXTRA_PHOLDER_6" class="common-input w20" value="" />
+														<span class="ent-info-title ml20">필수여부</span>
+														<select class="common-select w20" id="ENT_INFO_EXTRA_REQUIRED_6" name="ENT_INFO_EXTRA_REQUIRED_6">
+															<option value="">선택</option>
+															<option value="1">Y</option>
+															<option value="0">N</option>
+														</select>
+													</div>
 												</div>
 											</td>
 										</tr>
@@ -515,6 +563,34 @@ function save () {
 			return;
 		}
 	}
+	if (!isEmpty( $('#ENT_INFO_EXTRA_3').val() )) {
+		if ($('#ENT_INFO_EXTRA_REQUIRED_3').val() == '') {
+			alert('사전등록항목('+$('#ENT_INFO_EXTRA_3').val()+')의 필수여부를 입력해주세요.');
+			$('#ENT_INFO_EXTRA_REQUIRED_3').focus();
+			return;
+		}
+	}
+	if (!isEmpty( $('#ENT_INFO_EXTRA_4').val() )) {
+		if ($('#ENT_INFO_EXTRA_REQUIRED_4').val() == '') {
+			alert('사전등록항목('+$('#ENT_INFO_EXTRA_4').val()+')의 필수여부를 입력해주세요.');
+			$('#ENT_INFO_EXTRA_REQUIRED_4').focus();
+			return;
+		}
+	}
+	if (!isEmpty( $('#ENT_INFO_EXTRA_5').val() )) {
+		if ($('#ENT_INFO_EXTRA_REQUIRED_5').val() == '') {
+			alert('사전등록항목('+$('#ENT_INFO_EXTRA_5').val()+')의 필수여부를 입력해주세요.');
+			$('#ENT_INFO_EXTRA_REQUIRED_5').focus();
+			return;
+		}
+	}
+	if (!isEmpty( $('#ENT_INFO_EXTRA_6').val() )) {
+		if ($('#ENT_INFO_EXTRA_REQUIRED_6').val() == '') {
+			alert('사전등록항목('+$('#ENT_INFO_EXTRA_6').val()+')의 필수여부를 입력해주세요.');
+			$('#ENT_INFO_EXTRA_REQUIRED_6').focus();
+			return;
+		}
+	}
 
 	// 신규등록일 경우 필수 이미지 체크
 	if (<?= $prjSeq ?> == 0) {
@@ -608,6 +684,18 @@ function getDetail (prjSeq) {
 				$('#ENT_INFO_EXTRA_2').val(data.item.ENT_INFO_EXTRA_2);
 				$('#ENT_INFO_EXTRA_PHOLDER_2').val(data.item.ENT_INFO_EXTRA_PHOLDER_2);
 				$('#ENT_INFO_EXTRA_REQUIRED_2').val(data.item.ENT_INFO_EXTRA_REQUIRED_2);
+				$('#ENT_INFO_EXTRA_3').val(data.item.ENT_INFO_EXTRA_3);
+				$('#ENT_INFO_EXTRA_PHOLDER_3').val(data.item.ENT_INFO_EXTRA_PHOLDER_3);
+				$('#ENT_INFO_EXTRA_REQUIRED_3').val(data.item.ENT_INFO_EXTRA_REQUIRED_3);
+				$('#ENT_INFO_EXTRA_4').val(data.item.ENT_INFO_EXTRA_4);
+				$('#ENT_INFO_EXTRA_PHOLDER_4').val(data.item.ENT_INFO_EXTRA_PHOLDER_4);
+				$('#ENT_INFO_EXTRA_REQUIRED_4').val(data.item.ENT_INFO_EXTRA_REQUIRED_4);
+				$('#ENT_INFO_EXTRA_5').val(data.item.ENT_INFO_EXTRA_5);
+				$('#ENT_INFO_EXTRA_PHOLDER_5').val(data.item.ENT_INFO_EXTRA_PHOLDER_5);
+				$('#ENT_INFO_EXTRA_REQUIRED_5').val(data.item.ENT_INFO_EXTRA_REQUIRED_5);
+				$('#ENT_INFO_EXTRA_6').val(data.item.ENT_INFO_EXTRA_6);
+				$('#ENT_INFO_EXTRA_PHOLDER_6').val(data.item.ENT_INFO_EXTRA_PHOLDER_6);
+				$('#ENT_INFO_EXTRA_REQUIRED_6').val(data.item.ENT_INFO_EXTRA_REQUIRED_6);
 
 				$('#AGENDA_BTN_TEXT').val(data.item.AGENDA_BTN_TEXT);
 				$('#SURVEY_BTN_TEXT').val(data.item.SURVEY_BTN_TEXT);

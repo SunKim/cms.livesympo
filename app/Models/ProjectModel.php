@@ -147,6 +147,8 @@ class ProjectModel extends Model {
         $strQry .= "	, ENT_INFO_EXTRA_4, ENT_INFO_EXTRA_PHOLDER_4, ENT_INFO_EXTRA_REQUIRED_4	\n";
         $strQry .= "	, ENT_INFO_EXTRA_5, ENT_INFO_EXTRA_PHOLDER_5, ENT_INFO_EXTRA_REQUIRED_5	\n";
         $strQry .= "	, ENT_INFO_EXTRA_6, ENT_INFO_EXTRA_PHOLDER_6, ENT_INFO_EXTRA_REQUIRED_6	\n";
+		$strQry .= "	, ENT_INFO_EXTRA_7, ENT_INFO_EXTRA_PHOLDER_7, ENT_INFO_EXTRA_REQUIRED_7	\n";
+		$strQry .= "	, ENT_INFO_EXTRA_8, ENT_INFO_EXTRA_PHOLDER_8, ENT_INFO_EXTRA_REQUIRED_8	\n";
         $strQry .= "FROM TB_PRJ_M AS P	\n";
         $strQry .= "WHERE 1=1	\n";
         $strQry .= "	AND P.DEL_YN = 0	\n";

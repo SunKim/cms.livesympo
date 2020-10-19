@@ -23,7 +23,7 @@ class QuestionModel extends Model {
 		$strQry  = "";
 
 		$strQry .= "SELECT Q.QST_SEQ, Q.PRJ_SEQ, Q.FAKE_YN, Q.REQR_SEQ, Q.FAKE_NM, Q.QST_DESC, Q.REG_DTTM, Q.APRV_YN	\n";
-		$strQry .= "	, I.REQR_NM, I.MBILNO, I.HSPTL_NM, I.SBJ_NM	\n";
+		$strQry .= "	, I.REQR_NM, I.MBILNO, I.ENT_INFO_EXTRA_VAL_1, I.ENT_INFO_EXTRA_VAL_2	\n";
 		$strQry .= "FROM TB_QST_M AS Q	\n";
 		$strQry .= "LEFT OUTER JOIN TB_PRJ_ENT_INFO_REQR_H AS I	\n";
 		$strQry .= "		ON (Q.PRJ_SEQ = I.PRJ_SEQ AND Q.REQR_SEQ = I.REQR_SEQ)	\n";

@@ -157,7 +157,7 @@
 							<!-- END) 테이블 타이틀 영역 -->
 
 							<div style="width: 100%; overflow-x: scroll;">
-								<table class="table-list" id="prj-list" style="min-width: 2000px;">
+								<table class="table-list" id="prj-list" style="min-width: 2400px;">
 									<!-- <colgroup>
 										<col width="34%" />
 										<col width="33%" />
@@ -396,7 +396,8 @@ function getList (pageNo) {
 					html += '	<td>'+item.REG_DTTM+'</td>';
 					html += '	<td>'+item.REGR_ID+'</td>';
 					html += '	<td>';
-					html += '		<a href="/project/survey/'+item.PRJ_SEQ+'" class="">설문관리</a>';
+					html += '		<a href="/project/requestor/'+item.PRJ_SEQ+'" class="">사전등록자관리</a>';
+					html += '		<a href="/project/survey/'+item.PRJ_SEQ+'" class="ml20">설문관리</a>';
 					html += '		<a href="/project/question/'+item.PRJ_SEQ+'" class="ml20">질문관리</a>';
 					html += '		<a href="/project/moderator/'+item.PRJ_SEQ+'" target="_moderator" class="ml20">모더레이터</a>';
 					html += '	</td>';

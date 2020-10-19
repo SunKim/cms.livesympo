@@ -24,7 +24,7 @@
 <meta name="robots" content="noindex,nofollow">
 <!-- meta name="robots" content="all" -->
 
-<title>Live Sympo 관리자 프로젝트 질문관리</title>
+<title>Live Sympo 질문관리</title>
 
 <!-- stylesheets -->
 <link href="/css/sun.common.20200914.css" rel="stylesheet">
@@ -187,7 +187,7 @@ li.approved textarea { border: 1px solid #3f65cc99; border-radius: 4px; color: #
 
 <!-- 메인 script -->
 <script language="javascript">
-const ENT_INFO_CNT = 6;
+const ENT_INFO_CNT = 8;
 const REFRESH_TERM = 10 * 1000;
 
 var refreshIntv;

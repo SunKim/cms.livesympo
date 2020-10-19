@@ -24,7 +24,7 @@
 <meta name="robots" content="noindex,nofollow">
 <!-- meta name="robots" content="all" -->
 
-<title>Live Sympo 관리자 프로젝트 설문관리</title>
+<title>Live Sympo 설문관리</title>
 
 <!-- stylesheets -->
 <link href="/css/sun.common.20200914.css" rel="stylesheet">
@@ -191,8 +191,8 @@ table.tbl-survey-asw th, table.tbl-survey-asw td { padding: 4px !important; min-
 									<tr>
 										<th>Seq.</th>
 										<th>참여자명</th>
-										<th>병원명</th>
-										<th>과명</th>
+										<th>추가항목1</th>
+										<th>추가항목2</th>
 										<!-- <th>연락처</th> -->
 										<th>답변1</th>
 										<th>답변2</th>

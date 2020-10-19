@@ -19,6 +19,7 @@ namespace App\Controllers;
 use App\Models\ProjectModel;
 use App\Models\QuestionModel;
 use App\Models\SurveyModel;
+use App\Models\RequestorModel;
 
 class Project extends BaseController {
 
@@ -49,6 +50,7 @@ class Project extends BaseController {
     	$this->projectModel = new ProjectModel();
 		$this->questionModel = new QuestionModel();
 		$this->surveyModel = new SurveyModel();
+		$this->requestorModel = new RequestorModel();
   	}
 
 	public function index() {
@@ -100,6 +102,19 @@ class Project extends BaseController {
 		$data['project'] = $this->projectModel->detail($prjSeq);
 
 		return view('project/survey', $data);
+	}
+
+	// 사전등록자 관리 화면
+	public function requestor ($prjSeq = 0) {
+		$data['menu'] = 'project';
+		// get('session name') 에서 session name을 안주면 전체 session정보.
+		$data['session'] = $this->session->get();
+
+		$data['prjSeq'] = $prjSeq;
+		$data['project'] = $this->projectModel->detail($prjSeq);
+		$data['reqrList'] = $this->requestorModel->list($prjSeq);
+
+		return view('project/requestor', $data);
 	}
 
 	// 스트리밍 방송자용 질문목록 화면
@@ -201,6 +216,12 @@ class Project extends BaseController {
 		$data['ENT_INFO_EXTRA_6'] = $this->request->getPost('ENT_INFO_EXTRA_6');
 		$data['ENT_INFO_EXTRA_PHOLDER_6'] = $this->request->getPost('ENT_INFO_EXTRA_PHOLDER_6');
 		$data['ENT_INFO_EXTRA_REQUIRED_6'] = $this->request->getPost('ENT_INFO_EXTRA_REQUIRED_6');
+		$data['ENT_INFO_EXTRA_7'] = $this->request->getPost('ENT_INFO_EXTRA_7');
+		$data['ENT_INFO_EXTRA_PHOLDER_7'] = $this->request->getPost('ENT_INFO_EXTRA_PHOLDER_7');
+		$data['ENT_INFO_EXTRA_REQUIRED_7'] = $this->request->getPost('ENT_INFO_EXTRA_REQUIRED_7');
+		$data['ENT_INFO_EXTRA_8'] = $this->request->getPost('ENT_INFO_EXTRA_8');
+		$data['ENT_INFO_EXTRA_PHOLDER_8'] = $this->request->getPost('ENT_INFO_EXTRA_PHOLDER_8');
+		$data['ENT_INFO_EXTRA_REQUIRED_8'] = $this->request->getPost('ENT_INFO_EXTRA_REQUIRED_8');
 
 		$data['AGENDA_BTN_TEXT'] = $this->request->getPost('AGENDA_BTN_TEXT');
 		$data['SURVEY_BTN_TEXT'] = $this->request->getPost('SURVEY_BTN_TEXT');
@@ -344,6 +365,22 @@ class Project extends BaseController {
 		}
 
 		return $this->response->setJSON($res);
+	}
+
+	// ajax - 프로젝트 사전등록자 리스트
+	public function getRequestorList() {
+		// param 받기
+		$prjSeq = $this->request->getPost('prjSeq');
+		// log_message('info', "Project - getRequestorList. prjSeq: $prjSeq");
+
+		// 질문목록
+		$reqrList = $this->requestorModel->list($prjSeq);
+
+		$data['resCode'] = '0000';
+		$data['resMsg'] = '정상적으로 처리되었습니다.';
+		$data['list'] = $reqrList;
+
+		return $this->response->setJSON($data);
 	}
 
 	// ajax - 프로젝트 질문 리스트

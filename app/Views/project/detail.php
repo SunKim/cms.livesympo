@@ -166,7 +166,7 @@ span.input-title { display: inline-block; min-width: 140px; }
 										<tr>
 											<th class="required">사전등록 항목</th>
 											<td class="tl">
-												<p class="desc">* 6개까지 등록 가능합니다. 성명/연락처/병원명/과명은 기본항목입니다. Placeholder는 없으면 빈칸으로 두세요.</p>
+												<p class="desc">* 10개까지 등록 가능합니다. 성명/연락처는 기본항목입니다. Placeholder는 없으면 빈칸으로 두세요.</p>
 												<div class="ent-info-container">
 													<div class="mt10 mb10">
 														<span class="ent-info-title">항목명</span>
@@ -190,7 +190,7 @@ span.input-title { display: inline-block; min-width: 140px; }
 															<option value="0">N</option>
 														</select>
 													</div>
-													<div class="mt10 mb10">
+													<!-- <div class="mt10 mb10">
 														<span class="ent-info-title">항목명</span>
 														<input type="text" class="common-input w20" value="병원명" readonly />
 														<span class="ent-info-title ml20">Placeholder</span>
@@ -211,7 +211,7 @@ span.input-title { display: inline-block; min-width: 140px; }
 															<option value="1">Y</option>
 															<option value="0">N</option>
 														</select>
-													</div>
+													</div> -->
 													<div class="mt10 mb10">
 														<span class="ent-info-title">항목명</span>
 														<input type="text" id="ENT_INFO_EXTRA_1" name="ENT_INFO_EXTRA_1" class="common-input w20" value="" />
@@ -279,6 +279,30 @@ span.input-title { display: inline-block; min-width: 140px; }
 														<input type="text" id="ENT_INFO_EXTRA_PHOLDER_6" name="ENT_INFO_EXTRA_PHOLDER_6" class="common-input w20" value="" />
 														<span class="ent-info-title ml20">필수여부</span>
 														<select class="common-select w20" id="ENT_INFO_EXTRA_REQUIRED_6" name="ENT_INFO_EXTRA_REQUIRED_6">
+															<option value="">선택</option>
+															<option value="1">Y</option>
+															<option value="0">N</option>
+														</select>
+													</div>
+													<div class="mt10 mb10">
+														<span class="ent-info-title">항목명</span>
+														<input type="text" id="ENT_INFO_EXTRA_7" name="ENT_INFO_EXTRA_7" class="common-input w20" value="" />
+														<span class="ent-info-title ml20">Placeholder</span>
+														<input type="text" id="ENT_INFO_EXTRA_PHOLDER_7" name="ENT_INFO_EXTRA_PHOLDER_7" class="common-input w20" value="" />
+														<span class="ent-info-title ml20">필수여부</span>
+														<select class="common-select w20" id="ENT_INFO_EXTRA_REQUIRED_7" name="ENT_INFO_EXTRA_REQUIRED_7">
+															<option value="">선택</option>
+															<option value="1">Y</option>
+															<option value="0">N</option>
+														</select>
+													</div>
+													<div class="mt10 mb10">
+														<span class="ent-info-title">항목명</span>
+														<input type="text" id="ENT_INFO_EXTRA_8" name="ENT_INFO_EXTRA_8" class="common-input w20" value="" />
+														<span class="ent-info-title ml20">Placeholder</span>
+														<input type="text" id="ENT_INFO_EXTRA_PHOLDER_8" name="ENT_INFO_EXTRA_PHOLDER_8" class="common-input w20" value="" />
+														<span class="ent-info-title ml20">필수여부</span>
+														<select class="common-select w20" id="ENT_INFO_EXTRA_REQUIRED_8" name="ENT_INFO_EXTRA_REQUIRED_8">
 															<option value="">선택</option>
 															<option value="1">Y</option>
 															<option value="0">N</option>
@@ -479,7 +503,7 @@ span.input-title { display: inline-block; min-width: 140px; }
 
 <!-- 메인 script -->
 <script language="javascript">
-const ENT_INFO_CNT = 6;
+const ENT_INFO_CNT = 8;
 
 // 초기화
 function fnInit () {
@@ -591,6 +615,20 @@ function save () {
 			return;
 		}
 	}
+	if (!isEmpty( $('#ENT_INFO_EXTRA_7').val() )) {
+		if ($('#ENT_INFO_EXTRA_REQUIRED_7').val() == '') {
+			alert('사전등록항목('+$('#ENT_INFO_EXTRA_7').val()+')의 필수여부를 입력해주세요.');
+			$('#ENT_INFO_EXTRA_REQUIRED_7').focus();
+			return;
+		}
+	}
+	if (!isEmpty( $('#ENT_INFO_EXTRA_8').val() )) {
+		if ($('#ENT_INFO_EXTRA_REQUIRED_8').val() == '') {
+			alert('사전등록항목('+$('#ENT_INFO_EXTRA_8').val()+')의 필수여부를 입력해주세요.');
+			$('#ENT_INFO_EXTRA_REQUIRED_8').focus();
+			return;
+		}
+	}
 
 	// 신규등록일 경우 필수 이미지 체크
 	if (<?= $prjSeq ?> == 0) {
@@ -696,6 +734,12 @@ function getDetail (prjSeq) {
 				$('#ENT_INFO_EXTRA_6').val(data.item.ENT_INFO_EXTRA_6);
 				$('#ENT_INFO_EXTRA_PHOLDER_6').val(data.item.ENT_INFO_EXTRA_PHOLDER_6);
 				$('#ENT_INFO_EXTRA_REQUIRED_6').val(data.item.ENT_INFO_EXTRA_REQUIRED_6);
+				$('#ENT_INFO_EXTRA_7').val(data.item.ENT_INFO_EXTRA_7);
+				$('#ENT_INFO_EXTRA_PHOLDER_7').val(data.item.ENT_INFO_EXTRA_PHOLDER_7);
+				$('#ENT_INFO_EXTRA_REQUIRED_7').val(data.item.ENT_INFO_EXTRA_REQUIRED_7);
+				$('#ENT_INFO_EXTRA_8').val(data.item.ENT_INFO_EXTRA_8);
+				$('#ENT_INFO_EXTRA_PHOLDER_8').val(data.item.ENT_INFO_EXTRA_PHOLDER_8);
+				$('#ENT_INFO_EXTRA_REQUIRED_8').val(data.item.ENT_INFO_EXTRA_REQUIRED_8);
 
 				$('#AGENDA_BTN_TEXT').val(data.item.AGENDA_BTN_TEXT);
 				$('#SURVEY_BTN_TEXT').val(data.item.SURVEY_BTN_TEXT);

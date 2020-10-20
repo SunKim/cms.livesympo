@@ -107,7 +107,7 @@ table.tbl-reqr-list th, table.tbl-reqr-list td { padding: 4px !important; min-wi
 										<th class="extra-6"><?= $project['ENT_INFO_EXTRA_6'] ?></th>
 										<th class="extra-7"><?= $project['ENT_INFO_EXTRA_7'] ?></th>
 										<th class="extra-8"><?= $project['ENT_INFO_EXTRA_8'] ?></th>
-										<th>접속경로</th>
+										<th class="conn-route">접속경로</th>
 										<th>사전등록일시</th>
 									</tr>
 								</thead>
@@ -203,13 +203,19 @@ function getRequestorList (prjSeq) {
 					html += '	<td class="extra-6">'+item.ENT_INFO_EXTRA_VAL_6+'</td>';
 					html += '	<td class="extra-7">'+item.ENT_INFO_EXTRA_VAL_7+'</td>';
 					html += '	<td class="extra-8">'+item.ENT_INFO_EXTRA_VAL_8+'</td>';
-					html += '	<td>'+item.CONN_ROUTE_VAL_NM+'</td>';
+					html += '	<td class="conn-route">'+item.CONN_ROUTE_VAL_NM+'</td>';
 					html += '	<td>'+item.REG_DTTM+'</td>';
 					html += '</tr>';
 
 					$('table.tbl-reqr-list tbody').append(html);
 
 <?php
+	// 접속경로 설정 없으면 숨김
+	// if (!isset($project['CONN_ROUTE_1']) || $project['CONN_ROUTE_1'] == '') {
+	// 	echo "$('table.tbl-reqr-list .conn-route').hide();";
+	// }
+
+	// 입력정보 없으면 테이블 column 숨김
 	if (!isset($project['ENT_INFO_EXTRA_1']) || $project['ENT_INFO_EXTRA_1'] == '') {
 		echo "$('table.tbl-reqr-list .extra-1').hide();";
 	}

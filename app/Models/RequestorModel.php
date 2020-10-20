@@ -38,13 +38,14 @@ class RequestorModel extends Model {
 		$strQry .= "		, CASE WHEN EI.CONN_ROUTE_VAL = 1 THEN P.CONN_ROUTE_1	\n";
 		$strQry .= "				WHEN EI.CONN_ROUTE_VAL = 2 THEN P.CONN_ROUTE_2	\n";
 		$strQry .= "                WHEN EI.CONN_ROUTE_VAL = 3 THEN P.CONN_ROUTE_3	\n";
+		$strQry .= "                ELSE ''	\n";
 		$strQry .= "			END AS CONN_ROUTE_VAL_NM	\n";
 		$strQry .= "		, EI.REG_DTTM	\n";
 		$strQry .= "FROM TB_PRJ_ENT_INFO_REQR_H	AS EI	\n";
 		$strQry .= "INNER JOIN TB_PRJ_M AS P	\n";
 		$strQry .= "		ON (EI.PRJ_SEQ = P.PRJ_SEQ)	\n";
 		$strQry .= "WHERE 1=1		\n";
-		$strQry .= "	AND EI.PRJ_SEQ = 8		\n";
+		$strQry .= "	AND EI.PRJ_SEQ = ".$this->db->escape($prjSeq)."		\n";
 
         $strQry .= ";";
 

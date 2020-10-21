@@ -296,19 +296,30 @@ class Project extends BaseController {
 
 						// echo "src : $src, ext : $ext, uploadPath : $uploadPath\n";
 						$path = $uploadPath.DIRECTORY_SEPARATOR.'project'.DIRECTORY_SEPARATOR.$prjSeq;
-						// log_message('info', "Project.php - save(). prjSeq: $prjSeq, path: $path");
 
 						// directory가 없으면 생성
 						if ( !is_dir($path) ) {
 							// mkdir(path, mode, recursive). recursive는 꼭 true로!!
 							mkdir($path, 0755, true);
-							// log_message('info', "Project.php - save(). 파일저장용 directory 생성 - $path");
+							// log_message('info', "Project.php - save() 파일처리. 파일저장용 directory 생성 - $path");
 						}
 
 						// 새로운 파일명에 extension 붙여줌
 						// $key : form의 input의 name. MAIN_IMG, AGENDA_IMG, FOOTER_IMG => MAIN_IMG_1.png 형태로
-						$newFileName = $key.'_'.$prjSeq.'.'.$ext;
-						$thumbNm = $key.'_'.$prjSeq.'_THUMB.'.$ext;
+						$newFileName = $key.'_'.$prjSeq.'_'.$this->getRandomName().'.'.$ext;
+						$thumbNm = $key.'_'.$prjSeq.'_THUMB'.'_'.$this->getRandomName().'.'.$ext;
+
+						// log_message('info', "Project.php - save() 파일처리. prjSeq: $prjSeq, path: $path, key: $key, file : $file, newFileName: $newFileName, thumbNm: $thumbNm");
+
+						// 이미 파일이 있으면 삭제
+						if (file_exists($path.DIRECTORY_SEPARATOR.$newFileName)) {
+							// log_message('info', "Project.php - save() 파일처리. 기존파일 존재해서 삭제 필요. ".$path.DIRECTORY_SEPARATOR.$thumbNm);
+							unlink($path.DIRECTORY_SEPARATOR.$newFileName);
+						}
+						if (file_exists($path.DIRECTORY_SEPARATOR.$thumbNm)) {
+							// log_message('info', "Project.php - save() 파일처리. 기존파일 존재해서 삭제 필요. ".$path.DIRECTORY_SEPARATOR.$thumbNm);
+							unlink($path.DIRECTORY_SEPARATOR.$thumbNm);
+						}
 
 						// 썸네일 생성
 						$thumbResult = self::generateThumbnail($src, $path, $thumbNm);

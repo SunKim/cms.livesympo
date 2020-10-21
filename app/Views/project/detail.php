@@ -57,6 +57,8 @@ ul.enter-guide li { margin-bottom: 10px; }
 ul.enter-guide li:last-child { margin-bottom: 0; }
 
 span.input-title { display: inline-block; min-width: 140px; }
+
+table.table-detail img { display: block; }
 </style>
 <!-- END) 메인 css -->
 
@@ -344,24 +346,24 @@ span.input-title { display: inline-block; min-width: 140px; }
 											<th class="required">메인 이미지</th>
 											<td class="tl">
 												<p class="desc">* 가로는 1170px 세로는 적당한 비율로 올려주세요.</p>
-												<img class="update-img-view" id="MAIN_IMG_URL" />
-												<input type="file" id="MAIN_IMG" name="MAIN_IMG" class="common-input w50" accept="image/x-png,image/gif,image/jpeg" />
+												<img class="img-main" id="MAIN_IMG_URL" />
+												<input type="file" id="MAIN_IMG" name="MAIN_IMG" class="common-input w50" accept="image/x-png,image/gif,image/jpeg" onchange="javascript: preview(this, 'MAIN_IMG_URL');" />
 											</td>
 										</tr>
 										<tr>
 											<th class="required">아젠다 이미지</th>
 											<td class="tl">
 												<p class="desc">* 가로는 1170px 세로는 556px로 올려주세요.</p>
-												<img class="update-img-view" id="AGENDA_IMG_URL" />
-												<input type="file" id="AGENDA_IMG" name="AGENDA_IMG" class="common-input w50" accept="image/x-png,image/gif,image/jpeg" />
+												<img class="img-agenda" id="AGENDA_IMG_URL" />
+												<input type="file" id="AGENDA_IMG" name="AGENDA_IMG" class="common-input w50" accept="image/x-png,image/gif,image/jpeg" onchange="javascript: preview(this, 'AGENDA_IMG_URL');" />
 											</td>
 										</tr>
 										<tr>
 											<th class="required">푸터 이미지</th>
 											<td class="tl">
 												<p class="desc">* 가로는 1170px 세로는 적당한 비율로 올려주세요.</p>
-												<img class="update-img-view" id="FOOTER_IMG_URL" />
-												<input type="file" id="FOOTER_IMG" name="FOOTER_IMG" class="common-input w50" accept="image/x-png,image/gif,image/jpeg" />
+												<img class="img-footer" id="FOOTER_IMG_URL" />
+												<input type="file" id="FOOTER_IMG" name="FOOTER_IMG" class="common-input w50" accept="image/x-png,image/gif,image/jpeg" onchange="javascript: preview(this, 'FOOTER_IMG_URL');" />
 											</td>
 										</tr>
 										<tr>
@@ -547,6 +549,21 @@ function addEnterGuide() {
 // 입장가이드 최근항목 삭제
 function removeEnterGuide() {
 	$('ul.enter-guide li:last-child').remove();
+}
+
+// 이미지 선택시 미리보기
+function preview(fileObj, imgId) {
+	const file = fileObj.files[0];
+	// var file = $("input[type=file]").get(0).files[0];
+
+	if (file) {
+		const reader = new FileReader();
+
+        reader.onload = function(){
+            $(`#${imgId}`).attr("src", reader.result);
+        }
+        reader.readAsDataURL(file);
+	}
 }
 
 // 저장

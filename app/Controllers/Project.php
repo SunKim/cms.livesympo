@@ -234,6 +234,8 @@ class Project extends BaseController {
 
 		$data['ENT_THME_COLR'] = $this->request->getPost('ENT_THME_COLR');
 		$data['ENT_THME_HEIGHT'] = $this->request->getPost('ENT_THME_HEIGHT');
+		$data['ENT_BTN_BG_COLR'] = $this->request->getPost('ENT_BTN_BG_COLR');
+		$data['ENT_BTN_FONT_COLR'] = $this->request->getPost('ENT_BTN_FONT_COLR');
 
 		$data['STREAM_BODY_COLR'] = $this->request->getPost('STREAM_BODY_COLR');
 		$data['STREAM_BTN_BG_COLR'] = $this->request->getPost('STREAM_BTN_BG_COLR');

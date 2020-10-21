@@ -367,7 +367,7 @@ table.table-detail img { display: block; }
 											</td>
 										</tr>
 										<tr>
-											<th rowspan="3"><p>사전등록</p><p>디자인</p></th>
+											<th rowspan="4"><p>사전등록</p><p>디자인</p></th>
 											<th class="required">전체 배경색</th>
 											<td class="tl">
 												<input type="text" id="APPL_BODY_COLR" name="APPL_BODY_COLR" class="common-input w90 color-picker" value="#ffffff" style="height: 28px !important;" />
@@ -404,6 +404,19 @@ table.table-detail img { display: block; }
 												<p class="mt10">
 													<span class="input-title">높이</span>
 													<input type="text" id="ENT_THME_HEIGHT" name="ENT_THME_HEIGHT" class="common-input w10" value="556" /> px
+												</p>
+											</td>
+										</tr>
+										<tr>
+											<th class="required">입장버튼</th>
+											<td class="tl">
+												<p>
+													<span class="input-title">배경색상</span>
+													<input type="text" id="ENT_BTN_BG_COLR" name="ENT_BTN_BG_COLR" class="common-input w90 color-picker" value="#ffffff" style="height: 28px !important;" />
+												</p>
+												<p class="mt10">
+													<span class="input-title">글씨색상</span>
+													<input type="text" id="ENT_BTN_FONT_COLR" name="ENT_BTN_FONT_COLR" class="common-input w90 color-picker" value="#ffffff" style="height: 28px !important;" />
 												</p>
 											</td>
 										</tr>
@@ -769,6 +782,8 @@ function getDetail (prjSeq) {
 
 				$('#ENT_THME_COLR').val(data.item.ENT_THME_COLR);
 				$('#ENT_THME_HEIGHT').val(data.item.ENT_THME_HEIGHT);
+				$('#ENT_BTN_BG_COLR').val(data.item.ENT_BTN_BG_COLR);
+				$('#ENT_BTN_FONT_COLR').val(data.item.ENT_BTN_FONT_COLR);
 
 				$('#STREAM_BODY_COLR').val(data.item.STREAM_BODY_COLR);
 				$('#STREAM_BTN_BG_COLR').val(data.item.STREAM_BTN_BG_COLR);

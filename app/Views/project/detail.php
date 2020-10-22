@@ -58,7 +58,7 @@ ul.enter-guide li:last-child { margin-bottom: 0; }
 
 span.input-title { display: inline-block; min-width: 140px; }
 
-table.table-detail img { display: block; }
+table.table-detail img { display: block; max-width: 640px; }
 </style>
 <!-- END) 메인 css -->
 
@@ -347,7 +347,7 @@ table.table-detail img { display: block; }
 											<td class="tl">
 												<p class="desc">* 가로는 1170px 세로는 적당한 비율로 올려주세요.</p>
 												<img class="img-main" id="MAIN_IMG_URL" />
-												<input type="file" id="MAIN_IMG" name="MAIN_IMG" class="common-input w50" accept="image/x-png,image/gif,image/jpeg" onchange="javascript: preview(this, 'MAIN_IMG_URL');" />
+												<input type="file" id="MAIN_IMG" name="MAIN_IMG" class="common-input w50 mt10" accept="image/x-png,image/gif,image/jpeg" onchange="javascript: preview(this, 'MAIN_IMG_URL');" />
 											</td>
 										</tr>
 										<tr>
@@ -355,7 +355,7 @@ table.table-detail img { display: block; }
 											<td class="tl">
 												<p class="desc">* 가로는 1170px 세로는 556px로 올려주세요.</p>
 												<img class="img-agenda" id="AGENDA_IMG_URL" />
-												<input type="file" id="AGENDA_IMG" name="AGENDA_IMG" class="common-input w50" accept="image/x-png,image/gif,image/jpeg" onchange="javascript: preview(this, 'AGENDA_IMG_URL');" />
+												<input type="file" id="AGENDA_IMG" name="AGENDA_IMG" class="common-input w50 mt10" accept="image/x-png,image/gif,image/jpeg" onchange="javascript: preview(this, 'AGENDA_IMG_URL');" />
 											</td>
 										</tr>
 										<tr>
@@ -363,7 +363,7 @@ table.table-detail img { display: block; }
 											<td class="tl">
 												<p class="desc">* 가로는 1170px 세로는 적당한 비율로 올려주세요.</p>
 												<img class="img-footer" id="FOOTER_IMG_URL" />
-												<input type="file" id="FOOTER_IMG" name="FOOTER_IMG" class="common-input w50" accept="image/x-png,image/gif,image/jpeg" onchange="javascript: preview(this, 'FOOTER_IMG_URL');" />
+												<input type="file" id="FOOTER_IMG" name="FOOTER_IMG" class="common-input w50 mt10" accept="image/x-png,image/gif,image/jpeg" onchange="javascript: preview(this, 'FOOTER_IMG_URL');" />
 											</td>
 										</tr>
 										<tr>

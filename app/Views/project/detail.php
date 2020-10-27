@@ -463,7 +463,8 @@ table.table-detail img { display: block; max-width: 640px; }
 <?php
 	// 레벨9만 보이도록
 	if ($lvl == 9) {
-		echo '<button class="btn-main btn-red" onclick="test()">테스트</button>';
+		// echo '<button class="btn-main btn-red" onclick="test()">테스트</button>';
+		echo '<button class="btn-main btn-red mr10" onclick="deleteProject()">삭제</button>';
 		echo '<button class="btn-main btn-light-indigo" onclick="save();">저장</button>';
 	}
 ?>
@@ -826,6 +827,42 @@ function getDetail (prjSeq) {
 		},
 		complete : function () {
 			hideSpinner();
+		}
+	});
+}
+
+// 프로젝트 삭제
+// http://localhost:9090/test-title-20200923-2222
+function deleteProject () {
+	if (!confirm('프로젝트를 정말 삭제하시겠습니까?')) {
+		return;
+	}
+
+	// showSpinner();
+	$.ajax({
+		type: 'POST',
+		url: '/project/delete',
+		dataType: 'json',
+		cache: false,
+		data: {
+			prjSeq: <?= $prjSeq ?>
+		},
+
+		success: function(data) {
+			// console.log(data);
+			if ( data.resCode == '0000' ) {
+				alert('프로젝트를 삭제했습니다.');
+				location.href='/project';
+			} else {
+				alert('프로젝트를 삭제하는 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드(resCode):'+data.resCode+'\n메세지(resMsg):'+data.resMsg);
+			}
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.error(xhr);
+			alert('프로젝트를 삭제하는 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드:'+xhr.status+'\n메세지:'+thrownError);
+		},
+		complete : function () {
+			// hideSpinner();
 		}
 	});
 }

@@ -380,6 +380,25 @@ class Project extends BaseController {
 		return $this->response->setJSON($res);
 	}
 
+	//ajax - 프로젝트 삭제
+	public function delete() {
+		// param 받기
+		$prjSeq = $this->request->getPost('prjSeq');
+
+		$data['DEL_YN'] = 1;
+		$affectedRows = $this->projectModel->updateProject($prjSeq, $data);
+
+		if ($affectedRows > 0) {
+			$resData['resCode'] = '0000';
+			$resData['resMsg'] = '정상적으로 처리되었습니다.';
+		} else {
+			$resData['resCode'] = '9997';
+			$resData['resMsg'] = '프로젝트 삭제 도중 DB오류가 발생했습니다.';
+		}
+
+		return $this->response->setJSON($resData);
+	}
+
 	// ajax - 프로젝트 사전등록자 리스트
 	public function getRequestorList() {
 		// param 받기

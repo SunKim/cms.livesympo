@@ -392,6 +392,13 @@ table.table-detail img { display: block; max-width: 640px; }
 														<option value="right">우측</option>
 													</select>
 												</p>
+												<p class="mt10">
+													<span class="input-title">테두리</span>
+													<select class="common-select w10" id="APPL_BTN_ROUND_YN" name="APPL_BTN_ROUND_YN">
+														<option value="0" selected>각진</option>
+														<option value="1">둥근</option>
+													</select>
+												</p>
 											</td>
 										</tr>
 										<tr>
@@ -417,6 +424,13 @@ table.table-detail img { display: block; max-width: 640px; }
 												<p class="mt10">
 													<span class="input-title">글씨색상</span>
 													<input type="text" id="ENT_BTN_FONT_COLR" name="ENT_BTN_FONT_COLR" class="common-input w90 color-picker" value="#ffffff" style="height: 28px !important;" />
+												</p>
+												<p class="mt10">
+													<span class="input-title">테두리</span>
+													<select class="common-select w10" id="ENT_BTN_ROUND_YN" name="ENT_BTN_ROUND_YN">
+														<option value="0" selected>각진</option>
+														<option value="1">둥근</option>
+													</select>
 												</p>
 											</td>
 										</tr>
@@ -780,11 +794,13 @@ function getDetail (prjSeq) {
 				$('#APPL_BTN_BG_COLR').val(data.item.APPL_BTN_BG_COLR);
 				$('#APPL_BTN_FONT_COLR').val(data.item.APPL_BTN_FONT_COLR);
 				$('#APPL_BTN_ALIGN').val(data.item.APPL_BTN_ALIGN);
+				$('#APPL_BTN_ROUND_YN').val(data.item.APPL_BTN_ROUND_YN);
 
 				$('#ENT_THME_COLR').val(data.item.ENT_THME_COLR);
 				$('#ENT_THME_HEIGHT').val(data.item.ENT_THME_HEIGHT);
 				$('#ENT_BTN_BG_COLR').val(data.item.ENT_BTN_BG_COLR);
 				$('#ENT_BTN_FONT_COLR').val(data.item.ENT_BTN_FONT_COLR);
+				$('#ENT_BTN_ROUND_YN').val(data.item.ENT_BTN_ROUND_YN);
 
 				$('#STREAM_BODY_COLR').val(data.item.STREAM_BODY_COLR);
 				$('#STREAM_BTN_BG_COLR').val(data.item.STREAM_BTN_BG_COLR);

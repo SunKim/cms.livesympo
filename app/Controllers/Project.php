@@ -231,11 +231,13 @@ class Project extends BaseController {
 		$data['APPL_BTN_BG_COLR'] = $this->request->getPost('APPL_BTN_BG_COLR');
 		$data['APPL_BTN_FONT_COLR'] = $this->request->getPost('APPL_BTN_FONT_COLR');
 		$data['APPL_BTN_ALIGN'] = $this->request->getPost('APPL_BTN_ALIGN');
+		$data['APPL_BTN_ROUND_YN'] = $this->request->getPost('APPL_BTN_ROUND_YN');
 
 		$data['ENT_THME_COLR'] = $this->request->getPost('ENT_THME_COLR');
 		$data['ENT_THME_HEIGHT'] = $this->request->getPost('ENT_THME_HEIGHT');
 		$data['ENT_BTN_BG_COLR'] = $this->request->getPost('ENT_BTN_BG_COLR');
 		$data['ENT_BTN_FONT_COLR'] = $this->request->getPost('ENT_BTN_FONT_COLR');
+		$data['ENT_BTN_ROUND_YN'] = $this->request->getPost('ENT_BTN_ROUND_YN');
 
 		$data['STREAM_BODY_COLR'] = $this->request->getPost('STREAM_BODY_COLR');
 		$data['STREAM_BTN_BG_COLR'] = $this->request->getPost('STREAM_BTN_BG_COLR');

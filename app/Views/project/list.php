@@ -157,7 +157,8 @@
 							<!-- END) 테이블 타이틀 영역 -->
 
 							<div style="width: 100%; overflow-x: scroll;">
-								<table class="table-list" id="prj-list" style="min-width: 2000px;">
+								<!-- <table class="table-list" id="prj-list" style="min-width: 2000px;"> -->
+								<table class="table-list" id="prj-list">
 									<!-- <colgroup>
 										<col width="34%" />
 										<col width="33%" />
@@ -166,14 +167,14 @@
 									<thead>
 										<tr>
 											<th rowspan="2">Seq.</th>
-											<th colspan="6">프로젝트 일반</th>
+											<th colspan="5">프로젝트 일반</th>
 
 											<!-- <th colspan="5">디자인</th> -->
 											<th rowspan="2">메인이미지</th>
-											<th rowspan="2">어젠다</th>
-											<th rowspan="2">푸터</th>
-											<th rowspan="2">메인색상</th>
-											<th rowspan="2">버튼색상</th>
+											<!-- <th rowspan="2">어젠다</th>
+											<th rowspan="2">푸터</th> -->
+											<!-- <th rowspan="2">메인색상</th>
+											<th rowspan="2">버튼색상</th> -->
 
 											<th rowspan="2">참여자</th>
 
@@ -181,13 +182,16 @@
 											<th rowspan="2">등록일</th>
 											<th rowspan="2">등록ID</th>
 
-											<th rowspan="2">기능</th>
+											<th rowspan="2" style="min-width: 160px;">기능</th>
 										</tr>
 										<tr>
 											<th>타이틀</th>
 											<th>URI</th>
-											<th>시작일시</th>
-											<th>종료일시</th>
+
+											<!-- <th>시작일시</th>
+											<th>종료일시</th> -->
+											<th>일시</th>
+
 											<th>사전등록자</th>
 											<th>시청자</th>
 
@@ -388,16 +392,19 @@ function getList (pageNo) {
 					html += '	<td>';
 					html += '		<a href="<?= $livesympoUrl ?>/'+item.PRJ_TITLE_URI+'" target="_stream">'+item.PRJ_TITLE_URI+'</a>';
 					html += '	</td>';
-					html += '	<td>'+item.ST_DTTM+'</td>';
-					html += '	<td>'+item.ED_DTTM+'</td>';
+
+					// html += '	<td>'+item.ST_DTTM+'</td>';
+					// html += '	<td>'+item.ED_DTTM+'</td>';
+					html += '	<td>'+item.ST_DT+' '+item.ST_TM+'~'+item.ED_TM+'</td>';
+
 					html += '	<td>'+item.REQR_CNT+'</td>';
 					html += '	<td>0</td>';
 
 					html += '	<td><img class="thumb" src="'+item.MAIN_IMG_THUMB_URI+'" /></td>';
-					html += '	<td><img class="thumb" src="'+item.AGENDA_IMG_THUMB_URI+'" /></td>';
-					html += '	<td><img class="thumb" src="'+item.FOOTER_IMG_THUMB_URI+'" /></td>';
-					html += '	<td><p class="color-box" style="background: '+item.ENT_THME_COLR+';"></p></td>';
-					html += '	<td><p class="color-box" style="background: '+item.APPL_BTN_BG_COLR+';"></p></td>';
+					// html += '	<td><img class="thumb" src="'+item.AGENDA_IMG_THUMB_URI+'" /></td>';
+					// html += '	<td><img class="thumb" src="'+item.FOOTER_IMG_THUMB_URI+'" /></td>';
+					// html += '	<td><p class="color-box" style="background: '+item.ENT_THME_COLR+';"></p></td>';
+					// html += '	<td><p class="color-box" style="background: '+item.APPL_BTN_BG_COLR+';"></p></td>';
 
 					// html += '	<td>'+item.CNT_CHOICE+'</td>';
 					// html += '	<td>'+item.CNT_SBJ+'</td>';

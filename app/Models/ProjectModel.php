@@ -33,6 +33,9 @@ class ProjectModel extends Model {
 		$strQry .= "	, P.APPL_BTN_BG_COLR, P.ENT_THME_COLR, P.AGENDA_PAGE_YN	\n";
 		$strQry .= "	, DATE_FORMAT(P.ST_DTTM, '%Y-%m-%d %H:%i') AS ST_DTTM	\n";
 		$strQry .= "	, DATE_FORMAT(P.ED_DTTM, '%Y-%m-%d %H:%i') AS ED_DTTM	\n";
+        $strQry .= "	, DATE_FORMAT(P.ST_DTTM, '%Y-%m-%d') AS ST_DT	\n";
+        $strQry .= "	, DATE_FORMAT(P.ST_DTTM, '%H:%i') AS ST_TM	\n";
+        $strQry .= "	, DATE_FORMAT(P.ED_DTTM, '%H:%i') AS ED_TM	\n";
 		// $strQry .= "	, REGR_ID,  DATE_FORMAT(P.REG_DTTM, '%Y-%m-%d %H:%i') AS REG_DTTM	\n";
         $strQry .= "	, SUBSTRING_INDEX(REGR_ID, '@', 1) AS REGR_ID,  DATE_FORMAT(P.REG_DTTM, '%Y-%m-%d') AS REG_DTTM	\n";
 		$strQry .= "	, IFNULL(R.REQR_CNT, 0) AS REQR_CNT	\n";

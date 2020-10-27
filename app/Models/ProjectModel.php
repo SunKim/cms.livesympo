@@ -33,7 +33,8 @@ class ProjectModel extends Model {
 		$strQry .= "	, P.APPL_BTN_BG_COLR, P.ENT_THME_COLR, P.AGENDA_PAGE_YN	\n";
 		$strQry .= "	, DATE_FORMAT(P.ST_DTTM, '%Y-%m-%d %H:%i') AS ST_DTTM	\n";
 		$strQry .= "	, DATE_FORMAT(P.ED_DTTM, '%Y-%m-%d %H:%i') AS ED_DTTM	\n";
-		$strQry .= "	, REGR_ID,  DATE_FORMAT(P.REG_DTTM, '%Y-%m-%d %H:%i') AS REG_DTTM	\n";
+		// $strQry .= "	, REGR_ID,  DATE_FORMAT(P.REG_DTTM, '%Y-%m-%d %H:%i') AS REG_DTTM	\n";
+        $strQry .= "	, SUBSTRING_INDEX(REGR_ID, '@', 1) AS REGR_ID,  DATE_FORMAT(P.REG_DTTM, '%Y-%m-%d') AS REG_DTTM	\n";
 		$strQry .= "	, IFNULL(R.REQR_CNT, 0) AS REQR_CNT	\n";
 		$strQry .= "	, IFNULL(SQ.CNT_CHOICE, 0) AS CNT_CHOICE, IFNULL(SQ.CNT_SBJ, 0) AS CNT_SBJ	\n";
 		$strQry .= "	, IFNULL(SA.ASW_CNT, 0) AS ASW_CNT	\n";

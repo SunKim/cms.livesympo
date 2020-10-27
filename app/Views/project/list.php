@@ -157,7 +157,7 @@
 							<!-- END) 테이블 타이틀 영역 -->
 
 							<div style="width: 100%; overflow-x: scroll;">
-								<table class="table-list" id="prj-list" style="min-width: 2400px;">
+								<table class="table-list" id="prj-list" style="min-width: 2000px;">
 									<!-- <colgroup>
 										<col width="34%" />
 										<col width="33%" />
@@ -167,9 +167,20 @@
 										<tr>
 											<th rowspan="2">Seq.</th>
 											<th colspan="6">프로젝트 일반</th>
-											<th colspan="5">디자인</th>
-											<th colspan="3">설문조사</th>
-											<th colspan="2">등록</th>
+
+											<!-- <th colspan="5">디자인</th> -->
+											<th rowspan="2">메인이미지</th>
+											<th rowspan="2">어젠다</th>
+											<th rowspan="2">푸터</th>
+											<th rowspan="2">메인색상</th>
+											<th rowspan="2">버튼색상</th>
+
+											<th rowspan="2">참여자</th>
+
+											<!-- <th colspan="2">등록</th> -->
+											<th rowspan="2">등록일</th>
+											<th rowspan="2">등록ID</th>
+
 											<th rowspan="2">기능</th>
 										</tr>
 										<tr>
@@ -177,21 +188,17 @@
 											<th>URI</th>
 											<th>시작일시</th>
 											<th>종료일시</th>
-											<th>사전신청자</th>
+											<th>사전등록자</th>
 											<th>시청자</th>
 
-											<th>메인이미지</th>
+											<!-- <th>메인이미지</th>
 											<th>어젠다</th>
 											<th>푸터</th>
 											<th>메인색상</th>
-											<th>버튼색상</th>
+											<th>버튼색상</th> -->
 
-											<th>객관식항목</th>
-											<th>주관식항목</th>
-											<th>설문참여자</th>
-
-											<th>등록일시</th>
-											<th>프로젝트등록ID</th>
+											<!-- <th>등록일</th>
+											<th>등록ID</th> -->
 										</tr>
 									</thead>
 									<tbody>
@@ -385,21 +392,29 @@ function getList (pageNo) {
 					html += '	<td>'+item.ED_DTTM+'</td>';
 					html += '	<td>'+item.REQR_CNT+'</td>';
 					html += '	<td>0</td>';
+
 					html += '	<td><img class="thumb" src="'+item.MAIN_IMG_THUMB_URI+'" /></td>';
 					html += '	<td><img class="thumb" src="'+item.AGENDA_IMG_THUMB_URI+'" /></td>';
 					html += '	<td><img class="thumb" src="'+item.FOOTER_IMG_THUMB_URI+'" /></td>';
 					html += '	<td><p class="color-box" style="background: '+item.ENT_THME_COLR+';"></p></td>';
 					html += '	<td><p class="color-box" style="background: '+item.APPL_BTN_BG_COLR+';"></p></td>';
-					html += '	<td>'+item.CNT_CHOICE+'</td>';
-					html += '	<td>'+item.CNT_SBJ+'</td>';
+
+					// html += '	<td>'+item.CNT_CHOICE+'</td>';
+					// html += '	<td>'+item.CNT_SBJ+'</td>';
 					html += '	<td>'+item.ASW_CNT+'</td>';
+
 					html += '	<td>'+item.REG_DTTM+'</td>';
 					html += '	<td>'+item.REGR_ID+'</td>';
+
 					html += '	<td>';
-					html += '		<a href="/project/requestor/'+item.PRJ_SEQ+'" class="">사전등록자관리</a>';
-					html += '		<a href="/project/survey/'+item.PRJ_SEQ+'" class="ml20">설문관리</a>';
-					html += '		<a href="/project/question/'+item.PRJ_SEQ+'" class="ml20">질문관리</a>';
-					html += '		<a href="/project/moderator/'+item.PRJ_SEQ+'" target="_moderator" class="ml20">모더레이터</a>';
+					html += '		<p>';
+					html += '			<a href="/project/requestor/'+item.PRJ_SEQ+'" class="">사전등록자</a>';
+					html += '			<a href="/project/survey/'+item.PRJ_SEQ+'" class="ml20">설문관리</a>';
+					html += '		</p>';
+					html += '		<p>';
+					html += '			<a href="/project/question/'+item.PRJ_SEQ+'" class="">질문관리</a>';
+					html += '			<a href="/project/moderator/'+item.PRJ_SEQ+'" target="_moderator" class="ml20">모더레이터</a>';
+					html += '		</p>';
 					html += '	</td>';
 
 					html += '</tr>';

@@ -92,8 +92,8 @@ table.tbl-reqr-list th, table.tbl-reqr-list td { padding: 4px !important; min-wi
 						<div class="card-header py-3">
 							<h6 class="m-0 font-weight-bold text-primary">프로젝트 사전등록자 목록</h6>
 						</div>
-						<div style="padding: 20px 10px;">
-							<table class="table-list tbl-reqr-list">
+						<div id="excel-container" style="padding: 20px 10px;">
+							<table class="table-list tbl-reqr-list" id="tbl-reqr-list">
 								<thead>
 									<tr>
 										<th>Seq.</th>
@@ -117,6 +117,16 @@ table.tbl-reqr-list th, table.tbl-reqr-list td { padding: 4px !important; min-wi
 						</div>
 					</div>
 					<!-- 설문참여자 목록 영역 -->
+
+					<div class="d-flex align-items-center justify-content-between pa20">
+						<button class="btn-main btn-white mr15" onclick="history.back();">뒤로</button>
+<?php
+// 레벨9만 보이도록
+if ($lvl == 9) {
+	echo '<button class="btn-main btn-light-indigo" onclick="downloadExcel();">엑셀저장</button>';
+}
+?>
+					</div>
 				</div>
 				<!-- /.container-fluid -->
 
@@ -254,6 +264,15 @@ function getRequestorList (prjSeq) {
 			hideSpinner();
 		}
 	});
+}
+
+// 엑셀저장
+function downloadExcel () {
+	excelModalExwide1('사전등록자 엑셀저장', '엑셀저장 버튼을 클릭하세요.', 'tbl-reqr-list', '사전등록자');
+
+	// cf) https://cpdev.tistory.com/36
+	// window.open('data:application/vnd.ms-excel,' + $('#excel-container').html());
+    // e.preventDefault();
 }
 
 $(document).ready(function () {

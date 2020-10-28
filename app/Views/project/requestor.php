@@ -222,33 +222,33 @@ function getRequestorList (prjSeq) {
 <?php
 	// 접속경로 설정 없으면 숨김
 	// if (!isset($project['CONN_ROUTE_1']) || $project['CONN_ROUTE_1'] == '') {
-	// 	echo "$('table.tbl-reqr-list .conn-route').hide();";
+	// 	echo "$('table.tbl-reqr-list .conn-route').remove();";
 	// }
 
 	// 입력정보 없으면 테이블 column 숨김
 	if (!isset($project['ENT_INFO_EXTRA_1']) || $project['ENT_INFO_EXTRA_1'] == '') {
-		echo "$('table.tbl-reqr-list .extra-1').hide();";
+		echo "$('table.tbl-reqr-list .extra-1').remove();";
 	}
 	if (!isset($project['ENT_INFO_EXTRA_2']) || $project['ENT_INFO_EXTRA_2'] == '') {
-		echo "$('table.tbl-reqr-list .extra-2').hide();";
+		echo "$('table.tbl-reqr-list .extra-2').remove();";
 	}
 	if (!isset($project['ENT_INFO_EXTRA_3']) || $project['ENT_INFO_EXTRA_3'] == '') {
-		echo "$('table.tbl-reqr-list .extra-3').hide();";
+		echo "$('table.tbl-reqr-list .extra-3').remove();";
 	}
 	if (!isset($project['ENT_INFO_EXTRA_4']) || $project['ENT_INFO_EXTRA_4'] == '') {
-		echo "$('table.tbl-reqr-list .extra-4').hide();";
+		echo "$('table.tbl-reqr-list .extra-4').remove();";
 	}
 	if (!isset($project['ENT_INFO_EXTRA_5']) || $project['ENT_INFO_EXTRA_5'] == '') {
-		echo "$('table.tbl-reqr-list .extra-5').hide();";
+		echo "$('table.tbl-reqr-list .extra-5').remove();";
 	}
 	if (!isset($project['ENT_INFO_EXTRA_6']) || $project['ENT_INFO_EXTRA_6'] == '') {
-		echo "$('table.tbl-reqr-list .extra-6').hide();";
+		echo "$('table.tbl-reqr-list .extra-6').remove();";
 	}
 	if (!isset($project['ENT_INFO_EXTRA_7']) || $project['ENT_INFO_EXTRA_7'] == '') {
-		echo "$('table.tbl-reqr-list .extra-7').hide();";
+		echo "$('table.tbl-reqr-list .extra-7').remove();";
 	}
 	if (!isset($project['ENT_INFO_EXTRA_8']) || $project['ENT_INFO_EXTRA_8'] == '') {
-		echo "$('table.tbl-reqr-list .extra-8').hide();";
+		echo "$('table.tbl-reqr-list .extra-8').remove();";
 	}
 ?>
 				});
@@ -268,11 +268,10 @@ function getRequestorList (prjSeq) {
 
 // 엑셀저장
 function downloadExcel () {
-	excelModalExwide1('사전등록자 엑셀저장', '엑셀저장 버튼을 클릭하세요.', 'tbl-reqr-list', '사전등록자');
-
-	// cf) https://cpdev.tistory.com/36
-	// window.open('data:application/vnd.ms-excel,' + $('#excel-container').html());
-    // e.preventDefault();
+	const today = new Date();
+	const todayShort = today.toJSON().slice(0, 10).split`-`.join``;
+	// excelModalExwide1('엑셀저장', '엑셀저장 버튼을 클릭하세요.', 'tbl-reqr-list', '<?= $project['PRJ_TITLE'] ?>_사전등록자');
+	downloadTableToCsv('tbl-reqr-list', '<?= $project['PRJ_TITLE'] ?>_사전등록자_'+todayShort);
 }
 
 $(document).ready(function () {

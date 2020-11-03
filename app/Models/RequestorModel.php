@@ -52,4 +52,20 @@ class RequestorModel extends Model {
 		// log_message('info', "RequestorModel - list. Qry - \n$strQry");
         return $this->db->query($strQry)->getResultArray();
     }
+
+	// 프로젝트 사전등록자 목록 삭제
+	public function deleteRequestor ($prjSeq) {
+      $strQry  = "";
+
+      $strQry .= "DELETE  \n";
+      $strQry .= "FROM TB_PRJ_ENT_INFO_REQR_H \n";
+      $strQry .= "WHERE 1=1 \n";
+      $strQry .= "  AND PRJ_SEQ = ".$this->db->escape($prjSeq)." \n";
+
+      $strQry .= ";";
+
+      $this->db->query($strQry);
+
+      return $this->db->affectedRows();
+    }
 }

@@ -55,7 +55,7 @@ class Project extends BaseController {
 		$this->adminModel = new AdminModel();
   	}
 
-	public function index() {
+	public function index () {
 		return $this->list();
 	}
 
@@ -127,7 +127,7 @@ class Project extends BaseController {
 	}
 
 	//ajax - 프로젝트 리스트
-	public function getList() {
+	public function getList () {
 		// param 받기
 		// $param = $this->request->getJSON();
 		// $param = $this->request->getPost('email');
@@ -164,7 +164,7 @@ class Project extends BaseController {
 	}
 
 	//ajax - 프로젝트 상세
-	public function getDetail() {
+	public function getDetail () {
 		// param 받기
 		$prjSeq = $this->request->getPost('prjSeq');
 		$lvl = $this->request->getPost('lvl');
@@ -390,7 +390,7 @@ class Project extends BaseController {
 	}
 
 	//ajax - 프로젝트 삭제
-	public function delete() {
+	public function delete () {
 		// param 받기
 		$prjSeq = $this->request->getPost('prjSeq');
 
@@ -409,7 +409,7 @@ class Project extends BaseController {
 	}
 
 	// ajax - 프로젝트 사전등록자 리스트
-	public function getRequestorList() {
+	public function getRequestorList () {
 		// param 받기
 		$prjSeq = $this->request->getPost('prjSeq');
 		// log_message('info', "Project - getRequestorList. prjSeq: $prjSeq");
@@ -424,8 +424,83 @@ class Project extends BaseController {
 		return $this->response->setJSON($data);
 	}
 
+	//ajax - 프로젝트 사전등록자 목록 삭제
+	public function deleteRequestor () {
+		// param 받기
+		$prjSeq = $this->request->getPost('prjSeq');
+
+		$affectedRows = $this->requestorModel->deleteRequestor($prjSeq);
+
+		if ($affectedRows > 0) {
+			$resData['resCode'] = '0000';
+			$resData['resMsg'] = '정상적으로 처리되었습니다.';
+		} else {
+			$resData['resCode'] = '9997';
+			$resData['resMsg'] = '프로젝트 사전등록자 목록을 삭제하는 도중 DB오류가 발생했습니다.';
+		}
+
+		return $this->response->setJSON($resData);
+	}
+
+	//ajax - 프로젝트 사전등록자 목록 .csv 파일 업로드
+	public function uploadRequestor ($prjSeq = 0) {
+		// 기본 업로드 path. ex) /Users/seonjungkim/workspace_php/cms.livesympo/public/uploads/project
+		$uploadPath = $_ENV['UPLOAD_BASE_PATH'];
+		$path = $uploadPath.DIRECTORY_SEPARATOR.'temp';
+		$fileNm = 'uploaded_csv.txt';
+
+		// 파일들 받기
+		// http://ci4doc.cikorea.net/libraries/uploaded_files.html
+		$files = $this->request->getFiles();
+
+		try {
+			if ($files) {
+				foreach ($files as $key => $file) {
+					// echo "key : $key, file : $file\n";
+					// $key : form/input에서의 name
+					// $file : 서버에 임시저장된 파일명. ex) /private/var/tmp/phpvnBwzw
+
+					if (isset($file) && $file->isValid() && !$file->hasMoved()) {
+
+						// directory가 없으면 생성
+						if ( !is_dir($path) ) {
+							// mkdir(path, mode, recursive). recursive는 꼭 true로!!
+							mkdir($path, 0755, true);
+						}
+
+						// 이미 기존에 업로드한 파일(uploaded_csv.txt)이 있으면 삭제
+						if (file_exists($path.DIRECTORY_SEPARATOR.$fileNm)) {
+							unlink($path.DIRECTORY_SEPARATOR.$fileNm);
+						}
+
+						// 파일 이동
+						$file->move($path, $fileNm);
+
+						// 파일 열기 성공하면
+						if ($readFile = fopen($path.DIRECTORY_SEPARATOR.$fileNm , 'r')) {
+							// 한줄씩 읽음
+							while (($lineData = fgetcsv($readFile, 1000, ",")) !== FALSE) {
+								print_r($lineData);
+							}
+
+							// 파일 닫기
+							fclose($readFile);
+						}
+					} else {
+						$resData['resCode'] = '9996';
+						$resData['resMsg'] = '정상적인 파일이 아닙니다.';
+
+						return $this->response->setJSON($resData);
+					}
+				}
+			}
+		} catch (Exception $e) {
+			log_message('error', "exception - ".$e->getMessage());
+		}
+	}
+
 	// ajax - 프로젝트 질문 리스트
-	public function getQuestionList() {
+	public function getQuestionList () {
 		// param 받기
 		$prjSeq = $this->request->getPost('prjSeq');
 		$aprvYn = $this->request->getPost('aprvYn');
@@ -486,7 +561,7 @@ class Project extends BaseController {
 	}
 
 	// ajax - 프로젝트에 딸린 설문 질문 및 보기 목록
-	public function getSurveyList() {
+	public function getSurveyList () {
 		// param 받기
 		$prjSeq = $this->request->getPost('prjSeq');
 		// log_message('info', "Project.php - getSurveyList. prjSeq: $prjSeq");

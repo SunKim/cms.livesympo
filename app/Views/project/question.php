@@ -232,9 +232,9 @@ function getQuestionList (prjSeq) {
 					html += '	<div class="d-flex justify-content-between align-items-center">';
 					html += '		<p class="regr">';
 					html += '			<span>'+(item.FAKE_YN == 0 ? item.REQR_NM : item.FAKE_NM)+'</span>';
-					html += '			<span>'+(item.FAKE_YN == 0 ? `(${formatMobile(item.MBILNO)})` : '')+'</span>';
-					html += '			<span>'+(item.FAKE_YN == 0 ? item.HSPTL_NM : '')+'</span>';
-					html += '			<span>'+(item.FAKE_YN == 0 ? item.SBJ_NM : '')+'</span>';
+					html += '			<span>'+(item.FAKE_YN == 0 && item.MBILNO ? `(${formatMobile(item.MBILNO)})` : '')+'</span>';
+					html += '			<span>'+(item.FAKE_YN == 0 && item.ENT_INFO_EXTRA_VAL_1 ? item.ENT_INFO_EXTRA_VAL_1 : '')+'</span>';
+					html += '			<span>'+(item.FAKE_YN == 0 && item.ENT_INFO_EXTRA_VAL_2 ? item.ENT_INFO_EXTRA_VAL_2 : '')+'</span>';
 					if (item.APRV_YN == 0) {
 						html += '			<button class="btn-sub btn-light-indigo ml5" onclick="approve('+item.QST_SEQ+', 1);">승인</button>';
 					} else {

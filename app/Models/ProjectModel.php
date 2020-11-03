@@ -29,7 +29,7 @@ class ProjectModel extends Model {
 
         $strQry .= "SELECT	\n";
 		$strQry .= "	P.PRJ_SEQ, P.PRJ_TITLE, P.PRJ_TITLE_URI	\n";
-		$strQry .= "	, P.STREAM_URL, P.MAIN_IMG_URI, P.MAIN_IMG_THUMB_URI, P.AGENDA_IMG_URI, P.AGENDA_IMG_THUMB_URI, P.FOOTER_IMG_URI, P.FOOTER_IMG_THUMB_URI	\n";
+		$strQry .= "	, P.STREAM_URL, P.ONAIR_YN, P.MAIN_IMG_URI, P.MAIN_IMG_THUMB_URI, P.AGENDA_IMG_URI, P.AGENDA_IMG_THUMB_URI, P.FOOTER_IMG_URI, P.FOOTER_IMG_THUMB_URI	\n";
 		$strQry .= "	, P.APPL_BTN_BG_COLR, P.ENT_THME_COLR, P.AGENDA_PAGE_YN	\n";
 		$strQry .= "	, DATE_FORMAT(P.ST_DTTM, '%Y-%m-%d %H:%i') AS ST_DTTM	\n";
 		$strQry .= "	, DATE_FORMAT(P.ED_DTTM, '%Y-%m-%d %H:%i') AS ED_DTTM	\n";
@@ -133,7 +133,7 @@ class ProjectModel extends Model {
 
         $strQry .= "SELECT 	\n";
         $strQry .= "	P.PRJ_SEQ, P.PRJ_TITLE, P.PRJ_TITLE_URI	\n";
-		$strQry .= "	, P.STREAM_URL, P.MAIN_IMG_URI, P.AGENDA_IMG_URI, P.FOOTER_IMG_URI	\n";
+		$strQry .= "	, P.STREAM_URL, P.ONAIR_YN, P.MAIN_IMG_URI, P.AGENDA_IMG_URI, P.FOOTER_IMG_URI	\n";
         $strQry .= "	, CONCAT('".$_ENV['app.baseURL']."', P.MAIN_IMG_URI) AS MAIN_IMG_URL	\n";
         $strQry .= "	, CONCAT('".$_ENV['app.baseURL']."', P.AGENDA_IMG_URI) AS AGENDA_IMG_URL	\n";
         $strQry .= "	, CONCAT('".$_ENV['app.baseURL']."', P.FOOTER_IMG_URI) AS FOOTER_IMG_URL	\n";
@@ -153,7 +153,13 @@ class ProjectModel extends Model {
         $strQry .= "	, ENT_INFO_EXTRA_6, ENT_INFO_EXTRA_PHOLDER_6, ENT_INFO_EXTRA_REQUIRED_6	\n";
 		$strQry .= "	, ENT_INFO_EXTRA_7, ENT_INFO_EXTRA_PHOLDER_7, ENT_INFO_EXTRA_REQUIRED_7	\n";
 		$strQry .= "	, ENT_INFO_EXTRA_8, ENT_INFO_EXTRA_PHOLDER_8, ENT_INFO_EXTRA_REQUIRED_8	\n";
+        $strQry .= "	, P.DATA_ADM_SEQ_1, A1.ADM_NM AS DATA_ADM_NM_1, A1.EMAIL AS DATA_ADM_EMAIL_1, A1.ORG_NM AS DATA_ADM_ORG_NM_1    \n";
+        $strQry .= "	, P.DATA_ADM_SEQ_2, A2.ADM_NM AS DATA_ADM_NM_2, A2.EMAIL AS DATA_ADM_EMAIL_2, A2.ORG_NM AS DATA_ADM_ORG_NM_2    \n";
         $strQry .= "FROM TB_PRJ_M AS P	\n";
+        $strQry .= "LEFT OUTER JOIN TB_ADMIN_M AS A1	\n";
+        $strQry .= "        ON (P.DATA_ADM_SEQ_1 = A1.ADM_SEQ AND A1.DEL_YN = 0)	\n";
+        $strQry .= "LEFT OUTER JOIN TB_ADMIN_M AS A2	\n";
+        $strQry .= "        ON (P.DATA_ADM_SEQ_2 = A2.ADM_SEQ AND A2.DEL_YN = 0)	\n";
         $strQry .= "WHERE 1=1	\n";
         $strQry .= "	AND P.DEL_YN = 0	\n";
         $strQry .= "	AND P.PRJ_SEQ = ".$this->db->escape($prjSeq)."	\n";

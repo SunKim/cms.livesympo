@@ -114,7 +114,7 @@ table.table-detail img { display: block; max-width: 640px; }
 									</colgroup>
 									<tbody>
 										<tr>
-											<th rowspan="8">프로젝트</th>
+											<th rowspan="10">프로젝트</th>
 											<th class="required">타이틀</th>
 											<td class="tl">
 												<input type="hidden" id="PRJ_SEQ" name="PRJ_SEQ" value="<?= $prjSeq ?>" />
@@ -152,6 +152,16 @@ table.table-detail img { display: block; max-width: 640px; }
 												<span class="inblock tc" style="width: 20px;">-</span>
 												<input type="text" id="ED_DATE" name="ED_DATE" class="common-input w10 datepicker" />
 												<input type="text" id="ED_TIME" name="ED_TIME" class="common-input w10" value="23:59" />
+											</td>
+										</tr>
+										<tr>
+											<th class="required">온에어</th>
+											<td class="tl">
+												<p class="desc">* 온에어 활성화시 프로젝트시작 10분전부터 입장 가능합니다.</p>
+												<select class="common-select w20 mt10" id="ONAIR_YN" name="ONAIR_YN">
+													<option value="0">비활성화</option>
+													<option value="1">활성화</option>
+												</select>
 											</td>
 										</tr>
 										<tr>
@@ -342,6 +352,21 @@ table.table-detail img { display: block; max-width: 640px; }
 											</td>
 										</tr>
 										<tr>
+											<th class="required">데이터관리자</th>
+											<td class="tl">
+												<p>
+													<select class="common-select w20" id="DATA_ADM_SEQ_1" name="DATA_ADM_SEQ_1">
+														<option value="">선택</option>
+													</select>
+												</p>
+												<p class="mt10">
+													<select class="common-select w20" id="DATA_ADM_SEQ_2" name="DATA_ADM_SEQ_2">
+														<option value="">선택</option>
+													</select>
+												</p>
+											</td>
+										</tr>
+										<tr>
 											<th rowspan="3">이미지</th>
 											<th class="required">메인 이미지</th>
 											<td class="tl">
@@ -475,8 +500,8 @@ table.table-detail img { display: block; max-width: 640px; }
 						<div class="d-flex align-items-center justify-content-between pa20">
 							<button class="btn-main btn-white mr15" onclick="history.back();">뒤로</button>
 <?php
-	// 레벨9만 보이도록
-	if ($lvl == 9) {
+	// 레벨9만 보이도록 -> 일반관리자도 수정 가능
+	if ($lvl == 9 || $lvl == 1) {
 		// echo '<button class="btn-main btn-red" onclick="test()">테스트</button>';
 		echo '<button class="btn-main btn-red mr10" onclick="deleteProject()">삭제</button>';
 		echo '<button class="btn-main btn-light-indigo" onclick="save();">저장</button>';
@@ -752,6 +777,7 @@ function getDetail (prjSeq) {
 				$('#PRJ_TITLE_URI').val(data.item.PRJ_TITLE_URI);
 				$('#STREAM_URL').val(data.item.STREAM_URL);
 				// $('#AGENDA_PAGE_YN').val(data.item.AGENDA_PAGE_YN);
+				$('#ONAIR_YN').val(data.item.ONAIR_YN);
 				$('#ST_DATE').val(data.item.ST_DATE);
 				$('#ST_TIME').val(data.item.ST_TIME);
 				$('#ED_DATE').val(data.item.ED_DATE);
@@ -813,6 +839,7 @@ function getDetail (prjSeq) {
 				$('#AGENDA_IMG_URL').attr('src', data.item.AGENDA_IMG_URL);
 				$('#FOOTER_IMG_URL').attr('src', data.item.FOOTER_IMG_URL);
 
+				// 입장가이드 설정
 				const entGuideList = data.entGuideList;
 				entGuideList.forEach(item => {
 					let html = '';
@@ -823,6 +850,23 @@ function getDetail (prjSeq) {
 
 					$('ul.enter-guide').append(html);
 				});
+
+				// 데이터관리자 설정
+				const dataAdmList = data.dataAdmList;
+				dataAdmList.forEach(item => {
+					let html = '';
+
+					html += '<option value="'+item.ADM_SEQ+'">'+item.ADM_NM+' - '+item.EMAIL+' ('+item.ORG_NM+')</option>';
+
+					$('select#DATA_ADM_SEQ_1').append(html);
+					$('select#DATA_ADM_SEQ_2').append(html);
+				});
+				if (data.item.DATA_ADM_SEQ_1 && parseInt(data.item.DATA_ADM_SEQ_1) > 0) {
+					$('select#DATA_ADM_SEQ_1').val(data.item.DATA_ADM_SEQ_1);
+				}
+				if (data.item.DATA_ADM_SEQ_2 && parseInt(data.item.DATA_ADM_SEQ_2) > 0) {
+					$('select#DATA_ADM_SEQ_2').val(data.item.DATA_ADM_SEQ_2);
+				}
 
 				// update면 데이터 다 불러오고 나서 color-picker 설정. (바로하면 색상반영이 안됨)
 				$('.color-picker').minicolors();

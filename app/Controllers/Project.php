@@ -20,6 +20,7 @@ use App\Models\ProjectModel;
 use App\Models\QuestionModel;
 use App\Models\SurveyModel;
 use App\Models\RequestorModel;
+use App\Models\AdminModel;
 
 class Project extends BaseController {
 
@@ -51,6 +52,7 @@ class Project extends BaseController {
 		$this->questionModel = new QuestionModel();
 		$this->surveyModel = new SurveyModel();
 		$this->requestorModel = new RequestorModel();
+		$this->adminModel = new AdminModel();
   	}
 
 	public function index() {
@@ -174,6 +176,7 @@ class Project extends BaseController {
 		$data['resMsg'] = '정상적으로 처리되었습니다.';
 		$data['item'] = $prjItem;
 		$data['entGuideList'] = $this->projectModel->enterGuideList($prjSeq);
+		$data['dataAdmList'] = $this->adminModel->list(2);
 
 		return $this->response->setJSON($data);
 	}
@@ -190,6 +193,7 @@ class Project extends BaseController {
 		$data['PRJ_TITLE_URI'] = $this->request->getPost('PRJ_TITLE_URI');
 		$data['STREAM_URL'] = $this->request->getPost('STREAM_URL');
 		// $data['AGENDA_PAGE_YN'] = $this->request->getPost('AGENDA_PAGE_YN') !== null ? $this->request->getPost('AGENDA_PAGE_YN') : 0;
+		$data['ONAIR_YN'] = $this->request->getPost('ONAIR_YN');
 
 		$data['ST_DTTM'] = $this->request->getPost('ST_DATE').' '.$this->request->getPost('ST_TIME').':00';
 		$data['ED_DTTM'] = $this->request->getPost('ED_DATE').' '.$this->request->getPost('ED_TIME').':00';
@@ -244,6 +248,9 @@ class Project extends BaseController {
 		$data['STREAM_BTN_FONT_COLR'] = $this->request->getPost('STREAM_BTN_FONT_COLR');
 		$data['STREAM_QA_BG_COLR'] = $this->request->getPost('STREAM_QA_BG_COLR');
 		$data['STREAM_QA_FONT_COLR'] = $this->request->getPost('STREAM_QA_FONT_COLR');
+
+		$data['DATA_ADM_SEQ_1'] = $this->request->getPost('DATA_ADM_SEQ_1');
+		$data['DATA_ADM_SEQ_2'] = $this->request->getPost('DATA_ADM_SEQ_2');
 		// print_r($data);
 
 		$entGuideList = json_decode($this->request->getPost('entGuideList'));

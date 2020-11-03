@@ -62,6 +62,7 @@
 <?php
 	$email = isset($session['email']) ? $session['email'] : '';
 	$admSeq = isset($session['admSeq']) ? $session['admSeq'] : 0;
+	$lvl = isset($session['lvl']) ? $session['lvl'] : 0;
 ?>
 
 	<!-- Page Wrapper -->
@@ -388,7 +389,21 @@ function getList (pageNo) {
 				list.forEach(item => {
 					html += '<tr prj-seq="'+item.PRJ_SEQ+'">';
 					html += '	<td>'+item.PRJ_SEQ+'</td>';
-					html += '	<td><a href="/project/detail/'+item.PRJ_SEQ+'">'+item.PRJ_TITLE+'</a></td>';
+					html += '	<td>';
+
+<?php
+// 데이터관리자는 프로젝트상세 진입 불가
+if ($lvl != 2) {
+?>
+					html += '		<a href="/project/detail/'+item.PRJ_SEQ+'">'+item.PRJ_TITLE+'</a>';
+<?php
+} else {
+?>
+					html += '		'+item.PRJ_TITLE+'';
+<?php
+}
+?>
+					html += '	</td>';
 					html += '	<td>';
 					html += '		<a href="<?= $livesympoUrl ?>/'+item.PRJ_TITLE_URI+'" target="_stream">'+item.PRJ_TITLE_URI+'</a>';
 					html += '	</td>';

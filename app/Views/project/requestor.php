@@ -87,7 +87,7 @@ table.tbl-reqr-list th, table.tbl-reqr-list td { padding: 4px !important; min-wi
 						<!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> -->
 					</div>
 
-					<!-- 설문참여자 목록 영역 -->
+					<!-- 사전등록자 목록 영역 -->
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
 							<h6 class="m-0 font-weight-bold text-primary">프로젝트 사전등록자 목록</h6>
@@ -116,7 +116,7 @@ table.tbl-reqr-list th, table.tbl-reqr-list td { padding: 4px !important; min-wi
 							</table>
 						</div>
 					</div>
-					<!-- 설문참여자 목록 영역 -->
+					<!-- 사전등록자 목록 영역 -->
 
 					<div class="d-flex align-items-center justify-content-between pa20">
 						<button class="btn-main btn-white mr15" onclick="history.back();">뒤로</button>

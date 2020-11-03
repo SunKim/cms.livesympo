@@ -63,6 +63,7 @@ class Login extends BaseController {
 					, 'admSeq' => $adminData['ADM_SEQ']
 					, 'admNm' => $adminData['ADM_NM']
 					, 'lvl' => $adminData['LVL']
+					, 'orgNm' => $adminData['ORG_NM']
 					, 'logged_in' => 1
 				);
 

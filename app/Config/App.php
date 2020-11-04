@@ -205,7 +205,7 @@ class App extends BaseConfig
 	|       'cookie_httponly') will also affect sessions.
 	|
 	*/
-	public $cookiePrefix   = '';
+	public $cookiePrefix   = 'cms';
 	public $cookieDomain   = '';
 	public $cookiePath     = '/';
 	public $cookieSecure   = false;

@@ -136,8 +136,25 @@ li.approved textarea { border: 1px solid #3f65cc99; border-radius: 4px; color: #
 						<div class="d-flex align-items-center justify-content-between pa20">
 							<button class="btn-main btn-white mr15" onclick="history.back();">뒤로</button>
 							<span>&nbsp;</span>
+							<button class="btn-main btn-light-indigo ml10" onclick="downloadExcel();">엑셀저장</button>
 						</div>
 					</div>
+
+					<!-- 엑셀다운로드용 테이블 -->
+					<table style="display: none;" id="tbl-excel">
+					<!-- <table id="tbl-excel"> -->
+						<thead>
+							<tr>
+								<th>Seq.</th>
+								<th>질문내용</th>
+								<th>이름</th>
+								<th>승인여부</th>
+								<th>등록일시</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
 
 				</div>
 				<!-- /.container-fluid -->
@@ -227,6 +244,7 @@ function getQuestionList (prjSeq) {
 				const list = data.list;
 
 				let html = '';
+				let html2 = '';
 				list.forEach(item => {
 					html += '<li class="mb20 '+(item.APRV_YN == 1 ? 'approved' : '')+'">';
 					html += '	<div class="d-flex justify-content-between align-items-center">';
@@ -245,10 +263,22 @@ function getQuestionList (prjSeq) {
 					html += '	</div>';
 					html += '	<textarea maxlength="400" rows="4" class="w100 mt10 mb10" readonly>'+item.QST_DESC+'</textarea>';
 					html += '</li>';
+
+					// 엑셀다운로드용 테이블에도
+					html2 += '<tr>';
+					html2 += '	<td>'+item.QST_SEQ+'</td>';
+					html2 += '	<td>'+item.QST_DESC+'</td>';
+					html2 += '	<td>'+(item.FAKE_YN == 0 ? item.REQR_NM : item.FAKE_NM)+'</td>';
+					html2 += '	<td>'+(item.APRV_YN == 1 ? 'Y' : 'N')+'</td>';
+					html2 += '	<td>'+item.REG_DTTM+'</td>';
+					html2 += '</tr>';
 				});
 
 				$('.question-list').empty();
 				$('.question-list').append(html);
+
+				$('#tbl-excel tbody').empty();
+				$('#tbl-excel tbody').append(html2);
 			} else {
 				alert('프로젝트 질문 데이터를 가져오는 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드(resCode):'+data.resCode+'\n메세지(resMsg):'+data.resMsg);
 			}
@@ -340,6 +370,14 @@ function fakeQuestion (prjSeq) {
 			hideSpinner();
 		}
 	});
+}
+
+// 엑셀저장
+function downloadExcel () {
+	const today = new Date();
+	const todayShort = today.toJSON().slice(0, 10).split`-`.join``;
+	// excelModalExwide1('엑셀저장', '엑셀저장 버튼을 클릭하세요.', 'tbl-reqr-list', '<?= $project['PRJ_TITLE'] ?>_사전등록자');
+	downloadTableToCsv('tbl-excel', '<?= $project['PRJ_TITLE'] ?>_QnA_'+todayShort);
 }
 
 $(document).ready(function () {

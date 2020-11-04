@@ -126,7 +126,52 @@ if ($lvl == 9 || $lvl == 1) {
 	echo '<div>';
 	echo '	<button class="btn-main btn-red" onclick="deleteRequestor();">데이터삭제</button>';
 	echo '	<button class="btn-main btn-light-indigo ml10" onclick="openUploadExcel();">엑셀업로드</button>';
-	echo '	<button class="btn-main btn-light-indigo ml10" onclick="downloadExcel();">엑셀저장</button>';
+	echo '	<button class="btn-main btn-light-indigo ml10" onclick="downloadExcel(\'tbl-reqr-list\');">엑셀저장</button>';
+	echo '</div>';
+}
+?>
+					</div>
+
+					<!-- 참석자 목록 영역 -->
+					<div class="card shadow mb-4">
+						<div class="card-header py-3">
+							<h6 class="m-0 font-weight-bold text-primary">프로젝트 참석자 목록</h6>
+						</div>
+						<div id="excel-container" style="padding: 20px 10px;">
+							<table class="table-list tbl-att-list" id="tbl-att-list">
+								<thead>
+									<tr>
+										<th>Seq.</th>
+										<th>성명</th>
+										<th>연락처</th>
+										<th>IN</th>
+										<th>OUT</th>
+										<th>디바이스</th>
+										<th class="extra-1"><?= $project['ENT_INFO_EXTRA_1'] ?></th>
+										<th class="extra-2"><?= $project['ENT_INFO_EXTRA_2'] ?></th>
+										<th class="extra-3"><?= $project['ENT_INFO_EXTRA_3'] ?></th>
+										<th class="extra-4"><?= $project['ENT_INFO_EXTRA_4'] ?></th>
+										<th class="extra-5"><?= $project['ENT_INFO_EXTRA_5'] ?></th>
+										<th class="extra-6"><?= $project['ENT_INFO_EXTRA_6'] ?></th>
+										<th class="extra-7"><?= $project['ENT_INFO_EXTRA_7'] ?></th>
+										<th class="extra-8"><?= $project['ENT_INFO_EXTRA_8'] ?></th>
+										<th class="conn-route">접속경로</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<!-- 참석자 목록 영역 -->
+
+					<div class="d-flex align-items-center justify-content-between pa20">
+						<button class="btn-main btn-white mr15" onclick="history.back();">뒤로</button>
+<?php
+// 레벨9만 보이도록
+if ($lvl == 9 || $lvl == 1) {
+	echo '<div>';
+	echo '	<button class="btn-main btn-light-indigo ml10" onclick="downloadExcel(\'tbl-att-list\');">엑셀저장</button>';
 	echo '</div>';
 }
 ?>
@@ -251,7 +296,7 @@ function fnInit () {
 	getRequestorList(<?= $project['PRJ_SEQ'] ?>);
 }
 
-// 설문목록 (설문 질문목록, 보기목록, 답변목록) 불러오기
+// 사전등록자, 참석자 불러오기
 function getRequestorList (prjSeq) {
 	showSpinner();
 
@@ -267,10 +312,12 @@ function getRequestorList (prjSeq) {
 		success: function(data) {
 			console.log(data)
 			if ( data.resCode == '0000' ) {
-				// 설문항목(질문) 목록
+				// 사전등록자, 참석자 목록
 				const reqrList = data.list;
+				const attList = data.attendanceList;
 
 				$('table.tbl-reqr-list tbody').empty();
+				$('table.tbl-att-list tbody').empty();
 
 				reqrList.forEach((item) => {
 					let html = '';
@@ -292,40 +339,73 @@ function getRequestorList (prjSeq) {
 					html += '</tr>';
 
 					$('table.tbl-reqr-list tbody').append(html);
-
-<?php
-	// 접속경로 설정 없으면 숨김
-	// if (!isset($project['CONN_ROUTE_1']) || $project['CONN_ROUTE_1'] == '') {
-	// 	echo "$('table.tbl-reqr-list .conn-route').remove();";
-	// }
-
-	// 입력정보 없으면 테이블 column 숨김
-	if (!isset($project['ENT_INFO_EXTRA_1']) || $project['ENT_INFO_EXTRA_1'] == '') {
-		echo "$('table.tbl-reqr-list .extra-1').remove();";
-	}
-	if (!isset($project['ENT_INFO_EXTRA_2']) || $project['ENT_INFO_EXTRA_2'] == '') {
-		echo "$('table.tbl-reqr-list .extra-2').remove();";
-	}
-	if (!isset($project['ENT_INFO_EXTRA_3']) || $project['ENT_INFO_EXTRA_3'] == '') {
-		echo "$('table.tbl-reqr-list .extra-3').remove();";
-	}
-	if (!isset($project['ENT_INFO_EXTRA_4']) || $project['ENT_INFO_EXTRA_4'] == '') {
-		echo "$('table.tbl-reqr-list .extra-4').remove();";
-	}
-	if (!isset($project['ENT_INFO_EXTRA_5']) || $project['ENT_INFO_EXTRA_5'] == '') {
-		echo "$('table.tbl-reqr-list .extra-5').remove();";
-	}
-	if (!isset($project['ENT_INFO_EXTRA_6']) || $project['ENT_INFO_EXTRA_6'] == '') {
-		echo "$('table.tbl-reqr-list .extra-6').remove();";
-	}
-	if (!isset($project['ENT_INFO_EXTRA_7']) || $project['ENT_INFO_EXTRA_7'] == '') {
-		echo "$('table.tbl-reqr-list .extra-7').remove();";
-	}
-	if (!isset($project['ENT_INFO_EXTRA_8']) || $project['ENT_INFO_EXTRA_8'] == '') {
-		echo "$('table.tbl-reqr-list .extra-8').remove();";
-	}
-?>
 				});
+
+				attList.forEach((item) => {
+					let html = '';
+
+					html += '<tr>';
+					html += '	<td>'+item.PRJ_ENT_INFO_REQR_SEQ+'</td>';
+					html += '	<td>'+item.REQR_NM+'</td>';
+					html += '	<td>'+formatMobile(item.MBILNO)+'</td>';
+					html += '	<td>'+item.FIRST_ENTER_DTTM+'</td>';
+					html += '	<td>'+item.LAST_LEAVE_DTTM+'</td>';
+					html += '	<td>'+item.DVC_GB+'</td>';
+					html += '	<td class="extra-1">'+item.ENT_INFO_EXTRA_VAL_1+'</td>';
+					html += '	<td class="extra-2">'+item.ENT_INFO_EXTRA_VAL_2+'</td>';
+					html += '	<td class="extra-3">'+item.ENT_INFO_EXTRA_VAL_3+'</td>';
+					html += '	<td class="extra-4">'+item.ENT_INFO_EXTRA_VAL_4+'</td>';
+					html += '	<td class="extra-5">'+item.ENT_INFO_EXTRA_VAL_5+'</td>';
+					html += '	<td class="extra-6">'+item.ENT_INFO_EXTRA_VAL_6+'</td>';
+					html += '	<td class="extra-7">'+item.ENT_INFO_EXTRA_VAL_7+'</td>';
+					html += '	<td class="extra-8">'+item.ENT_INFO_EXTRA_VAL_8+'</td>';
+					html += '	<td class="conn-route">'+item.CONN_ROUTE_VAL_NM+'</td>';
+					html += '</tr>';
+
+					$('table.tbl-att-list tbody').append(html);
+				});
+
+				<?php
+					// 접속경로 설정 없으면 숨김
+					// if (!isset($project['CONN_ROUTE_1']) || $project['CONN_ROUTE_1'] == '') {
+					// 	echo "$('table.tbl-reqr-list .conn-route').remove();";
+					// }
+
+					// 입력정보 없으면 테이블 column 삭제
+					if (!isset($project['ENT_INFO_EXTRA_1']) || $project['ENT_INFO_EXTRA_1'] == '') {
+						echo "$('table.tbl-reqr-list .extra-1').remove();";
+						echo "$('table.tbl-att-list .extra-1').remove();";
+					}
+					if (!isset($project['ENT_INFO_EXTRA_2']) || $project['ENT_INFO_EXTRA_2'] == '') {
+						echo "$('table.tbl-reqr-list .extra-2').remove();";
+						echo "$('table.tbl-att-list .extra-2').remove();";
+					}
+					if (!isset($project['ENT_INFO_EXTRA_3']) || $project['ENT_INFO_EXTRA_3'] == '') {
+						echo "$('table.tbl-reqr-list .extra-3').remove();";
+						echo "$('table.tbl-att-list .extra-3').remove();";
+					}
+					if (!isset($project['ENT_INFO_EXTRA_4']) || $project['ENT_INFO_EXTRA_4'] == '') {
+						echo "$('table.tbl-reqr-list .extra-4').remove();";
+						echo "$('table.tbl-att-list .extra-4').remove();";
+					}
+					if (!isset($project['ENT_INFO_EXTRA_5']) || $project['ENT_INFO_EXTRA_5'] == '') {
+						echo "$('table.tbl-reqr-list .extra-5').remove();";
+						echo "$('table.tbl-att-list .extra-5').remove();";
+					}
+					if (!isset($project['ENT_INFO_EXTRA_6']) || $project['ENT_INFO_EXTRA_6'] == '') {
+						echo "$('table.tbl-reqr-list .extra-6').remove();";
+						echo "$('table.tbl-att-list .extra-6').remove();";
+					}
+					if (!isset($project['ENT_INFO_EXTRA_7']) || $project['ENT_INFO_EXTRA_7'] == '') {
+						echo "$('table.tbl-reqr-list .extra-7').remove();";
+						echo "$('table.tbl-att-list .extra-7').remove();";
+					}
+					if (!isset($project['ENT_INFO_EXTRA_8']) || $project['ENT_INFO_EXTRA_8'] == '') {
+						echo "$('table.tbl-reqr-list .extra-8').remove();";
+						echo "$('table.tbl-att-list .extra-8').remove();";
+					}
+				?>
+
 			} else {
 				alert('사전등록자 데이터를 가져오는 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드(resCode):'+data.resCode+'\n메세지(resMsg):'+data.resMsg);
 			}
@@ -341,11 +421,11 @@ function getRequestorList (prjSeq) {
 }
 
 // 엑셀저장
-function downloadExcel () {
+function downloadExcel (tblNm) {
 	const today = new Date();
 	const todayShort = today.toJSON().slice(0, 10).split`-`.join``;
 	// excelModalExwide1('엑셀저장', '엑셀저장 버튼을 클릭하세요.', 'tbl-reqr-list', '<?= $project['PRJ_TITLE'] ?>_사전등록자');
-	downloadTableToCsv('tbl-reqr-list', '<?= $project['PRJ_TITLE'] ?>_사전등록자_'+todayShort);
+	downloadTableToCsv(tblNm, '<?= $project['PRJ_TITLE'] ?>_'+(tblNm == 'tbl-reqr-list' ? '사전등록자' : '참석자')+'_'+todayShort);
 }
 
 // 엑셀(.csv) 업로드 모달 열기

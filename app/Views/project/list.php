@@ -430,7 +430,7 @@ if ($lvl != 2) {
 
 					html += '	<td>';
 					html += '		<p>';
-					html += '			<a href="/project/requestor/'+item.PRJ_SEQ+'" class="">사전등록자</a>';
+					html += '			<a href="/project/requestor/'+item.PRJ_SEQ+'" class="">등록자관리</a>';
 					html += '			<a href="/project/survey/'+item.PRJ_SEQ+'" class="ml20">설문관리</a>';
 					html += '		</p>';
 					html += '		<p>';

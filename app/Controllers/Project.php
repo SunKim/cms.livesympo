@@ -114,7 +114,6 @@ class Project extends BaseController {
 
 		$data['prjSeq'] = $prjSeq;
 		$data['project'] = $this->projectModel->detail($prjSeq);
-		$data['reqrList'] = $this->requestorModel->list($prjSeq);
 
 		return view('project/requestor', $data);
 	}
@@ -416,10 +415,12 @@ class Project extends BaseController {
 
 		// 질문목록
 		$reqrList = $this->requestorModel->list($prjSeq);
+		$attendanceList = $this->requestorModel->attendanceList($prjSeq);
 
 		$data['resCode'] = '0000';
 		$data['resMsg'] = '정상적으로 처리되었습니다.';
 		$data['list'] = $reqrList;
+		$data['attendanceList'] = $attendanceList;
 
 		return $this->response->setJSON($data);
 	}

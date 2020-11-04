@@ -61,6 +61,7 @@ table.table-admin-reg td { padding: 4px 10px; }
 <?php
 	$email = isset($session['email']) ? $session['email'] : '';
 	$admSeq = isset($session['admSeq']) ? $session['admSeq'] : 0;
+	$lvl = isset($session['lvl']) ? $session['lvl'] : 0;
 ?>
 
 	<!-- Page Wrapper -->
@@ -104,6 +105,8 @@ table.table-admin-reg td { padding: 4px 10px; }
 									<p>최고관리자 <span class="cblue1" id="cnt-9">0</span>명</p>
 									<span class="vertical-separator">|</span>
 									<p>일반관리자 <span class="cblue1" id="cnt-1">0</span>명</p>
+									<span class="vertical-separator">|</span>
+									<p>데이터관리자 <span class="cblue1" id="cnt-2">0</span>명</p>
 
 									<button type="button" class="btn-blue btn-sub ml20" onclick="openRegPopup();">신규등록</button>
 								</div>
@@ -124,6 +127,8 @@ table.table-admin-reg td { padding: 4px 10px; }
 											<th>이메일</th>
 											<th>관리자명</th>
 											<th>관리자레벨</th>
+											<th>소속</th>
+											<th>데이터관리</th>
 											<th>등록일시</th>
 											<th>등록자이메일</th>
 											<th>버튼</th>
@@ -248,8 +253,15 @@ table.table-admin-reg td { padding: 4px 10px; }
 								<td>
 									<select id="lvl" class="common-select w100">
 										<option value="1">일반관리자</option>
+										<option value="2">데이터관리자</option>
 										<option value="9">최고관리자</option>
 									</select>
+								</td>
+							</tr>
+							<tr>
+								<th>소속</th>
+								<td>
+									<input type="text" id="orgNm" class="common-input w100" autocomplete="none" />
 								</td>
 							</tr>
 						</tbody>
@@ -509,6 +521,12 @@ function getList () {
 					html += '	<td>'+item.EMAIL+'</td>';
 					html += '	<td>'+item.ADM_NM+'</td>';
 					html += '	<td>'+item.LVL_NM+'</td>';
+					html += '	<td>'+item.ORG_NM+'</td>';
+					html += '	<td title="'+item.PRJ_TITLE_ARR+'">';
+					html += '		<div style="max-width: 200px; max-height: 42px; text-overflow: ellipsis; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; word-wrap:break-word;">';
+					html += '			'+item.PRJ_TITLE_ARR+' ';
+					html += '		</div>';
+					html += '	</td>';
 					html += '	<td>'+item.REG_DTTM+'</td>';
 					html += '	<td>'+item.REGR_ID+'</td>';
 					html += '	<td>';

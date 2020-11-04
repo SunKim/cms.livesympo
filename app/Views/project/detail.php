@@ -57,6 +57,8 @@ ul.enter-guide li { margin-bottom: 10px; }
 ul.enter-guide li:last-child { margin-bottom: 0; }
 
 span.input-title { display: inline-block; min-width: 140px; }
+
+table.table-detail img { display: block; max-width: 640px; }
 </style>
 <!-- END) 메인 css -->
 
@@ -112,7 +114,7 @@ span.input-title { display: inline-block; min-width: 140px; }
 									</colgroup>
 									<tbody>
 										<tr>
-											<th rowspan="8">프로젝트</th>
+											<th rowspan="10">프로젝트</th>
 											<th class="required">타이틀</th>
 											<td class="tl">
 												<input type="hidden" id="PRJ_SEQ" name="PRJ_SEQ" value="<?= $prjSeq ?>" />
@@ -150,6 +152,16 @@ span.input-title { display: inline-block; min-width: 140px; }
 												<span class="inblock tc" style="width: 20px;">-</span>
 												<input type="text" id="ED_DATE" name="ED_DATE" class="common-input w10 datepicker" />
 												<input type="text" id="ED_TIME" name="ED_TIME" class="common-input w10" value="23:59" />
+											</td>
+										</tr>
+										<tr>
+											<th class="required">온에어</th>
+											<td class="tl">
+												<p class="desc">* 온에어 활성화시 프로젝트시작 10분전부터 입장 가능합니다.</p>
+												<select class="common-select w20 mt10" id="ONAIR_YN" name="ONAIR_YN">
+													<option value="0">비활성화</option>
+													<option value="1">활성화</option>
+												</select>
 											</td>
 										</tr>
 										<tr>
@@ -340,32 +352,47 @@ span.input-title { display: inline-block; min-width: 140px; }
 											</td>
 										</tr>
 										<tr>
+											<th class="required">데이터관리자</th>
+											<td class="tl">
+												<p>
+													<select class="common-select w20" id="DATA_ADM_SEQ_1" name="DATA_ADM_SEQ_1">
+														<option value="">선택</option>
+													</select>
+												</p>
+												<p class="mt10">
+													<select class="common-select w20" id="DATA_ADM_SEQ_2" name="DATA_ADM_SEQ_2">
+														<option value="">선택</option>
+													</select>
+												</p>
+											</td>
+										</tr>
+										<tr>
 											<th rowspan="3">이미지</th>
 											<th class="required">메인 이미지</th>
 											<td class="tl">
 												<p class="desc">* 가로는 1170px 세로는 적당한 비율로 올려주세요.</p>
-												<img class="update-img-view" id="MAIN_IMG_URL" />
-												<input type="file" id="MAIN_IMG" name="MAIN_IMG" class="common-input w50" accept="image/x-png,image/gif,image/jpeg" />
+												<img class="img-main" id="MAIN_IMG_URL" />
+												<input type="file" id="MAIN_IMG" name="MAIN_IMG" class="common-input w50 mt10" accept="image/x-png,image/gif,image/jpeg" onchange="javascript: preview(this, 'MAIN_IMG_URL');" />
 											</td>
 										</tr>
 										<tr>
 											<th class="required">아젠다 이미지</th>
 											<td class="tl">
 												<p class="desc">* 가로는 1170px 세로는 556px로 올려주세요.</p>
-												<img class="update-img-view" id="AGENDA_IMG_URL" />
-												<input type="file" id="AGENDA_IMG" name="AGENDA_IMG" class="common-input w50" accept="image/x-png,image/gif,image/jpeg" />
+												<img class="img-agenda" id="AGENDA_IMG_URL" />
+												<input type="file" id="AGENDA_IMG" name="AGENDA_IMG" class="common-input w50 mt10" accept="image/x-png,image/gif,image/jpeg" onchange="javascript: preview(this, 'AGENDA_IMG_URL');" />
 											</td>
 										</tr>
 										<tr>
 											<th class="required">푸터 이미지</th>
 											<td class="tl">
 												<p class="desc">* 가로는 1170px 세로는 적당한 비율로 올려주세요.</p>
-												<img class="update-img-view" id="FOOTER_IMG_URL" />
-												<input type="file" id="FOOTER_IMG" name="FOOTER_IMG" class="common-input w50" accept="image/x-png,image/gif,image/jpeg" />
+												<img class="img-footer" id="FOOTER_IMG_URL" />
+												<input type="file" id="FOOTER_IMG" name="FOOTER_IMG" class="common-input w50 mt10" accept="image/x-png,image/gif,image/jpeg" onchange="javascript: preview(this, 'FOOTER_IMG_URL');" />
 											</td>
 										</tr>
 										<tr>
-											<th rowspan="3"><p>사전등록</p><p>디자인</p></th>
+											<th rowspan="4"><p>사전등록</p><p>디자인</p></th>
 											<th class="required">전체 배경색</th>
 											<td class="tl">
 												<input type="text" id="APPL_BODY_COLR" name="APPL_BODY_COLR" class="common-input w90 color-picker" value="#ffffff" style="height: 28px !important;" />
@@ -390,6 +417,13 @@ span.input-title { display: inline-block; min-width: 140px; }
 														<option value="right">우측</option>
 													</select>
 												</p>
+												<p class="mt10">
+													<span class="input-title">테두리</span>
+													<select class="common-select w10" id="APPL_BTN_ROUND_YN" name="APPL_BTN_ROUND_YN">
+														<option value="0" selected>각진</option>
+														<option value="1">둥근</option>
+													</select>
+												</p>
 											</td>
 										</tr>
 										<tr>
@@ -402,6 +436,26 @@ span.input-title { display: inline-block; min-width: 140px; }
 												<p class="mt10">
 													<span class="input-title">높이</span>
 													<input type="text" id="ENT_THME_HEIGHT" name="ENT_THME_HEIGHT" class="common-input w10" value="556" /> px
+												</p>
+											</td>
+										</tr>
+										<tr>
+											<th class="required">입장버튼</th>
+											<td class="tl">
+												<p>
+													<span class="input-title">배경색상</span>
+													<input type="text" id="ENT_BTN_BG_COLR" name="ENT_BTN_BG_COLR" class="common-input w90 color-picker" value="#ffffff" style="height: 28px !important;" />
+												</p>
+												<p class="mt10">
+													<span class="input-title">글씨색상</span>
+													<input type="text" id="ENT_BTN_FONT_COLR" name="ENT_BTN_FONT_COLR" class="common-input w90 color-picker" value="#ffffff" style="height: 28px !important;" />
+												</p>
+												<p class="mt10">
+													<span class="input-title">테두리</span>
+													<select class="common-select w10" id="ENT_BTN_ROUND_YN" name="ENT_BTN_ROUND_YN">
+														<option value="0" selected>각진</option>
+														<option value="1">둥근</option>
+													</select>
 												</p>
 											</td>
 										</tr>
@@ -446,9 +500,10 @@ span.input-title { display: inline-block; min-width: 140px; }
 						<div class="d-flex align-items-center justify-content-between pa20">
 							<button class="btn-main btn-white mr15" onclick="history.back();">뒤로</button>
 <?php
-	// 레벨9만 보이도록
-	if ($lvl == 9) {
-		echo '<button class="btn-main btn-red" onclick="test()">테스트</button>';
+	// 레벨9만 보이도록 -> 일반관리자도 수정 가능
+	if ($lvl == 9 || $lvl == 1) {
+		// echo '<button class="btn-main btn-red" onclick="test()">테스트</button>';
+		echo '<button class="btn-main btn-red mr10" onclick="deleteProject()">삭제</button>';
 		echo '<button class="btn-main btn-light-indigo" onclick="save();">저장</button>';
 	}
 ?>
@@ -547,6 +602,21 @@ function addEnterGuide() {
 // 입장가이드 최근항목 삭제
 function removeEnterGuide() {
 	$('ul.enter-guide li:last-child').remove();
+}
+
+// 이미지 선택시 미리보기
+function preview(fileObj, imgId) {
+	const file = fileObj.files[0];
+	// var file = $("input[type=file]").get(0).files[0];
+
+	if (file) {
+		const reader = new FileReader();
+
+        reader.onload = function(){
+            $(`#${imgId}`).attr("src", reader.result);
+        }
+        reader.readAsDataURL(file);
+	}
 }
 
 // 저장
@@ -707,6 +777,7 @@ function getDetail (prjSeq) {
 				$('#PRJ_TITLE_URI').val(data.item.PRJ_TITLE_URI);
 				$('#STREAM_URL').val(data.item.STREAM_URL);
 				// $('#AGENDA_PAGE_YN').val(data.item.AGENDA_PAGE_YN);
+				$('#ONAIR_YN').val(data.item.ONAIR_YN);
 				$('#ST_DATE').val(data.item.ST_DATE);
 				$('#ST_TIME').val(data.item.ST_TIME);
 				$('#ED_DATE').val(data.item.ED_DATE);
@@ -749,9 +820,13 @@ function getDetail (prjSeq) {
 				$('#APPL_BTN_BG_COLR').val(data.item.APPL_BTN_BG_COLR);
 				$('#APPL_BTN_FONT_COLR').val(data.item.APPL_BTN_FONT_COLR);
 				$('#APPL_BTN_ALIGN').val(data.item.APPL_BTN_ALIGN);
+				$('#APPL_BTN_ROUND_YN').val(data.item.APPL_BTN_ROUND_YN);
 
 				$('#ENT_THME_COLR').val(data.item.ENT_THME_COLR);
 				$('#ENT_THME_HEIGHT').val(data.item.ENT_THME_HEIGHT);
+				$('#ENT_BTN_BG_COLR').val(data.item.ENT_BTN_BG_COLR);
+				$('#ENT_BTN_FONT_COLR').val(data.item.ENT_BTN_FONT_COLR);
+				$('#ENT_BTN_ROUND_YN').val(data.item.ENT_BTN_ROUND_YN);
 
 				$('#STREAM_BODY_COLR').val(data.item.STREAM_BODY_COLR);
 				$('#STREAM_BTN_BG_COLR').val(data.item.STREAM_BTN_BG_COLR);
@@ -764,6 +839,7 @@ function getDetail (prjSeq) {
 				$('#AGENDA_IMG_URL').attr('src', data.item.AGENDA_IMG_URL);
 				$('#FOOTER_IMG_URL').attr('src', data.item.FOOTER_IMG_URL);
 
+				// 입장가이드 설정
 				const entGuideList = data.entGuideList;
 				entGuideList.forEach(item => {
 					let html = '';
@@ -774,6 +850,23 @@ function getDetail (prjSeq) {
 
 					$('ul.enter-guide').append(html);
 				});
+
+				// 데이터관리자 설정
+				const dataAdmList = data.dataAdmList;
+				dataAdmList.forEach(item => {
+					let html = '';
+
+					html += '<option value="'+item.ADM_SEQ+'">'+item.ADM_NM+' - '+item.EMAIL+' ('+item.ORG_NM+')</option>';
+
+					$('select#DATA_ADM_SEQ_1').append(html);
+					$('select#DATA_ADM_SEQ_2').append(html);
+				});
+				if (data.item.DATA_ADM_SEQ_1 && parseInt(data.item.DATA_ADM_SEQ_1) > 0) {
+					$('select#DATA_ADM_SEQ_1').val(data.item.DATA_ADM_SEQ_1);
+				}
+				if (data.item.DATA_ADM_SEQ_2 && parseInt(data.item.DATA_ADM_SEQ_2) > 0) {
+					$('select#DATA_ADM_SEQ_2').val(data.item.DATA_ADM_SEQ_2);
+				}
 
 				// update면 데이터 다 불러오고 나서 color-picker 설정. (바로하면 색상반영이 안됨)
 				$('.color-picker').minicolors();
@@ -794,6 +887,42 @@ function getDetail (prjSeq) {
 		},
 		complete : function () {
 			hideSpinner();
+		}
+	});
+}
+
+// 프로젝트 삭제
+// http://localhost:9090/test-title-20200923-2222
+function deleteProject () {
+	if (!confirm('프로젝트를 정말 삭제하시겠습니까?')) {
+		return;
+	}
+
+	// showSpinner();
+	$.ajax({
+		type: 'POST',
+		url: '/project/delete',
+		dataType: 'json',
+		cache: false,
+		data: {
+			prjSeq: <?= $prjSeq ?>
+		},
+
+		success: function(data) {
+			// console.log(data);
+			if ( data.resCode == '0000' ) {
+				alert('프로젝트를 삭제했습니다.');
+				location.href='/project';
+			} else {
+				alert('프로젝트를 삭제하는 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드(resCode):'+data.resCode+'\n메세지(resMsg):'+data.resMsg);
+			}
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.error(xhr);
+			alert('프로젝트를 삭제하는 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드:'+xhr.status+'\n메세지:'+thrownError);
+		},
+		complete : function () {
+			// hideSpinner();
 		}
 	});
 }

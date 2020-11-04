@@ -2,7 +2,7 @@
 <footer class="sticky-footer bg-white">
 	<div class="container my-auto">
 		<div class="copyright text-center my-auto">
-			<span>Copyright &copy; 위드영상기획. 2020</span>
+			<span>Copyright &copy; 영상기획위드. 2020</span>
 		</div>
 	</div>
 </footer>

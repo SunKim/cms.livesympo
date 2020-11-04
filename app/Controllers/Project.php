@@ -20,6 +20,7 @@ use App\Models\ProjectModel;
 use App\Models\QuestionModel;
 use App\Models\SurveyModel;
 use App\Models\RequestorModel;
+use App\Models\AdminModel;
 
 class Project extends BaseController {
 
@@ -51,9 +52,10 @@ class Project extends BaseController {
 		$this->questionModel = new QuestionModel();
 		$this->surveyModel = new SurveyModel();
 		$this->requestorModel = new RequestorModel();
+		$this->adminModel = new AdminModel();
   	}
 
-	public function index() {
+	public function index () {
 		return $this->list();
 	}
 
@@ -112,7 +114,6 @@ class Project extends BaseController {
 
 		$data['prjSeq'] = $prjSeq;
 		$data['project'] = $this->projectModel->detail($prjSeq);
-		$data['reqrList'] = $this->requestorModel->list($prjSeq);
 
 		return view('project/requestor', $data);
 	}
@@ -125,7 +126,7 @@ class Project extends BaseController {
 	}
 
 	//ajax - 프로젝트 리스트
-	public function getList() {
+	public function getList () {
 		// param 받기
 		// $param = $this->request->getJSON();
 		// $param = $this->request->getPost('email');
@@ -162,7 +163,7 @@ class Project extends BaseController {
 	}
 
 	//ajax - 프로젝트 상세
-	public function getDetail() {
+	public function getDetail () {
 		// param 받기
 		$prjSeq = $this->request->getPost('prjSeq');
 		$lvl = $this->request->getPost('lvl');
@@ -174,6 +175,7 @@ class Project extends BaseController {
 		$data['resMsg'] = '정상적으로 처리되었습니다.';
 		$data['item'] = $prjItem;
 		$data['entGuideList'] = $this->projectModel->enterGuideList($prjSeq);
+		$data['dataAdmList'] = $this->adminModel->list(2);
 
 		return $this->response->setJSON($data);
 	}
@@ -190,6 +192,7 @@ class Project extends BaseController {
 		$data['PRJ_TITLE_URI'] = $this->request->getPost('PRJ_TITLE_URI');
 		$data['STREAM_URL'] = $this->request->getPost('STREAM_URL');
 		// $data['AGENDA_PAGE_YN'] = $this->request->getPost('AGENDA_PAGE_YN') !== null ? $this->request->getPost('AGENDA_PAGE_YN') : 0;
+		$data['ONAIR_YN'] = $this->request->getPost('ONAIR_YN');
 
 		$data['ST_DTTM'] = $this->request->getPost('ST_DATE').' '.$this->request->getPost('ST_TIME').':00';
 		$data['ED_DTTM'] = $this->request->getPost('ED_DATE').' '.$this->request->getPost('ED_TIME').':00';
@@ -231,15 +234,22 @@ class Project extends BaseController {
 		$data['APPL_BTN_BG_COLR'] = $this->request->getPost('APPL_BTN_BG_COLR');
 		$data['APPL_BTN_FONT_COLR'] = $this->request->getPost('APPL_BTN_FONT_COLR');
 		$data['APPL_BTN_ALIGN'] = $this->request->getPost('APPL_BTN_ALIGN');
+		$data['APPL_BTN_ROUND_YN'] = $this->request->getPost('APPL_BTN_ROUND_YN');
 
 		$data['ENT_THME_COLR'] = $this->request->getPost('ENT_THME_COLR');
 		$data['ENT_THME_HEIGHT'] = $this->request->getPost('ENT_THME_HEIGHT');
+		$data['ENT_BTN_BG_COLR'] = $this->request->getPost('ENT_BTN_BG_COLR');
+		$data['ENT_BTN_FONT_COLR'] = $this->request->getPost('ENT_BTN_FONT_COLR');
+		$data['ENT_BTN_ROUND_YN'] = $this->request->getPost('ENT_BTN_ROUND_YN');
 
 		$data['STREAM_BODY_COLR'] = $this->request->getPost('STREAM_BODY_COLR');
 		$data['STREAM_BTN_BG_COLR'] = $this->request->getPost('STREAM_BTN_BG_COLR');
 		$data['STREAM_BTN_FONT_COLR'] = $this->request->getPost('STREAM_BTN_FONT_COLR');
 		$data['STREAM_QA_BG_COLR'] = $this->request->getPost('STREAM_QA_BG_COLR');
 		$data['STREAM_QA_FONT_COLR'] = $this->request->getPost('STREAM_QA_FONT_COLR');
+
+		$data['DATA_ADM_SEQ_1'] = $this->request->getPost('DATA_ADM_SEQ_1');
+		$data['DATA_ADM_SEQ_2'] = $this->request->getPost('DATA_ADM_SEQ_2');
 		// print_r($data);
 
 		$entGuideList = json_decode($this->request->getPost('entGuideList'));
@@ -296,19 +306,30 @@ class Project extends BaseController {
 
 						// echo "src : $src, ext : $ext, uploadPath : $uploadPath\n";
 						$path = $uploadPath.DIRECTORY_SEPARATOR.'project'.DIRECTORY_SEPARATOR.$prjSeq;
-						// log_message('info', "Project.php - save(). prjSeq: $prjSeq, path: $path");
 
 						// directory가 없으면 생성
 						if ( !is_dir($path) ) {
 							// mkdir(path, mode, recursive). recursive는 꼭 true로!!
 							mkdir($path, 0755, true);
-							// log_message('info', "Project.php - save(). 파일저장용 directory 생성 - $path");
+							// log_message('info', "Project.php - save() 파일처리. 파일저장용 directory 생성 - $path");
 						}
 
 						// 새로운 파일명에 extension 붙여줌
 						// $key : form의 input의 name. MAIN_IMG, AGENDA_IMG, FOOTER_IMG => MAIN_IMG_1.png 형태로
-						$newFileName = $key.'_'.$prjSeq.'.'.$ext;
-						$thumbNm = $key.'_'.$prjSeq.'_THUMB.'.$ext;
+						$newFileName = $key.'_'.$prjSeq.'_'.$this->getRandomName().'.'.$ext;
+						$thumbNm = $key.'_'.$prjSeq.'_THUMB'.'_'.$this->getRandomName().'.'.$ext;
+
+						// log_message('info', "Project.php - save() 파일처리. prjSeq: $prjSeq, path: $path, key: $key, file : $file, newFileName: $newFileName, thumbNm: $thumbNm");
+
+						// 이미 파일이 있으면 삭제
+						if (file_exists($path.DIRECTORY_SEPARATOR.$newFileName)) {
+							// log_message('info', "Project.php - save() 파일처리. 기존파일 존재해서 삭제 필요. ".$path.DIRECTORY_SEPARATOR.$thumbNm);
+							unlink($path.DIRECTORY_SEPARATOR.$newFileName);
+						}
+						if (file_exists($path.DIRECTORY_SEPARATOR.$thumbNm)) {
+							// log_message('info', "Project.php - save() 파일처리. 기존파일 존재해서 삭제 필요. ".$path.DIRECTORY_SEPARATOR.$thumbNm);
+							unlink($path.DIRECTORY_SEPARATOR.$thumbNm);
+						}
 
 						// 썸네일 생성
 						$thumbResult = self::generateThumbnail($src, $path, $thumbNm);
@@ -367,24 +388,233 @@ class Project extends BaseController {
 		return $this->response->setJSON($res);
 	}
 
+	//ajax - 프로젝트 삭제
+	public function delete () {
+		// param 받기
+		$prjSeq = $this->request->getPost('prjSeq');
+
+		$data['DEL_YN'] = 1;
+		$affectedRows = $this->projectModel->updateProject($prjSeq, $data);
+
+		if ($affectedRows > 0) {
+			$resData['resCode'] = '0000';
+			$resData['resMsg'] = '정상적으로 처리되었습니다.';
+		} else {
+			$resData['resCode'] = '9997';
+			$resData['resMsg'] = '프로젝트 삭제 도중 DB오류가 발생했습니다.';
+		}
+
+		return $this->response->setJSON($resData);
+	}
+
 	// ajax - 프로젝트 사전등록자 리스트
-	public function getRequestorList() {
+	public function getRequestorList () {
 		// param 받기
 		$prjSeq = $this->request->getPost('prjSeq');
 		// log_message('info', "Project - getRequestorList. prjSeq: $prjSeq");
 
 		// 질문목록
 		$reqrList = $this->requestorModel->list($prjSeq);
+		$attendanceList = $this->requestorModel->attendanceList($prjSeq);
 
 		$data['resCode'] = '0000';
 		$data['resMsg'] = '정상적으로 처리되었습니다.';
 		$data['list'] = $reqrList;
+		$data['attendanceList'] = $attendanceList;
 
 		return $this->response->setJSON($data);
 	}
 
+	//ajax - 프로젝트 사전등록자 목록 삭제
+	public function deleteRequestor () {
+		// param 받기
+		$prjSeq = $this->request->getPost('prjSeq');
+
+		$affectedRows = $this->requestorModel->deleteRequestor($prjSeq);
+
+		if ($affectedRows > 0) {
+			$resData['resCode'] = '0000';
+			$resData['resMsg'] = '정상적으로 처리되었습니다.';
+		} else {
+			$resData['resCode'] = '9997';
+			$resData['resMsg'] = '프로젝트 사전등록자 목록을 삭제하는 도중 DB오류가 발생했습니다.';
+		}
+
+		return $this->response->setJSON($resData);
+	}
+
+	//ajax - 프로젝트 사전등록자 목록 .csv 파일 업로드
+	public function uploadRequestor ($prjSeq = 0) {
+		// 기본 업로드 path. ex) /Users/seonjungkim/workspace_php/cms.livesympo/public/uploads/project
+		$uploadPath = $_ENV['UPLOAD_BASE_PATH'];
+		$path = $uploadPath.DIRECTORY_SEPARATOR.'temp';
+		$fileNm = 'uploaded_csv.txt';
+
+		// 파일들 받기
+		// http://ci4doc.cikorea.net/libraries/uploaded_files.html
+		$files = $this->request->getFiles();
+
+		// 해당 프로젝트 item (접속경로 text를 CONN_ROUTE_VAL로 변환하기 위해 필요)
+		$prjItem = $this->projectModel->detail($prjSeq);
+
+		$cntInsert = 0;
+		$cntUpdate = 0;
+		$logList = array();
+
+		try {
+			if ($files) {
+				foreach ($files as $key => $file) {
+					// echo "key : $key, file : $file\n";
+					// $key : form/input에서의 name
+					// $file : 서버에 임시저장된 파일명. ex) /private/var/tmp/phpvnBwzw
+
+					if (isset($file) && $file->isValid() && !$file->hasMoved()) {
+
+						// directory가 없으면 생성
+						if ( !is_dir($path) ) {
+							// mkdir(path, mode, recursive). recursive는 꼭 true로!!
+							mkdir($path, 0755, true);
+						}
+
+						// 이미 기존에 업로드한 파일(uploaded_csv.txt)이 있으면 삭제
+						if (file_exists($path.DIRECTORY_SEPARATOR.$fileNm)) {
+							unlink($path.DIRECTORY_SEPARATOR.$fileNm);
+						}
+
+						// 파일 이동
+						$file->move($path, $fileNm);
+
+						// 파일 열기 성공하면
+						if ($readFile = fopen($path.DIRECTORY_SEPARATOR.$fileNm , 'r')) {
+							// 한줄씩 읽음
+							while (($lineData = fgetcsv($readFile, 1000, ",")) !== FALSE) {
+								// print_r($lineData);
+
+								// TB_PRJ_ENT_INFO_REQR_H 에 insert용 item
+								$insertItem = array();
+
+								// foreach로 하려했는데 그럴 필요가 없네;
+								foreach($lineData as $idx => $colItem) {
+									// echo "item : $idx - $colItem  ";
+								}
+
+								// TB_PRJ_ENT_INFO_REQR_H insert용 item 생성
+								$insertItem['PRJ_SEQ'] = $prjSeq;
+								if (isset($lineData[0]) && $lineData[0] != '') {
+									$insertItem['REQR_NM'] = $lineData[0];
+								}
+								if (isset($lineData[1]) && $lineData[1] != '') {
+									$insertItem['MBILNO'] = $lineData[1];
+								}
+								if (isset($lineData[2]) && $lineData[2] != '') {
+									$insertItem['ENT_INFO_EXTRA_VAL_1'] = $lineData[2];
+								}
+								if (isset($lineData[3]) && $lineData[3] != '') {
+									$insertItem['ENT_INFO_EXTRA_VAL_2'] = $lineData[3];
+								}
+								if (isset($lineData[4]) && $lineData[4] != '') {
+									$insertItem['ENT_INFO_EXTRA_VAL_3'] = $lineData[4];
+								}
+								if (isset($lineData[5]) && $lineData[5] != '') {
+									$insertItem['ENT_INFO_EXTRA_VAL_4'] = $lineData[5];
+								}
+								if (isset($lineData[6]) && $lineData[6] != '') {
+									$insertItem['ENT_INFO_EXTRA_VAL_5'] = $lineData[6];
+								}
+								if (isset($lineData[7]) && $lineData[7] != '') {
+									$insertItem['ENT_INFO_EXTRA_VAL_6'] = $lineData[7];
+								}
+								if (isset($lineData[8]) && $lineData[8] != '') {
+									$insertItem['ENT_INFO_EXTRA_VAL_7'] = $lineData[8];
+								}
+								if (isset($lineData[9]) && $lineData[9] != '') {
+									$insertItem['ENT_INFO_EXTRA_VAL_8'] = $lineData[9];
+								}
+								// 접속경로는 CONN_ROUTE_VAL로 변환 필요
+								if (isset($lineData[10]) && $lineData[10] != '') {
+									// $insertItem['CONN_ROUTE_RAW'] = $lineData[10];
+
+									if ($lineData[10] === $prjItem['CONN_ROUTE_1']) {
+										$insertItem['CONN_ROUTE_VAL'] = 1;
+									} else if ($lineData[10] === $prjItem['CONN_ROUTE_2']) {
+										$insertItem['CONN_ROUTE_VAL'] = 2;
+									} else if ($lineData[10] === $prjItem['CONN_ROUTE_3']) {
+										$insertItem['CONN_ROUTE_VAL'] = 3;
+									}
+								}
+
+								// 우선 REQR_M에 없으면 insert, 있으면 REQR_SEQ 확인
+								$reqrSeq = $this->requestorModel->checkReqr($insertItem['REQR_NM'], $insertItem['MBILNO']);
+
+								// 존재하지 않으면 신청자마스터 (TB_REQR_M) insert
+								if ($reqrSeq == 0) {
+									$reqrData = array(
+										'REQR_NM' => $insertItem['REQR_NM']
+										, 'MBILNO' => $insertItem['MBILNO']
+									);
+									$reqrSeq = $this->requestorModel->insertReqr($reqrData);
+
+									$log = "사전등록자 신규등록[".$insertItem['REQR_NM'].",".$insertItem['MBILNO']."] ";
+								} else {
+									$log = "사전등록자 이미존재[".$insertItem['REQR_NM'].",".$insertItem['MBILNO']."] ";
+								}
+
+								$insertItem['REQR_SEQ'] = $reqrSeq;
+
+								// TB_PRJ_ENT_INFO_REQR_H insert
+								// 우선 기존에 등록된게 있는지 체크($prjSeq, $reqrSeq)
+								$existItem = $this->requestorModel->checkEntInfoReqr($prjSeq, $reqrSeq);
+								if (isset($existItem)) {
+									// 기존에 등록된게 있으면 update
+									$affectedRows = $this->requestorModel->updateEntInfoReqr($insertItem);
+									$cntUpdate += $affectedRows;
+
+									$log = $log.'기존 사전신청정보 존재로 UPDATE ';
+								} else {
+									$entInfoReqrSeq = $this->requestorModel->insertEntInfoReqr($insertItem);
+
+									// 성공횟수 설정
+									if ($entInfoReqrSeq > 0) {
+										$cntInsert++;
+									}
+
+									$log = $log.'사전신청정보 신규 INSERT ';
+								}
+
+								$logList[] = $log;
+							}
+
+							// 파일 닫기
+							fclose($readFile);
+						}
+
+						$resData['resCode'] = '0000';
+						$resData['resMsg'] = '정상적으로 처리되었습니다.';
+						$resData['cntInsert'] = $cntInsert;
+						$resData['cntUpdate'] = $cntUpdate;
+						$resData['logList'] = $logList;
+
+						return $this->response->setJSON($resData);
+					} else {
+						$resData['resCode'] = '9996';
+						$resData['resMsg'] = '정상적인 파일이 아닙니다.';
+
+						return $this->response->setJSON($resData);
+					}
+				}
+			}
+		} catch (Exception $e) {
+			log_message('error', "exception - ".$e->getMessage());
+
+			$resData['resCode'] = '9995';
+			$resData['resMsg'] = '파일 업로드 도중 문제가 발생했습니다. 메세지 : '.$e->getMessage();
+
+			return $this->response->setJSON($resData);
+		}
+	}
+
 	// ajax - 프로젝트 질문 리스트
-	public function getQuestionList() {
+	public function getQuestionList () {
 		// param 받기
 		$prjSeq = $this->request->getPost('prjSeq');
 		$aprvYn = $this->request->getPost('aprvYn');
@@ -445,18 +675,43 @@ class Project extends BaseController {
 	}
 
 	// ajax - 프로젝트에 딸린 설문 질문 및 보기 목록
-	public function getSurveyList() {
+	public function getSurveyList () {
 		// param 받기
 		$prjSeq = $this->request->getPost('prjSeq');
 		// log_message('info', "Project.php - getSurveyList. prjSeq: $prjSeq");
 
 		// 프로젝트 아이템
-		$data['surveyQstList'] = $this->surveyModel->surveyQstList($prjSeq);
-		$data['surveyQstChoiceList'] = $this->surveyModel->surveyQstChoiceList($prjSeq);
-		$data['surveyAswList'] = $this->surveyModel->surveyAswList($prjSeq);
+		$surveyQstList = $this->surveyModel->surveyQstList($prjSeq);
+		$surveyQstChoiceList = $this->surveyModel->surveyQstChoiceList($prjSeq);
+		$surveyAswList = $this->surveyModel->surveyAswList($prjSeq);
+
+		// 설문 객관식 보기에 대한 응답률 설정 (복수응답이 있고 설문응답은 1row라 쿼리로 설정하기 힘듦)
+		foreach($surveyQstChoiceList as $idx => $surveyQstChoiceItem) {
+			$qstNo = $surveyQstChoiceItem['QST_NO'];
+			$choiceNo = $surveyQstChoiceItem['CHOICE_NO'];
+			// log_message('info', "Project.php - getSurveyList. 객관식 choice 돌기. qstNo : $qstNo, choiceNo : $choiceNo");
+
+			$choicedList = array_filter(
+				$surveyAswList,
+			    function ($e) use ($qstNo, $choiceNo) {
+					// log_message('info', "Project.php - getSurveyList. 전체답변 돌기. qstNo : $qstNo, choiceNo : $choiceNo, REQR_SEQ : ".$e['REQR_SEQ'].", ASW_1 : ".$e['ASW_1'].", ASW_2".$e['ASW_2'].", ASW_3".$e['ASW_3'].", ASW_4".$e['ASW_4'].", ASW_5".$e['ASW_5']);
+
+					// 설문응답의 몇번 답변이 해당 객관식 번호를 포함하고 있으면 return
+					return substr_count($e['ASW_'.$qstNo], $choiceNo) > 0;
+			    }
+			);
+			// log_message('info', "Project.php - getSurveyList. qstNo : $qstNo, choiceNo : $choiceNo, 찾은건수 : ".count($choicedList));
+
+			// 총 응답자수, 선택자수 설정 (front에서 비율계산 가능)
+			$surveyQstChoiceList[$idx]['CNT_ALL_ASW'] = count($surveyAswList);
+			$surveyQstChoiceList[$idx]['CNT_SELECTED'] = count($choicedList);
+		}
 
 		$data['resCode'] = '0000';
 		$data['resMsg'] = '정상적으로 처리되었습니다.';
+		$data['surveyQstList'] = $surveyQstList;
+		$data['surveyQstChoiceList'] = $surveyQstChoiceList;
+		$data['surveyAswList'] = $surveyAswList;
 
 		return $this->response->setJSON($data);
 	}

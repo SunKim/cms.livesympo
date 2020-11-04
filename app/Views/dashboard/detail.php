@@ -58,6 +58,7 @@
 <?php
 	$email = isset($session['email']) ? $session['email'] : '';
 	$admSeq = isset($session['admSeq']) ? $session['admSeq'] : 0;
+	$lvl = isset($session['lvl']) ? $session['lvl'] : 0;
 ?>
 
 	<!-- Page Wrapper -->

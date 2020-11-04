@@ -13,15 +13,23 @@
   <!-- Divider -->
   <hr class="sidebar-divider my-0">
 
-  <!-- Nav Item - Dashboard -->
-  <li class="nav-item dashboard">
-	<a class="nav-link" href="/dashboard">
-	  <i class="fas fa-fw fa-tachometer-alt"></i>
-	  <span>Dashboard</span></a>
-  </li>
+<!-- Nav Item - Dashboard -->
+<li class="nav-item dashboard">
 
-  <!-- Divider -->
-  <hr class="sidebar-divider">
+<?php
+    // lvl 2(데이터관리자)는 안보이도록
+    if ($lvl != 2) {
+?>
+    <a class="nav-link" href="/dashboard">
+        <i class="fas fa-fw fa-tachometer-alt"></i>
+        <span>Dashboard</span></a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+<?php
+    }
+?>
 
   <!-- Heading -->
   <div class="sidebar-heading">
@@ -39,6 +47,11 @@
   <!-- Divider -->
   <hr class="sidebar-divider">
 
+
+<?php
+    // lvl 2(데이터관리자)는 안보이도록
+    if ($lvl != 2) {
+?>
   <!-- Heading -->
   <div class="sidebar-heading">
 	Admin
@@ -54,5 +67,9 @@
 
   <!-- Divider -->
   <hr class="sidebar-divider">
+<?php
+    }
+?>
+
 </ul>
 <!-- End of Sidebar -->

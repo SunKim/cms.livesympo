@@ -61,6 +61,7 @@ class Admin extends BaseController {
 		$pwd = $this->request->getPost('pwd');
 		$admNm = $this->request->getPost('admNm');
 		$lvl = $this->request->getPost('lvl');
+		$orgNm = $this->request->getPost('orgNm');
 		$regrId = $this->request->getPost('regrId');
 
 		// 기존 등록된 이메일 있는지 확인
@@ -75,6 +76,7 @@ class Admin extends BaseController {
 			'EMAIL' => $email
 			, 'ADM_NM' => $admNm
 			, 'LVL' => $lvl
+			, 'ORG_NM' => $orgNm
 			, 'REGR_ID' => $regrId
 		);
 		// 패스워드 암호화

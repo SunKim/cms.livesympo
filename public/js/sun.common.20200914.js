@@ -265,3 +265,55 @@ function emptyNumberInput (e) {
     e.target.value = null
   }
 }
+
+// 테이블내용 .csv 파일 다운로드
+// ex) downloadTableToCsv('tbl-xxx-list', '회원목록')
+function downloadTableToCsv(tableId, fileName) {
+  //참고) https://codepen.io/kostas-krevatas/pen/mJyBwp
+
+  const _tableToCSV = function(table) {
+    // We'll be co-opting `slice` to create arrays
+    const slice = Array.prototype.slice;
+
+    return slice
+      .call(table.rows)
+      .map(function(row) {
+        return slice
+          .call(row.cells)
+          .map(function(cell) {
+            return '"t"'.replace("t", cell.textContent);
+          })
+          .join(",");
+      })
+      .join("\r\n");
+  };
+
+  const _downloadAnchor = function(content, ext) {
+    const anchor = document.createElement("a");
+    anchor.style = "display:none !important";
+    anchor.id = "downloadanchor";
+    document.body.appendChild(anchor);
+
+    // If the [download] attribute is supported, try to use it
+
+    if ("download" in anchor) {
+      anchor.download = fileName + "." + ext;
+    }
+    anchor.href = content;
+    anchor.click();
+    anchor.remove();
+  }
+
+  // Generate our CSV string from out HTML Table
+  const csv = _tableToCSV(document.getElementById(tableId));
+  // Create a CSV Blob
+  const blob = new Blob(['\ufeff', csv], { type: "text/csv" });
+
+  // Determine which approach to take for the download
+  if (navigator.msSaveOrOpenBlob) {
+    // Works for Internet Explorer and Microsoft Edge
+    navigator.msSaveOrOpenBlob(blob, fileName + ".csv");
+  } else {
+    _downloadAnchor(URL.createObjectURL(blob), 'csv');
+  }
+}

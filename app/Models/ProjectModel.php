@@ -29,11 +29,15 @@ class ProjectModel extends Model {
 
         $strQry .= "SELECT	\n";
 		$strQry .= "	P.PRJ_SEQ, P.PRJ_TITLE, P.PRJ_TITLE_URI	\n";
-		$strQry .= "	, P.STREAM_URL, P.MAIN_IMG_URI, P.MAIN_IMG_THUMB_URI, P.AGENDA_IMG_URI, P.AGENDA_IMG_THUMB_URI, P.FOOTER_IMG_URI, P.FOOTER_IMG_THUMB_URI	\n";
+		$strQry .= "	, P.STREAM_URL, P.ONAIR_YN, P.MAIN_IMG_URI, P.MAIN_IMG_THUMB_URI, P.AGENDA_IMG_URI, P.AGENDA_IMG_THUMB_URI, P.FOOTER_IMG_URI, P.FOOTER_IMG_THUMB_URI	\n";
 		$strQry .= "	, P.APPL_BTN_BG_COLR, P.ENT_THME_COLR, P.AGENDA_PAGE_YN	\n";
 		$strQry .= "	, DATE_FORMAT(P.ST_DTTM, '%Y-%m-%d %H:%i') AS ST_DTTM	\n";
 		$strQry .= "	, DATE_FORMAT(P.ED_DTTM, '%Y-%m-%d %H:%i') AS ED_DTTM	\n";
-		$strQry .= "	, REGR_ID,  DATE_FORMAT(P.REG_DTTM, '%Y-%m-%d %H:%i') AS REG_DTTM	\n";
+        $strQry .= "	, DATE_FORMAT(P.ST_DTTM, '%Y-%m-%d') AS ST_DT	\n";
+        $strQry .= "	, DATE_FORMAT(P.ST_DTTM, '%H:%i') AS ST_TM	\n";
+        $strQry .= "	, DATE_FORMAT(P.ED_DTTM, '%H:%i') AS ED_TM	\n";
+		// $strQry .= "	, REGR_ID,  DATE_FORMAT(P.REG_DTTM, '%Y-%m-%d %H:%i') AS REG_DTTM	\n";
+        $strQry .= "	, SUBSTRING_INDEX(REGR_ID, '@', 1) AS REGR_ID,  DATE_FORMAT(P.REG_DTTM, '%Y-%m-%d') AS REG_DTTM	\n";
 		$strQry .= "	, IFNULL(R.REQR_CNT, 0) AS REQR_CNT	\n";
 		$strQry .= "	, IFNULL(SQ.CNT_CHOICE, 0) AS CNT_CHOICE, IFNULL(SQ.CNT_SBJ, 0) AS CNT_SBJ	\n";
 		$strQry .= "	, IFNULL(SA.ASW_CNT, 0) AS ASW_CNT	\n";
@@ -129,7 +133,7 @@ class ProjectModel extends Model {
 
         $strQry .= "SELECT 	\n";
         $strQry .= "	P.PRJ_SEQ, P.PRJ_TITLE, P.PRJ_TITLE_URI	\n";
-		$strQry .= "	, P.STREAM_URL, P.MAIN_IMG_URI, P.AGENDA_IMG_URI, P.FOOTER_IMG_URI	\n";
+		$strQry .= "	, P.STREAM_URL, P.ONAIR_YN, P.MAIN_IMG_URI, P.AGENDA_IMG_URI, P.FOOTER_IMG_URI	\n";
         $strQry .= "	, CONCAT('".$_ENV['app.baseURL']."', P.MAIN_IMG_URI) AS MAIN_IMG_URL	\n";
         $strQry .= "	, CONCAT('".$_ENV['app.baseURL']."', P.AGENDA_IMG_URI) AS AGENDA_IMG_URL	\n";
         $strQry .= "	, CONCAT('".$_ENV['app.baseURL']."', P.FOOTER_IMG_URI) AS FOOTER_IMG_URL	\n";
@@ -139,7 +143,7 @@ class ProjectModel extends Model {
         $strQry .= "	, DATE_FORMAT(P.ED_DTTM, '%H:%i') AS ED_TIME	\n";
         $strQry .= "	, CONN_ROUTE_1, CONN_ROUTE_2, CONN_ROUTE_3	\n";
 		$strQry .= "	, P.AGENDA_BTN_TEXT, P.SURVEY_BTN_TEXT, P.QST_BTN_TEXT	\n";
-		$strQry .= "	, P.APPL_BODY_COLR, P.APPL_BTN_BG_COLR, P.APPL_BTN_FONT_COLR, P.APPL_BTN_ALIGN, P.ENT_THME_COLR, P.ENT_THME_HEIGHT	\n";
+		$strQry .= "	, P.APPL_BODY_COLR, P.APPL_BTN_BG_COLR, P.APPL_BTN_FONT_COLR, P.APPL_BTN_ALIGN, P.APPL_BTN_ROUND_YN, P.ENT_THME_COLR, P.ENT_THME_HEIGHT, P.ENT_BTN_BG_COLR, P.ENT_BTN_FONT_COLR, P.ENT_BTN_ROUND_YN	\n";
 		$strQry .= "	, P.STREAM_BODY_COLR, P.STREAM_BTN_BG_COLR, P.STREAM_BTN_FONT_COLR, P.STREAM_QA_BG_COLR, P.STREAM_QA_FONT_COLR	\n";
         $strQry .= "	, ENT_INFO_EXTRA_1, ENT_INFO_EXTRA_PHOLDER_1, ENT_INFO_EXTRA_REQUIRED_1	\n";
         $strQry .= "	, ENT_INFO_EXTRA_2, ENT_INFO_EXTRA_PHOLDER_2, ENT_INFO_EXTRA_REQUIRED_2	\n";
@@ -149,7 +153,13 @@ class ProjectModel extends Model {
         $strQry .= "	, ENT_INFO_EXTRA_6, ENT_INFO_EXTRA_PHOLDER_6, ENT_INFO_EXTRA_REQUIRED_6	\n";
 		$strQry .= "	, ENT_INFO_EXTRA_7, ENT_INFO_EXTRA_PHOLDER_7, ENT_INFO_EXTRA_REQUIRED_7	\n";
 		$strQry .= "	, ENT_INFO_EXTRA_8, ENT_INFO_EXTRA_PHOLDER_8, ENT_INFO_EXTRA_REQUIRED_8	\n";
+        $strQry .= "	, P.DATA_ADM_SEQ_1, A1.ADM_NM AS DATA_ADM_NM_1, A1.EMAIL AS DATA_ADM_EMAIL_1, A1.ORG_NM AS DATA_ADM_ORG_NM_1    \n";
+        $strQry .= "	, P.DATA_ADM_SEQ_2, A2.ADM_NM AS DATA_ADM_NM_2, A2.EMAIL AS DATA_ADM_EMAIL_2, A2.ORG_NM AS DATA_ADM_ORG_NM_2    \n";
         $strQry .= "FROM TB_PRJ_M AS P	\n";
+        $strQry .= "LEFT OUTER JOIN TB_ADMIN_M AS A1	\n";
+        $strQry .= "        ON (P.DATA_ADM_SEQ_1 = A1.ADM_SEQ AND A1.DEL_YN = 0)	\n";
+        $strQry .= "LEFT OUTER JOIN TB_ADMIN_M AS A2	\n";
+        $strQry .= "        ON (P.DATA_ADM_SEQ_2 = A2.ADM_SEQ AND A2.DEL_YN = 0)	\n";
         $strQry .= "WHERE 1=1	\n";
         $strQry .= "	AND P.DEL_YN = 0	\n";
         $strQry .= "	AND P.PRJ_SEQ = ".$this->db->escape($prjSeq)."	\n";

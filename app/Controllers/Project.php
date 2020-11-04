@@ -453,6 +453,13 @@ class Project extends BaseController {
 		// http://ci4doc.cikorea.net/libraries/uploaded_files.html
 		$files = $this->request->getFiles();
 
+		// 해당 프로젝트 item (접속경로 text를 CONN_ROUTE_VAL로 변환하기 위해 필요)
+		$prjItem = $this->projectModel->detail($prjSeq);
+
+		$cntInsert = 0;
+		$cntUpdate = 0;
+		$logList = array();
+
 		try {
 			if ($files) {
 				foreach ($files as $key => $file) {
@@ -480,12 +487,113 @@ class Project extends BaseController {
 						if ($readFile = fopen($path.DIRECTORY_SEPARATOR.$fileNm , 'r')) {
 							// 한줄씩 읽음
 							while (($lineData = fgetcsv($readFile, 1000, ",")) !== FALSE) {
-								print_r($lineData);
+								// print_r($lineData);
+
+								// TB_PRJ_ENT_INFO_REQR_H 에 insert용 item
+								$insertItem = array();
+
+								// foreach로 하려했는데 그럴 필요가 없네;
+								foreach($lineData as $idx => $colItem) {
+									// echo "item : $idx - $colItem  ";
+								}
+
+								// TB_PRJ_ENT_INFO_REQR_H insert용 item 생성
+								$insertItem['PRJ_SEQ'] = $prjSeq;
+								if (isset($lineData[0]) && $lineData[0] != '') {
+									$insertItem['REQR_NM'] = $lineData[0];
+								}
+								if (isset($lineData[1]) && $lineData[1] != '') {
+									$insertItem['MBILNO'] = $lineData[1];
+								}
+								if (isset($lineData[2]) && $lineData[2] != '') {
+									$insertItem['ENT_INFO_EXTRA_VAL_1'] = $lineData[2];
+								}
+								if (isset($lineData[3]) && $lineData[3] != '') {
+									$insertItem['ENT_INFO_EXTRA_VAL_2'] = $lineData[3];
+								}
+								if (isset($lineData[4]) && $lineData[4] != '') {
+									$insertItem['ENT_INFO_EXTRA_VAL_3'] = $lineData[4];
+								}
+								if (isset($lineData[5]) && $lineData[5] != '') {
+									$insertItem['ENT_INFO_EXTRA_VAL_4'] = $lineData[5];
+								}
+								if (isset($lineData[6]) && $lineData[6] != '') {
+									$insertItem['ENT_INFO_EXTRA_VAL_5'] = $lineData[6];
+								}
+								if (isset($lineData[7]) && $lineData[7] != '') {
+									$insertItem['ENT_INFO_EXTRA_VAL_6'] = $lineData[7];
+								}
+								if (isset($lineData[8]) && $lineData[8] != '') {
+									$insertItem['ENT_INFO_EXTRA_VAL_7'] = $lineData[8];
+								}
+								if (isset($lineData[9]) && $lineData[9] != '') {
+									$insertItem['ENT_INFO_EXTRA_VAL_8'] = $lineData[9];
+								}
+								// 접속경로는 CONN_ROUTE_VAL로 변환 필요
+								if (isset($lineData[10]) && $lineData[10] != '') {
+									// $insertItem['CONN_ROUTE_RAW'] = $lineData[10];
+
+									if ($lineData[10] === $prjItem['CONN_ROUTE_1']) {
+										$insertItem['CONN_ROUTE_VAL'] = 1;
+									} else if ($lineData[10] === $prjItem['CONN_ROUTE_2']) {
+										$insertItem['CONN_ROUTE_VAL'] = 2;
+									} else if ($lineData[10] === $prjItem['CONN_ROUTE_3']) {
+										$insertItem['CONN_ROUTE_VAL'] = 3;
+									}
+								}
+
+								// 우선 REQR_M에 없으면 insert, 있으면 REQR_SEQ 확인
+								$reqrSeq = $this->requestorModel->checkReqr($insertItem['REQR_NM'], $insertItem['MBILNO']);
+
+								// 존재하지 않으면 신청자마스터 (TB_REQR_M) insert
+								if ($reqrSeq == 0) {
+									$reqrData = array(
+										'REQR_NM' => $insertItem['REQR_NM']
+										, 'MBILNO' => $insertItem['MBILNO']
+									);
+									$reqrSeq = $this->requestorModel->insertReqr($reqrData);
+
+									$log = "사전등록자 신규등록[".$insertItem['REQR_NM'].",".$insertItem['MBILNO']."] ";
+								} else {
+									$log = "사전등록자 이미존재[".$insertItem['REQR_NM'].",".$insertItem['MBILNO']."] ";
+								}
+
+								$insertItem['REQR_SEQ'] = $reqrSeq;
+
+								// TB_PRJ_ENT_INFO_REQR_H insert
+								// 우선 기존에 등록된게 있는지 체크($prjSeq, $reqrSeq)
+								$existItem = $this->requestorModel->checkEntInfoReqr($prjSeq, $reqrSeq);
+								if (isset($existItem)) {
+									// 기존에 등록된게 있으면 update
+									$affectedRows = $this->requestorModel->updateEntInfoReqr($insertItem);
+									$cntUpdate += $affectedRows;
+
+									$log = $log.'기존 사전신청정보 존재로 UPDATE ';
+								} else {
+									$entInfoReqrSeq = $this->requestorModel->insertEntInfoReqr($insertItem);
+
+									// 성공횟수 설정
+									if ($entInfoReqrSeq > 0) {
+										$cntInsert++;
+									}
+
+									$log = $log.'사전신청정보 신규 INSERT ';
+								}
+
+								$logList[] = $log;
 							}
 
 							// 파일 닫기
 							fclose($readFile);
 						}
+
+						$resData['resCode'] = '0000';
+						$resData['resMsg'] = '정상적으로 처리되었습니다.';
+						$resData['cntInsert'] = $cntInsert;
+						$resData['cntUpdate'] = $cntUpdate;
+						$resData['logList'] = $logList;
+
+						return $this->response->setJSON($resData);
 					} else {
 						$resData['resCode'] = '9996';
 						$resData['resMsg'] = '정상적인 파일이 아닙니다.';
@@ -496,6 +604,11 @@ class Project extends BaseController {
 			}
 		} catch (Exception $e) {
 			log_message('error', "exception - ".$e->getMessage());
+
+			$resData['resCode'] = '9995';
+			$resData['resMsg'] = '파일 업로드 도중 문제가 발생했습니다. 메세지 : '.$e->getMessage();
+
+			return $this->response->setJSON($resData);
 		}
 	}
 

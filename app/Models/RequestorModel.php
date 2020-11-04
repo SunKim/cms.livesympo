@@ -68,4 +68,47 @@ class RequestorModel extends Model {
 
       return $this->db->affectedRows();
     }
+
+	// 기존에 등록한 신청자인지 확인. 존재하면 REQR_SEQ. 없으면 0
+	public function checkReqr ($reqrNm, $mbilno) {
+		$strQry  = "";
+
+		$strQry .= "SELECT IFNULL(MAX(REQR_SEQ), 0) AS REQR_SEQ	\n";
+		$strQry .= "FROM TB_REQR_M	\n";
+		$strQry .= "WHERE 1=1	\n";
+		$strQry .= "	AND REQR_NM = ".$this->db->escape($reqrNm)."	\n";
+		$strQry .= "    AND MBILNO = ".$this->db->escape($mbilno)."	\n";
+
+		$strQry .= ";";
+		// log_message('info', "projectModel - list. Qry - \n$strQry");
+
+		return $this->db->query($strQry)->getRowArray()['REQR_SEQ'];
+	}
+
+	// 신청자마스터 (TB_REQR_M) insert
+    public function insertReqr ($data) {
+		$this->db->table('TB_REQR_M')->insert($data);
+        return $this->db->insertID();
+	}
+
+	// 입장정보신청자등록이력 (TB_PRJ_ENT_INFO_REQR_H) insert
+    public function insertEntInfoReqr ($data) {
+		$this->db->table('TB_PRJ_ENT_INFO_REQR_H')->insert($data);
+        return $this->db->insertID();
+	}
+
+	// 기존 등록된 데이터 존재여부 체크 - $prjSeq, $reqrSeq로 입장정보신청자등록이력 (TB_PRJ_ENT_INFO_REQR_H) select
+    public function checkEntInfoReqr ($prjSeq, $reqrSeq) {
+      $limit = 1;
+      $offset = 0;
+      return $this->db->table('TB_PRJ_ENT_INFO_REQR_H')->getWhere(['PRJ_SEQ' => $prjSeq, 'REQR_SEQ' => $reqrSeq], $limit, $offset)->getRowArray();
+    }
+
+	// 입장정보신청자등록이력 (TB_PRJ_ENT_INFO_REQR_H) update
+    public function updateEntInfoReqr ($data) {
+		$builder = $this->db->table('TB_PRJ_ENT_INFO_REQR_H');
+		$builder->where(['PRJ_SEQ' => $data['PRJ_SEQ'], 'REQR_SEQ' => $data['REQR_SEQ']])->update($data);
+
+        return $this->db->affectedRows();
+	}
 }

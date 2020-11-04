@@ -161,7 +161,9 @@ if ($lvl == 9 || $lvl == 1) {
 				</div>
 				<div class="modal-body">
 					<p>.csv 파일은 제목열은 빼고 프로젝트에서 설정한 입력항목 순서대로 아래 표와 같이 입력해주세요.</p>
-					<p>기존 입력데이터 또는 엑셀업로드 데이터와 중복(이름, 연락처)되는 사전등록자가 있으면 최근 입력값으로 대체됩니다.</p>
+					<p> - 칼럼1: 성명, 칼럼 2: 연락처, 칼럼 3: 추가입력1 ~ 칼럼 10: 추가입력8, 칼럼 11: 접속경로</p>
+					<p> - 접속경로가 기존 입력값과 다를 경우 저장되지 않습니다. 예) 프로젝트 설정의 접속경로는 '영업담당자'인데 엑셀에는 '영업 담당자'라고 되어있는 경우</p>
+					<p> - 기존 입력데이터 또는 엑셀업로드 데이터와 중복(이름, 연락처)되는 사전등록자가 있으면 최근 입력값으로 대체됩니다.</p>
 					<table class="table-list mt10" id="tbl-reqr-list-sample">
 	                    <tbody>
 							<tr>
@@ -359,6 +361,8 @@ function uploadExcel () {
 		return;
 	}
 
+	showSpinner();
+
 	const form = $('form')[0];
 	const formData = new FormData(form);
 
@@ -374,7 +378,8 @@ function uploadExcel () {
         success: function (data) {
 			console.log(data);
 			if ( data.resCode == '0000' ) {
-				alert('프로젝트 사전등록자 목록 업로드가 완료되었습니다.');
+				console.log(data.logList);
+				alert('프로젝트 사전등록자 목록 업로드가 완료되었습니다. (신규등록  '+data.cntInsert+'건, 갱신 '+data.cntUpdate+'건)');
 				location.reload();
 			} else {
 				alert('프로젝트 사전등록자 목록 업로드 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드(resCode):'+data.resCode+'\n메세지(resMsg):'+data.resMsg);
@@ -383,7 +388,10 @@ function uploadExcel () {
 		error: function (xhr, ajaxOptions, thrownError) {
 			console.error(xhr);
 			alert('프로젝트 사전등록자 목록 업로드 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드:'+xhr.status+'\n메세지:'+thrownError);
-        }
+        },
+		complete : function () {
+			hideSpinner();
+		}
     });
 }
 

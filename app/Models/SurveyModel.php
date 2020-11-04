@@ -65,7 +65,10 @@ class SurveyModel extends Model {
 		$strQry .= "	, IFNULL(SA.ASW_8, '') AS ASW_8	\n";
 		$strQry .= "	, IFNULL(SA.ASW_9, '') AS ASW_9	\n";
 		$strQry .= "	, IFNULL(SA.ASW_10, '') AS ASW_10	\n";
-		$strQry .= "    , EI.MBILNO, EI.REQR_NM, EI.HSPTL_NM, EI.SBJ_NM	\n";
+		$strQry .= "    , EI.MBILNO, EI.REQR_NM	\n";
+		$strQry .= "    , IFNULL(EI.ENT_INFO_EXTRA_VAL_1, '') AS ENT_INFO_EXTRA_VAL_1	\n";
+		$strQry .= "    , IFNULL(EI.ENT_INFO_EXTRA_VAL_2, '') AS ENT_INFO_EXTRA_VAL_2	\n";
+		$strQry .= "    , IFNULL(EI.ENT_INFO_EXTRA_VAL_3, '') AS ENT_INFO_EXTRA_VAL_3	\n";
 		$strQry .= "FROM TB_SURVEY_ASW_REQR_H AS SA	\n";
 		$strQry .= "INNER JOIN TB_PRJ_ENT_INFO_REQR_H AS EI	\n";
 		$strQry .= "		ON (SA.PRJ_SEQ = EI.PRJ_SEQ AND SA.REQR_SEQ = EI.REQR_SEQ)	\n";

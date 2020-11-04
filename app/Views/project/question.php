@@ -239,7 +239,7 @@ function getQuestionList (prjSeq) {
 		},
 
 		success: function(data) {
-			console.log(data)
+			// console.log(data)
 			if ( data.resCode == '0000' ) {
 				const list = data.list;
 
@@ -308,7 +308,7 @@ function approve (qstSeq, aprvYn) {
 		},
 
 		success: function(data) {
-			console.log(data);
+			// console.log(data);
 			if ( data.resCode == '0000' ) {
 				alert('질문 승인여부를 처리했습니다.');
 				getQuestionList(<?= $project['PRJ_SEQ'] ?>);
@@ -354,7 +354,7 @@ function fakeQuestion (prjSeq) {
 		},
 
 		success: function(data) {
-			console.log(data);
+			// console.log(data);
 			if ( data.resCode == '0000' ) {
 				alert('질문을 등록했습니다.');
 				getQuestionList(<?= $project['PRJ_SEQ'] ?>);

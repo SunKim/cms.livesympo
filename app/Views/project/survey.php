@@ -191,9 +191,9 @@ table.tbl-survey-asw th, table.tbl-survey-asw td { padding: 4px !important; min-
 									<tr>
 										<th>Seq.</th>
 										<th>참여자명</th>
+										<!-- <th>연락처</th> -->
 										<th>추가항목1</th>
 										<th>추가항목2</th>
-										<!-- <th>연락처</th> -->
 										<th>답변1</th>
 										<th>답변2</th>
 										<th>답변3</th>
@@ -211,7 +211,50 @@ table.tbl-survey-asw th, table.tbl-survey-asw td { padding: 4px !important; min-
 								</tbody>
 							</table>
 						</div>
+
+						<div class="d-flex align-items-center justify-content-between pa20">
+							<span>&nbsp;</span>
+							<button class="btn-main btn-light-indigo ml10" onclick="downloadExcel();">엑셀저장</button>
+						</div>
 					</div>
+
+					<!-- 엑셀다운로드용 테이블 -->
+					<!-- <table style="display: none;" id="tbl-excel"> -->
+					<table id="tbl-excel">
+						<tbody class="qst-title">
+							<tr>
+								<th>설문 내용</th>
+							</tr>
+						</tbody>
+						<tbody class="qst-list">
+						</tbody>
+						<tbody class="asw-title">
+							<tr><td>&nbsp;</td></tr>
+							<tr>
+								<th>설문 답변내용</th>
+							</tr>
+							<tr>
+								<th>Seq.</th>
+								<th>참여자명</th>
+								<!-- <th>연락처</th> -->
+								<th>추가항목1</th>
+								<th>추가항목2</th>
+								<th>답변1</th>
+								<th>답변2</th>
+								<th>답변3</th>
+								<th>답변4</th>
+								<th>답변5</th>
+								<th>답변6</th>
+								<th>답변7</th>
+								<th>답변8</th>
+								<th>답변9</th>
+								<th>답변10</th>
+								<th>답변일시</th>
+							</tr>
+						</tbody>
+						<tbody class="asw-list">
+						</tbody>
+					</table>
 				</div>
 				<!-- /.container-fluid -->
 
@@ -381,6 +424,10 @@ function getSurveyList (prjSeq) {
 				$('.survey-qst-list ul.qst-choice-list').empty();
 				$('table.tbl-survey-asw tbody').empty();
 
+				$('table#tbl-excel tbody.qst-list').empty();
+				$('table#tbl-excel tbody.asw-list').empty();
+
+				// 설문항목 설정
 				surveyQstList.forEach(item => {
 					$('.survey-qst-list li[QST_NO='+item.QST_NO+'] input.qst-title').val(item.QST_TITLE);
 					$('.survey-qst-list li[QST_NO='+item.QST_NO+'] select.qst-tp').val(item.QST_TP);
@@ -392,8 +439,18 @@ function getSurveyList (prjSeq) {
 					} else {
 						$('.survey-qst-list li[QST_NO='+item.QST_NO+'] div.qst-choice-container').show();
 					}
+
+					// 엑셀저장용 설정
+					let htmlExcel = '';
+					htmlExcel += '<tr GB="QST" QST_NO='+item.QST_NO+'>';
+					htmlExcel += '	<td>'+item.QST_NO+'. '+item.QST_TITLE+'('+item.QST_TP+(item.QST_MULTI_YN == 1 ? '-복수응답' : '')+')</td>';
+					htmlExcel += '</tr>';
+					htmlExcel += '<tr><td>&nbsp;</td></tr>';
+
+					$('table#tbl-excel tbody.qst-list').append(htmlExcel);
 				});
 
+				// 설문항목에 딸린 객관식 보기 설정
 				surveyQstChoiceList.forEach(item => {
 					let html = '';
 
@@ -403,16 +460,33 @@ function getSurveyList (prjSeq) {
 					html += '</li>';
 
 					$('.survey-qst-list li[QST_NO='+item.QST_NO+'] ul.qst-choice-list').append(html);
+
+					// 엑셀저장용 설정
+					let htmlExcel = '';
+					htmlExcel += '<tr GB="CHOICE" QST_NO='+item.QST_NO+' CHOICE_NO='+item.CHOICE_NO+'>';
+					htmlExcel += '	<td>'+item.CHOICE_NO+') '+item.CHOICE+' (응답률 '+Math.round(item.CNT_SELECTED/item.CNT_ALL_ASW * 100)+'%)</td>';
+					htmlExcel += '</tr>';
+
+					// append 되는 순서를 위해 - 이전보기가 있으면 이전보기 뒤에, 없으면 질문 뒤에
+					let trObj = $('table#tbl-excel tbody.qst-list tr[GB=CHOICE][QST_NO='+item.QST_NO+'][CHOICE_NO='+(item.CHOICE_NO-1)+']');
+					if (trObj.length > 0) {
+						// console.log(`trObj 있음 - ${JSON.stringify(trObj)}`);
+						$(trObj).after(htmlExcel);
+					} else {
+						// console.log(`trObj 없음`);
+						$('table#tbl-excel tbody.qst-list tr[GB=QST][QST_NO='+item.QST_NO+']').after(htmlExcel);
+					}
 				});
 
+				// 설문답변 설정
 				surveyAswList.forEach((item) => {
 					let html = '';
 
 					html += '<tr>';
 					html += '	<td>'+item.REQR_SEQ+'</td>';
 					html += '	<td>'+item.REQR_NM+'</td>';
-					html += '	<td>'+item.HSPTL_NM+'</td>';
-					html += '	<td>'+item.SBJ_NM+'</td>';
+					html += '	<td>'+item.ENT_INFO_EXTRA_VAL_1+'</td>';
+					html += '	<td>'+item.ENT_INFO_EXTRA_VAL_2+'</td>';
 					// html += '	<td>'+formatMobile(item.MBILNO)+'</td>';
 
 					html += '	<td>'+item.ASW_1+'</td>';
@@ -430,8 +504,10 @@ function getSurveyList (prjSeq) {
 					html += '</tr>';
 
 					$('table.tbl-survey-asw tbody').append(html);
-				});
 
+					// 엑셀저장용 설정
+					$('table#tbl-excel tbody.asw-list').append(html);
+				});
 
 				if (surveyAswList.length > 0) {
 					$('div.answer-container').show();
@@ -545,6 +621,14 @@ function saveSurvey () {
 			hideSpinner();
 		}
 	});
+}
+
+// 엑셀저장
+function downloadExcel () {
+	const today = new Date();
+	const todayShort = today.toJSON().slice(0, 10).split`-`.join``;
+	// excelModalExwide1('엑셀저장', '엑셀저장 버튼을 클릭하세요.', 'tbl-reqr-list', '<?= $project['PRJ_TITLE'] ?>_사전등록자');
+	downloadTableToCsv('tbl-excel', '<?= $project['PRJ_TITLE'] ?>_설문_'+todayShort);
 }
 
 $(document).ready(function () {

@@ -680,12 +680,37 @@ class Project extends BaseController {
 		// log_message('info', "Project.php - getSurveyList. prjSeq: $prjSeq");
 
 		// 프로젝트 아이템
-		$data['surveyQstList'] = $this->surveyModel->surveyQstList($prjSeq);
-		$data['surveyQstChoiceList'] = $this->surveyModel->surveyQstChoiceList($prjSeq);
-		$data['surveyAswList'] = $this->surveyModel->surveyAswList($prjSeq);
+		$surveyQstList = $this->surveyModel->surveyQstList($prjSeq);
+		$surveyQstChoiceList = $this->surveyModel->surveyQstChoiceList($prjSeq);
+		$surveyAswList = $this->surveyModel->surveyAswList($prjSeq);
+
+		// 설문 객관식 보기에 대한 응답률 설정 (복수응답이 있고 설문응답은 1row라 쿼리로 설정하기 힘듦)
+		foreach($surveyQstChoiceList as $idx => $surveyQstChoiceItem) {
+			$qstNo = $surveyQstChoiceItem['QST_NO'];
+			$choiceNo = $surveyQstChoiceItem['CHOICE_NO'];
+			// log_message('info', "Project.php - getSurveyList. 객관식 choice 돌기. qstNo : $qstNo, choiceNo : $choiceNo");
+
+			$choicedList = array_filter(
+				$surveyAswList,
+			    function ($e) use ($qstNo, $choiceNo) {
+					// log_message('info', "Project.php - getSurveyList. 전체답변 돌기. qstNo : $qstNo, choiceNo : $choiceNo, REQR_SEQ : ".$e['REQR_SEQ'].", ASW_1 : ".$e['ASW_1'].", ASW_2".$e['ASW_2'].", ASW_3".$e['ASW_3'].", ASW_4".$e['ASW_4'].", ASW_5".$e['ASW_5']);
+
+					// 설문응답의 몇번 답변이 해당 객관식 번호를 포함하고 있으면 return
+					return substr_count($e['ASW_'.$qstNo], $choiceNo) > 0;
+			    }
+			);
+			// log_message('info', "Project.php - getSurveyList. qstNo : $qstNo, choiceNo : $choiceNo, 찾은건수 : ".count($choicedList));
+
+			// 총 응답자수, 선택자수 설정 (front에서 비율계산 가능)
+			$surveyQstChoiceList[$idx]['CNT_ALL_ASW'] = count($surveyAswList);
+			$surveyQstChoiceList[$idx]['CNT_SELECTED'] = count($choicedList);
+		}
 
 		$data['resCode'] = '0000';
 		$data['resMsg'] = '정상적으로 처리되었습니다.';
+		$data['surveyQstList'] = $surveyQstList;
+		$data['surveyQstChoiceList'] = $surveyQstChoiceList;
+		$data['surveyAswList'] = $surveyAswList;
 
 		return $this->response->setJSON($data);
 	}

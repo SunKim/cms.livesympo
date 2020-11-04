@@ -219,8 +219,8 @@ table.tbl-survey-asw th, table.tbl-survey-asw td { padding: 4px !important; min-
 					</div>
 
 					<!-- 엑셀다운로드용 테이블 -->
-					<!-- <table style="display: none;" id="tbl-excel"> -->
-					<table id="tbl-excel">
+					<table style="display: none;" id="tbl-excel">
+					<!-- <table id="tbl-excel"> -->
 						<tbody class="qst-title">
 							<tr>
 								<th>설문 내용</th>

@@ -114,7 +114,7 @@ table.table-detail img { display: block; max-width: 640px; }
 									</colgroup>
 									<tbody>
 										<tr>
-											<th rowspan="10">프로젝트</th>
+											<th rowspan="13">프로젝트</th>
 											<th class="required">타이틀</th>
 											<td class="tl">
 												<input type="hidden" id="PRJ_SEQ" name="PRJ_SEQ" value="<?= $prjSeq ?>" />
@@ -165,7 +165,33 @@ table.table-detail img { display: block; max-width: 640px; }
 											</td>
 										</tr>
 										<tr>
-											<th class="required">접속경로 설정</th>
+											<th class="required">외부설문</th>
+											<td class="tl">
+												<p class="desc">* 외부설문 활성화시 스트리밍 페이지의 설문참여 버튼 클릭시 해당 URL로 연결됩니다.</p>
+												<select class="common-select w20 mt10" id="EXT_SURVEY_YN" name="EXT_SURVEY_YN">
+													<option value="0">비활성화</option>
+													<option value="1">활성화</option>
+												</select>
+												<div class="d-flex align-items-center mt10">
+													<span class="ent-info-title">URL</span>
+													<input type="text" id="EXT_SURVEY_URL" name="EXT_SURVEY_URL" class="common-input w90" maxlength="100" />
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<th>공지내용</th>
+											<td class="tl">
+												<textarea id="NTC_DESC" name="NTC_DESC" class="common-textarea w90 mt10 mb10" maxlength="200" rows="4" placeholder="스트리밍 페이지 공지내용을 입력해주세요."></textarea>
+											</td>
+										</tr>
+										<tr>
+											<th>Q&amp;A 텍스트</th>
+											<td class="tl">
+												<input type="text" id="QNA_TEXT" name="QNA_TEXT" class="common-input w90" maxlength="100" value="* Q&A - 질문을 남겨주시면 강의 후 답변드립니다." />
+											</td>
+										</tr>
+										<tr>
+											<th>접속경로 설정</th>
 											<td class="tl">
 												<p class="desc">* 최대 3개까지 등록 가능합니다. 없으면 빈칸으로 두세요.</p>
 												<ul>
@@ -641,6 +667,16 @@ function save () {
 		$('#ST_DATE').focus();
 		return;
 	}
+	if (!checkDate( $('#ED_DATE').val() )) {
+		alert('종료일자를 형식에 맞게 입력해주세요.(2020-12-31)');
+		$('#ED_DATE').focus();
+		return;
+	}
+	if ($('#EXT_SURVEY_YN').val() == '1' && !checkUrl($('#EXT_SURVEY_URL').val())) {
+		alert('외부설문 URL을 형식에 맞게 입력해주세요. (https://survey.com/xxxx)');
+		$('#EXT_SURVEY_URL').focus();
+		return;
+	}
 
 	// 추가항목이 있을 경우 필수여부 체크
 	if (!isEmpty( $('#ENT_INFO_EXTRA_1').val() )) {
@@ -782,6 +818,11 @@ function getDetail (prjSeq) {
 				$('#ST_TIME').val(data.item.ST_TIME);
 				$('#ED_DATE').val(data.item.ED_DATE);
 				$('#ED_TIME').val(data.item.ED_TIME);
+
+				$('#EXT_SURVEY_YN').val(data.item.EXT_SURVEY_YN);
+				$('#EXT_SURVEY_URL').val(data.item.EXT_SURVEY_URL);
+				$('#NTC_DESC').val(data.item.NTC_DESC);
+				$('#QNA_TEXT').val(data.item.QNA_TEXT);
 
 				$('#CONN_ROUTE_1').val(data.item.CONN_ROUTE_1);
 				$('#CONN_ROUTE_2').val(data.item.CONN_ROUTE_2);

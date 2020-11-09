@@ -141,6 +141,7 @@ class ProjectModel extends Model {
         $strQry .= "	, DATE_FORMAT(P.ST_DTTM, '%H:%i') AS ST_TIME	\n";
 		$strQry .= "	, DATE_FORMAT(P.ED_DTTM, '%Y-%m-%d') AS ED_DATE	\n";
         $strQry .= "	, DATE_FORMAT(P.ED_DTTM, '%H:%i') AS ED_TIME	\n";
+		$strQry .= "	, P.EXT_SURVEY_YN, P.EXT_SURVEY_URL, P.NTC_DESC, P.QNA_TEXT	\n";
         $strQry .= "	, CONN_ROUTE_1, CONN_ROUTE_2, CONN_ROUTE_3	\n";
 		$strQry .= "	, P.AGENDA_BTN_TEXT, P.SURVEY_BTN_TEXT, P.QST_BTN_TEXT	\n";
 		$strQry .= "	, P.APPL_BODY_COLR, P.APPL_BTN_BG_COLR, P.APPL_BTN_FONT_COLR, P.APPL_BTN_ALIGN, P.APPL_BTN_ROUND_YN, P.ENT_THME_COLR, P.ENT_THME_HEIGHT, P.ENT_BTN_BG_COLR, P.ENT_BTN_FONT_COLR, P.ENT_BTN_ROUND_YN	\n";

@@ -197,6 +197,11 @@ class Project extends BaseController {
 		$data['ST_DTTM'] = $this->request->getPost('ST_DATE').' '.$this->request->getPost('ST_TIME').':00';
 		$data['ED_DTTM'] = $this->request->getPost('ED_DATE').' '.$this->request->getPost('ED_TIME').':00';
 
+		$data['EXT_SURVEY_YN'] = $this->request->getPost('EXT_SURVEY_YN');
+		$data['EXT_SURVEY_URL'] = $this->request->getPost('EXT_SURVEY_URL');
+		$data['NTC_DESC'] = $this->request->getPost('NTC_DESC');
+		$data['QNA_TEXT'] = $this->request->getPost('QNA_TEXT');
+
 		$data['CONN_ROUTE_1'] = $this->request->getPost('CONN_ROUTE_1');
 		$data['CONN_ROUTE_2'] = $this->request->getPost('CONN_ROUTE_2');
 		$data['CONN_ROUTE_3'] = $this->request->getPost('CONN_ROUTE_3');
@@ -413,9 +418,12 @@ class Project extends BaseController {
 		$prjSeq = $this->request->getPost('prjSeq');
 		// log_message('info', "Project - getRequestorList. prjSeq: $prjSeq");
 
-		// 질문목록
+		// 사전등록자, 참석자 목록
 		$reqrList = $this->requestorModel->list($prjSeq);
 		$attendanceList = $this->requestorModel->attendanceList($prjSeq);
+		// foreach($reqrList as $idx => $reqrItem) {
+		// 	log_message('info', "Project - getRequestorList. reqrItem: ".$reqrItem['REQR_NM'].$reqrItem['MBILNO'].$reqrItem['CONN_ROUTE_VAL_NM']);
+		// }
 
 		$data['resCode'] = '0000';
 		$data['resMsg'] = '정상적으로 처리되었습니다.';

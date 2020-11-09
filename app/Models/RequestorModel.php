@@ -26,15 +26,17 @@ class RequestorModel extends Model {
         $strQry  = "";
 
 		$strQry .= "SELECT 	\n";
-		$strQry .= "	EI.PRJ_ENT_INFO_REQR_SEQ, EI.REQR_SEQ, EI.REQR_NM, EI.MBILNO	\n";
-		$strQry .= "        , IFNULL(EI.ENT_INFO_EXTRA_VAL_1, '') AS ENT_INFO_EXTRA_VAL_1	\n";
-		$strQry .= "        , IFNULL(EI.ENT_INFO_EXTRA_VAL_2, '') AS ENT_INFO_EXTRA_VAL_2	\n";
-		$strQry .= "        , IFNULL(EI.ENT_INFO_EXTRA_VAL_3, '') AS ENT_INFO_EXTRA_VAL_3	\n";
-		$strQry .= "        , IFNULL(EI.ENT_INFO_EXTRA_VAL_4, '') AS ENT_INFO_EXTRA_VAL_4	\n";
-		$strQry .= "        , IFNULL(EI.ENT_INFO_EXTRA_VAL_5, '') AS ENT_INFO_EXTRA_VAL_5	\n";
-		$strQry .= "        , IFNULL(EI.ENT_INFO_EXTRA_VAL_6, '') AS ENT_INFO_EXTRA_VAL_6	\n";
-		$strQry .= "        , IFNULL(EI.ENT_INFO_EXTRA_VAL_7, '') AS ENT_INFO_EXTRA_VAL_7	\n";
-		$strQry .= "        , IFNULL(EI.ENT_INFO_EXTRA_VAL_8, '') AS ENT_INFO_EXTRA_VAL_8	\n";
+		$strQry .= "	EI.PRJ_ENT_INFO_REQR_SEQ, EI.REQR_SEQ	\n";
+		$strQry .= "	, TRIM(EI.REQR_NM) AS REQR_NM	\n";
+		$strQry .= "	, TRIM(EI.MBILNO) AS MBILNO	\n";
+		$strQry .= "	, IFNULL(EI.ENT_INFO_EXTRA_VAL_1, '') AS ENT_INFO_EXTRA_VAL_1	\n";
+		$strQry .= "	, IFNULL(EI.ENT_INFO_EXTRA_VAL_2, '') AS ENT_INFO_EXTRA_VAL_2	\n";
+		$strQry .= "	, IFNULL(EI.ENT_INFO_EXTRA_VAL_3, '') AS ENT_INFO_EXTRA_VAL_3	\n";
+		$strQry .= "	, IFNULL(EI.ENT_INFO_EXTRA_VAL_4, '') AS ENT_INFO_EXTRA_VAL_4	\n";
+		$strQry .= "	, IFNULL(EI.ENT_INFO_EXTRA_VAL_5, '') AS ENT_INFO_EXTRA_VAL_5	\n";
+		$strQry .= "	, IFNULL(EI.ENT_INFO_EXTRA_VAL_6, '') AS ENT_INFO_EXTRA_VAL_6	\n";
+		$strQry .= "	, IFNULL(EI.ENT_INFO_EXTRA_VAL_7, '') AS ENT_INFO_EXTRA_VAL_7	\n";
+		$strQry .= "	, IFNULL(EI.ENT_INFO_EXTRA_VAL_8, '') AS ENT_INFO_EXTRA_VAL_8	\n";
 		$strQry .= "		, CASE WHEN EI.CONN_ROUTE_VAL = 1 THEN P.CONN_ROUTE_1	\n";
 		$strQry .= "				WHEN EI.CONN_ROUTE_VAL = 2 THEN P.CONN_ROUTE_2	\n";
 		$strQry .= "                WHEN EI.CONN_ROUTE_VAL = 3 THEN P.CONN_ROUTE_3	\n";
@@ -92,7 +94,7 @@ class RequestorModel extends Model {
 
         $strQry .= ";";
 
-		// log_message('info', "RequestorModel - list. Qry - \n$strQry");
+		// log_message('info', "RequestorModel - attendanceList. Qry - \n$strQry");
         return $this->db->query($strQry)->getResultArray();
     }
 

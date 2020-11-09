@@ -325,7 +325,7 @@ function getRequestorList (prjSeq) {
 					html += '<tr>';
 					html += '	<td>'+item.REQR_SEQ+'</td>';
 					html += '	<td>'+item.REQR_NM+'</td>';
-					html += '	<td>'+formatMobile(item.MBILNO)+'</td>';
+					html += '	<td>'+formatMobile(simplifyMobile(item.MBILNO))+'</td>';
 					html += '	<td class="extra-1">'+item.ENT_INFO_EXTRA_VAL_1+'</td>';
 					html += '	<td class="extra-2">'+item.ENT_INFO_EXTRA_VAL_2+'</td>';
 					html += '	<td class="extra-3">'+item.ENT_INFO_EXTRA_VAL_3+'</td>';
@@ -347,7 +347,7 @@ function getRequestorList (prjSeq) {
 					html += '<tr>';
 					html += '	<td>'+item.PRJ_ENT_INFO_REQR_SEQ+'</td>';
 					html += '	<td>'+item.REQR_NM+'</td>';
-					html += '	<td>'+formatMobile(item.MBILNO)+'</td>';
+					html += '	<td>'+formatMobile(simplifyMobile(item.MBILNO))+'</td>';
 					html += '	<td>'+item.FIRST_ENTER_DTTM+'</td>';
 					html += '	<td>'+item.LAST_LEAVE_DTTM+'</td>';
 					html += '	<td>'+item.DVC_GB+'</td>';

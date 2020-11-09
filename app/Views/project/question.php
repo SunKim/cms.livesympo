@@ -250,7 +250,7 @@ function getQuestionList (prjSeq) {
 					html += '	<div class="d-flex justify-content-between align-items-center">';
 					html += '		<p class="regr">';
 					html += '			<span>'+(item.FAKE_YN == 0 ? item.REQR_NM : item.FAKE_NM)+'</span>';
-					html += '			<span>'+(item.FAKE_YN == 0 && item.MBILNO ? `(${formatMobile(item.MBILNO)})` : '')+'</span>';
+					html += '			<span>'+(item.FAKE_YN == 0 && item.MBILNO ? `(${formatMobile(simplifyMobile(item.MBILNO))})` : '')+'</span>';
 					html += '			<span>'+(item.FAKE_YN == 0 && item.ENT_INFO_EXTRA_VAL_1 ? item.ENT_INFO_EXTRA_VAL_1 : '')+'</span>';
 					html += '			<span>'+(item.FAKE_YN == 0 && item.ENT_INFO_EXTRA_VAL_2 ? item.ENT_INFO_EXTRA_VAL_2 : '')+'</span>';
 					if (item.APRV_YN == 0) {

@@ -487,7 +487,7 @@ function getSurveyList (prjSeq) {
 					html += '	<td>'+item.REQR_NM+'</td>';
 					html += '	<td>'+item.ENT_INFO_EXTRA_VAL_1+'</td>';
 					html += '	<td>'+item.ENT_INFO_EXTRA_VAL_2+'</td>';
-					// html += '	<td>'+formatMobile(item.MBILNO)+'</td>';
+					// html += '	<td>'+formatMobile(simplifyMobile(item.MBILNO))+'</td>';
 
 					html += '	<td>'+item.ASW_1+'</td>';
 					html += '	<td>'+item.ASW_2+'</td>';

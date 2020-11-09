@@ -187,7 +187,8 @@ table.table-detail img { display: block; max-width: 640px; }
 										<tr>
 											<th>Q&amp;A 텍스트</th>
 											<td class="tl">
-												<input type="text" id="QNA_TEXT" name="QNA_TEXT" class="common-input w90" maxlength="100" value="* Q&A - 질문을 남겨주시면 강의 후 답변드립니다." />
+												<!-- <input type="text" id="QNA_TEXT" name="QNA_TEXT" class="common-input w90" maxlength="100" value="* Q&A - 질문을 남겨주시면 강의 후 답변드립니다." /> -->
+												<textarea id="QNA_TEXT" name="QNA_TEXT" class="common-textarea w90 mt10 mb10" maxlength="100" rows="4">* Q&A - 질문을 남겨주시면 강의 후 답변드립니다.</textarea>
 											</td>
 										</tr>
 										<tr>

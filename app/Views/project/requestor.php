@@ -128,6 +128,10 @@ if ($lvl == 9 || $lvl == 1) {
 	echo '	<button class="btn-main btn-light-indigo ml10" onclick="openUploadExcel();">엑셀업로드</button>';
 	echo '	<button class="btn-main btn-light-indigo ml10" onclick="downloadExcel(\'tbl-reqr-list\');">엑셀저장</button>';
 	echo '</div>';
+} else if ($lvl == 2) {
+	echo '<div>';
+	echo '	<button class="btn-main btn-light-indigo ml10" onclick="downloadExcel(\'tbl-reqr-list\');">엑셀저장</button>';
+	echo '</div>';
 }
 ?>
 					</div>

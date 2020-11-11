@@ -367,6 +367,7 @@ function saveAdmin () {
 			pwd: $('#pwd').val(),
 			admNm: $('#admNm').val(),
 			lvl: $('#lvl').val(),
+			orgNm: $('#orgNm').val(),
 			regrId: '<?= $email ?>'
 		},
 

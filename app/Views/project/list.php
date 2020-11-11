@@ -366,7 +366,9 @@ function getList (pageNo) {
 			prjTitle: $('#search-prj-title').val(),
 			prjTitleUri: $('#search-prj-title-uri').val(),
 			stDttm: !isEmpty($('#search-st-date').val()) ? $('#search-st-date').val()+' 00:00:00' : '',
-			edDttm: !isEmpty($('#search-ed-date').val()) ? $('#search-ed-date').val()+' 23:59:59' : ''
+			edDttm: !isEmpty($('#search-ed-date').val()) ? $('#search-ed-date').val()+' 23:59:59' : '',
+			admSeq: <?= $admSeq ?>,
+			lvl: <?= $lvl ?>
 		},
 
 		success: function(data) {

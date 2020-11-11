@@ -139,11 +139,14 @@ class Project extends BaseController {
 			, 'edDttm' => $this->request->getPost('edDttm')
 		);
 
+		$admSeq = $this->request->getPost('admSeq');
+		$lvl = $this->request->getPost('lvl');
+
 		$beginIndex = $this->getPagingIndex($param)['beginIndex'];
 		$endIndex = $this->getPagingIndex($param)['endIndex'];
 
 		// 프로젝트 리스트
-		$prjList = $this->projectModel->list($param, $beginIndex, $endIndex);
+		$prjList = $this->projectModel->list($admSeq, $lvl, $param, $beginIndex, $endIndex);
 
 		// 프로젝트 count
 		$totCntItem = $this->projectModel->count($param);

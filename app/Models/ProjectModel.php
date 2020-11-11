@@ -24,7 +24,7 @@ class ProjectModel extends Model {
 	protected $primaryKey = 'PRJ_SEQ';
 
 	// 프로젝트 목록
-    public function list ($filter, $beginIndex, $endIndex) {
+    public function list ($admSeq, $lvl, $filter, $beginIndex, $endIndex) {
         $strQry  = "";
 
         $strQry .= "SELECT	\n";
@@ -82,6 +82,11 @@ class ProjectModel extends Model {
     	if (isset($filter->edDttm) && $filter->edDttm != '') {
     		$strQry .= "	AND P.ED_DTTM <= ".$this->db->escape($filter->edDttm)."	\n";
     	}
+
+        // 데이터관리자면 자기가 속한 프로젝트만 보도록
+        if ($lvl == 2) {
+            $strQry .= "	AND (DATA_ADM_SEQ_1 = ".$this->db->escape($admSeq)." OR DATA_ADM_SEQ_2 = ".$this->db->escape($admSeq).")\n";
+        }
 
         $strQry .= "ORDER BY P.PRJ_SEQ DESC	\n";
         $strQry .= "LIMIT ".$this->db->escape($beginIndex).", ".$this->db->escape($endIndex)."	\n";

@@ -157,11 +157,14 @@ table.table-detail img { display: block; max-width: 640px; }
 										<tr>
 											<th class="required">온에어</th>
 											<td class="tl">
-												<p class="desc">* 온에어 활성화시 프로젝트시작 10분전부터 입장 가능합니다.</p>
+												<p class="desc">* 온에어 활성화시 프로젝트시작전 입장 가능합니다.</p>
 												<select class="common-select w20 mt10" id="ONAIR_YN" name="ONAIR_YN">
 													<option value="0">비활성화</option>
 													<option value="1">활성화</option>
 												</select>
+												<span class="ml20">
+													<input type="text" id="ONAIR_ENT_TRM" name="ONAIR_ENT_TRM" class="common-input w10 mr10" maxlength="3" value="10" />분전 입장 가능
+												</span>
 											</td>
 										</tr>
 										<tr>
@@ -815,6 +818,7 @@ function getDetail (prjSeq) {
 				$('#STREAM_URL').val(data.item.STREAM_URL);
 				// $('#AGENDA_PAGE_YN').val(data.item.AGENDA_PAGE_YN);
 				$('#ONAIR_YN').val(data.item.ONAIR_YN);
+				$('#ONAIR_ENT_TRM').val(data.item.ONAIR_ENT_TRM);
 				$('#ST_DATE').val(data.item.ST_DATE);
 				$('#ST_TIME').val(data.item.ST_TIME);
 				$('#ED_DATE').val(data.item.ED_DATE);

@@ -196,6 +196,7 @@ class Project extends BaseController {
 		$data['STREAM_URL'] = $this->request->getPost('STREAM_URL');
 		// $data['AGENDA_PAGE_YN'] = $this->request->getPost('AGENDA_PAGE_YN') !== null ? $this->request->getPost('AGENDA_PAGE_YN') : 0;
 		$data['ONAIR_YN'] = $this->request->getPost('ONAIR_YN');
+		$data['ONAIR_ENT_TRM'] = $this->request->getPost('ONAIR_ENT_TRM');
 
 		$data['ST_DTTM'] = $this->request->getPost('ST_DATE').' '.$this->request->getPost('ST_TIME').':00';
 		$data['ED_DTTM'] = $this->request->getPost('ED_DATE').' '.$this->request->getPost('ED_TIME').':00';

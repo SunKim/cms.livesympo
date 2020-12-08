@@ -67,6 +67,19 @@
 
   <!-- Divider -->
   <hr class="sidebar-divider">
+
+  <!-- Heading -->
+  <div class="sidebar-heading">
+	ETC
+  </div>
+
+  <!-- Nav Item -->
+  <li class="nav-item dongwha">
+	<a class="nav-link collapsed" href="/dongwha">
+	  <i class="fas fa-fw fa-cog"></i>
+	  <span>동화약품(202012)</span>
+	</a>
+  </li>
 <?php
     }
 ?>

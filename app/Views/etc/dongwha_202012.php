@@ -108,25 +108,49 @@
 											<th rowspan="4" class="required">강의자료</th>
 											<td class="tl">
 												<p class="desc">1. RAS-Inhibitor in COVID-19 Era & LaCor</p>
-												<input type="file" id="lec1" name="lec1" class="common-input w50 mt10" accept="application/pdf" />
+												<div class="mt10">
+													<input type="file" id="lec1" name="lec1" class="common-input w50" accept="application/pdf" />
+													<select class="common-select w20" id="DONGWHA_202012_LEC1_READY_YN" name="DONGWHA_202012_LEC1_READY_YN">
+														<option value="1">준비중</option>
+														<option value="0">자료완료</option>
+													</select>
+												</div>
 											</td>
 										</tr>
 										<tr>
 											<td class="tl">
 												<p class="desc">2. Practical Antiplatelet Therapy focused on CAD/PAD</p>
-												<input type="file" id="lec2" name="lec2" class="common-input w50 mt10" accept="application/pdf" />
+												<div class="mt10">
+													<input type="file" id="lec2" name="lec2" class="common-input w50" accept="application/pdf" />
+													<select class="common-select w20" id="DONGWHA_202012_LEC2_READY_YN" name="DONGWHA_202012_LEC2_READY_YN">
+														<option value="1">준비중</option>
+														<option value="0">자료완료</option>
+													</select>
+												</div>
 											</td>
 										</tr>
 										<tr>
 											<td class="tl">
 												<p class="desc">3. Carotid Ultrasonography & CVD Management</p>
-												<input type="file" id="lec3" name="lec3" class="common-input w50 mt10" accept="application/pdf" />
+												<div class="mt10">
+													<input type="file" id="lec3" name="lec3" class="common-input w50" accept="application/pdf" />
+													<select class="common-select w20" id="DONGWHA_202012_LEC3_READY_YN" name="DONGWHA_202012_LEC3_READY_YN">
+														<option value="1">준비중</option>
+														<option value="0">자료완료</option>
+													</select>
+												</div>
 											</td>
 										</tr>
 										<tr>
 											<td class="tl">
 												<p class="desc">4. 스타틴 춘추전국시대, 당신의 선택?</p>
-												<input type="file" id="lec4" name="lec4" class="common-input w50 mt10" accept="application/pdf" />
+												<div class="mt10">
+													<input type="file" id="lec4" name="lec4" class="common-input w50" accept="application/pdf" />
+													<select class="common-select w20" id="DONGWHA_202012_LEC4_READY_YN" name="DONGWHA_202012_LEC4_READY_YN">
+														<option value="1">준비중</option>
+														<option value="0">자료완료</option>
+													</select>
+												</div>
 											</td>
 										</tr>
 									</tbody>
@@ -200,31 +224,37 @@ const ENT_INFO_CNT = 8;
 function fnInit () {
 	// 해당 메뉴에 active
 	$('.nav-item.<?= $menu ?>').addClass('active');
+
+	// 준비중 여부 설정
+	$('#DONGWHA_202012_LEC1_READY_YN').val('<?= $DONGWHA_202012_LEC1_READY_YN ?>');
+	$('#DONGWHA_202012_LEC2_READY_YN').val('<?= $DONGWHA_202012_LEC2_READY_YN ?>');
+	$('#DONGWHA_202012_LEC3_READY_YN').val('<?= $DONGWHA_202012_LEC3_READY_YN ?>');
+	$('#DONGWHA_202012_LEC4_READY_YN').val('<?= $DONGWHA_202012_LEC4_READY_YN ?>');
 }
 
 // 저장
 function save () {
 	// 강의자료 등록 체크
-	if (isEmpty( $('#lec1').val() )) {
-		alert('강의자료 1번을 선택해주세요.');
-		$('#lec1').focus();
-		return;
-	}
-	if (isEmpty( $('#lec2').val() )) {
-		alert('강의자료 2번을 선택해주세요.');
-		$('#lec2').focus();
-		return;
-	}
-	if (isEmpty( $('#lec3').val() )) {
-		alert('강의자료 3번을 선택해주세요.');
-		$('#lec3').focus();
-		return;
-	}
-	if (isEmpty( $('#lec4').val() )) {
-		alert('강의자료 4번을 선택해주세요.');
-		$('#lec4').focus();
-		return;
-	}
+	// if (isEmpty( $('#lec1').val() )) {
+	// 	alert('강의자료 1번을 선택해주세요.');
+	// 	$('#lec1').focus();
+	// 	return;
+	// }
+	// if (isEmpty( $('#lec2').val() )) {
+	// 	alert('강의자료 2번을 선택해주세요.');
+	// 	$('#lec2').focus();
+	// 	return;
+	// }
+	// if (isEmpty( $('#lec3').val() )) {
+	// 	alert('강의자료 3번을 선택해주세요.');
+	// 	$('#lec3').focus();
+	// 	return;
+	// }
+	// if (isEmpty( $('#lec4').val() )) {
+	// 	alert('강의자료 4번을 선택해주세요.');
+	// 	$('#lec4').focus();
+	// 	return;
+	// }
 
 	const form = $('form')[0];
 	const formData = new FormData(form);

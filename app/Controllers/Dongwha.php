@@ -16,21 +16,41 @@
  */
 namespace App\Controllers;
 
+use App\Models\SettingModel;
+
 class Dongwha extends BaseController {
 
 	public function __construct() {
+		$this->settingModel = new SettingModel();
   	}
 
 	public function index () {
-		$data['menu'] = 'project';
+		$data['menu'] = 'dongwha';
 		// get('session name') 에서 session name을 안주면 전체 session정보.
 		$data['session'] = $this->session->get();
+
+		$data['DONGWHA_202012_LEC1_READY_YN'] = $this->settingModel->value('DONGWHA_202012_LEC1_READY_YN');
+		$data['DONGWHA_202012_LEC2_READY_YN'] = $this->settingModel->value('DONGWHA_202012_LEC2_READY_YN');
+		$data['DONGWHA_202012_LEC3_READY_YN'] = $this->settingModel->value('DONGWHA_202012_LEC3_READY_YN');
+		$data['DONGWHA_202012_LEC4_READY_YN'] = $this->settingModel->value('DONGWHA_202012_LEC4_READY_YN');
 
 		return view('etc/dongwha_202012.php', $data);
 	}
 
 	// 강의자료 저장
 	public function save () {
+		$data['SET_VAL'] = $this->request->getPost('DONGWHA_202012_LEC1_READY_YN');
+		$this->settingModel->updateValue('DONGWHA_202012_LEC1_READY_YN', $data);
+
+		$data['SET_VAL'] = $this->request->getPost('DONGWHA_202012_LEC2_READY_YN');
+		$this->settingModel->updateValue('DONGWHA_202012_LEC2_READY_YN', $data);
+
+		$data['SET_VAL'] = $this->request->getPost('DONGWHA_202012_LEC3_READY_YN');
+		$this->settingModel->updateValue('DONGWHA_202012_LEC3_READY_YN', $data);
+
+		$data['SET_VAL'] = $this->request->getPost('DONGWHA_202012_LEC4_READY_YN');
+		$this->settingModel->updateValue('DONGWHA_202012_LEC4_READY_YN', $data);
+
 		// 기본 업로드 path. ex) /Users/seonjungkim/workspace_php/cms.livesympo/public/uploads/project
 		$uploadPath = $_ENV['UPLOAD_BASE_PATH'];
 

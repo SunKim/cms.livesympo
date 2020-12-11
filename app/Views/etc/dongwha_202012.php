@@ -281,7 +281,7 @@ function save () {
 			console.log(data);
 			if ( data.resCode == '0000' ) {
 				alert('저장되었습니다.');
-				location.refresh();
+				location.reload();
 			} else {
 				alert('데이터를 저장하는 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드(resCode):'+data.resCode+'\n메세지(resMsg):'+data.resMsg);
 			}

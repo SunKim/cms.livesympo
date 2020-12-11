@@ -107,19 +107,8 @@
 										<tr>
 											<th rowspan="4" class="required">강의자료</th>
 											<td class="tl">
-												<p class="desc">1. RAS-Inhibitor in COVID-19 Era & LaCor</p>
-												<div class="mt10">
-													<input type="file" id="lec1" name="lec1" class="common-input w50" accept="application/pdf" />
-													<select class="common-select w20" id="DONGWHA_202012_LEC1_READY_YN" name="DONGWHA_202012_LEC1_READY_YN">
-														<option value="1">준비중</option>
-														<option value="0">자료완료</option>
-													</select>
-												</div>
-											</td>
-										</tr>
-										<tr>
-											<td class="tl">
-												<p class="desc">2. Practical Antiplatelet Therapy focused on CAD/PAD</p>
+												<p class="desc">1. Practical Antiplatelet Therapy focused on CAD/PAD</p>
+												<p class="mt10"> 기존파일 : <span id="lec2-nm"></span></p>
 												<div class="mt10">
 													<input type="file" id="lec2" name="lec2" class="common-input w50" accept="application/pdf" />
 													<select class="common-select w20" id="DONGWHA_202012_LEC2_READY_YN" name="DONGWHA_202012_LEC2_READY_YN">
@@ -131,7 +120,21 @@
 										</tr>
 										<tr>
 											<td class="tl">
+												<p class="desc">2. RAS-Inhibitor in COVID-19 Era & LaCor</p>
+												<p class="mt10"> 기존파일 : <span id="lec1-nm"></span></p>
+												<div class="mt10">
+													<input type="file" id="lec1" name="lec1" class="common-input w50" accept="application/pdf" />
+													<select class="common-select w20" id="DONGWHA_202012_LEC1_READY_YN" name="DONGWHA_202012_LEC1_READY_YN">
+														<option value="1">준비중</option>
+														<option value="0">자료완료</option>
+													</select>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td class="tl">
 												<p class="desc">3. Carotid Ultrasonography & CVD Management</p>
+												<p class="mt10"> 기존파일 : <span id="lec3-nm"></span></p>
 												<div class="mt10">
 													<input type="file" id="lec3" name="lec3" class="common-input w50" accept="application/pdf" />
 													<select class="common-select w20" id="DONGWHA_202012_LEC3_READY_YN" name="DONGWHA_202012_LEC3_READY_YN">
@@ -144,6 +147,7 @@
 										<tr>
 											<td class="tl">
 												<p class="desc">4. 스타틴 춘추전국시대, 당신의 선택?</p>
+												<p class="mt10"> 기존파일 : <span id="lec4-nm"></span></p>
 												<div class="mt10">
 													<input type="file" id="lec4" name="lec4" class="common-input w50" accept="application/pdf" />
 													<select class="common-select w20" id="DONGWHA_202012_LEC4_READY_YN" name="DONGWHA_202012_LEC4_READY_YN">
@@ -230,6 +234,11 @@ function fnInit () {
 	$('#DONGWHA_202012_LEC2_READY_YN').val('<?= $DONGWHA_202012_LEC2_READY_YN ?>');
 	$('#DONGWHA_202012_LEC3_READY_YN').val('<?= $DONGWHA_202012_LEC3_READY_YN ?>');
 	$('#DONGWHA_202012_LEC4_READY_YN').val('<?= $DONGWHA_202012_LEC4_READY_YN ?>');
+
+	$('#lec1-nm').text('<?= $DONGWHA_202012_LEC1_FILE_NM ?>');
+	$('#lec2-nm').text('<?= $DONGWHA_202012_LEC2_FILE_NM ?>');
+	$('#lec3-nm').text('<?= $DONGWHA_202012_LEC3_FILE_NM ?>');
+	$('#lec4-nm').text('<?= $DONGWHA_202012_LEC4_FILE_NM ?>');
 }
 
 // 저장
@@ -272,6 +281,7 @@ function save () {
 			console.log(data);
 			if ( data.resCode == '0000' ) {
 				alert('저장되었습니다.');
+				location.refresh();
 			} else {
 				alert('데이터를 저장하는 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드(resCode):'+data.resCode+'\n메세지(resMsg):'+data.resMsg);
 			}

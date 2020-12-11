@@ -34,6 +34,11 @@ class Dongwha extends BaseController {
 		$data['DONGWHA_202012_LEC3_READY_YN'] = $this->settingModel->value('DONGWHA_202012_LEC3_READY_YN');
 		$data['DONGWHA_202012_LEC4_READY_YN'] = $this->settingModel->value('DONGWHA_202012_LEC4_READY_YN');
 
+		$data['DONGWHA_202012_LEC1_FILE_NM'] = $this->settingModel->value('DONGWHA_202012_LEC1_FILE_NM');
+		$data['DONGWHA_202012_LEC2_FILE_NM'] = $this->settingModel->value('DONGWHA_202012_LEC2_FILE_NM');
+		$data['DONGWHA_202012_LEC3_FILE_NM'] = $this->settingModel->value('DONGWHA_202012_LEC3_FILE_NM');
+		$data['DONGWHA_202012_LEC4_FILE_NM'] = $this->settingModel->value('DONGWHA_202012_LEC4_FILE_NM');
+
 		return view('etc/dongwha_202012.php', $data);
 	}
 
@@ -82,7 +87,10 @@ class Dongwha extends BaseController {
 
 						// 새로운 파일명에 extension 붙여줌
 						// $key : form의 input의 name. MAIN_IMG, AGENDA_IMG, FOOTER_IMG => MAIN_IMG_1.png 형태로
-						$newFileName = $key.'.'.$ext;
+						// $newFileName = $key.'.'.$ext;
+
+						// 원래 파일명 사용
+						$newFileName = $file->getClientName();
 
 						// 이미 파일이 있으면 삭제
 						if (file_exists($path.DIRECTORY_SEPARATOR.$newFileName)) {
@@ -93,6 +101,23 @@ class Dongwha extends BaseController {
 						// 파일 이동
 						$file->move($path, $newFileName);
 						log_message('info', "Dongwha.php - save(). key : $key, file : $file, path: $path, newFileName: $newFileName");
+
+						if ($key == 'lec1') {
+							$data['SET_VAL'] = $newFileName;
+							$this->settingModel->updateValue('DONGWHA_202012_LEC1_FILE_NM', $data);
+						}
+						if ($key == 'lec2') {
+							$data['SET_VAL'] = $newFileName;
+							$this->settingModel->updateValue('DONGWHA_202012_LEC2_FILE_NM', $data);
+						}
+						if ($key == 'lec3') {
+							$data['SET_VAL'] = $newFileName;
+							$this->settingModel->updateValue('DONGWHA_202012_LEC3_FILE_NM', $data);
+						}
+						if ($key == 'lec4') {
+							$data['SET_VAL'] = $newFileName;
+							$this->settingModel->updateValue('DONGWHA_202012_LEC4_FILE_NM', $data);
+						}
 					} else {
 						// throw new RuntimeException($file->getErrorString().'('.$file->getError().')');
 					}

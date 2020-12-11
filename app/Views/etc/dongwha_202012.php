@@ -107,7 +107,7 @@
 										<tr>
 											<th rowspan="4" class="required">강의자료</th>
 											<td class="tl">
-												<p class="desc">1. Practical Antiplatelet Therapy focused on CAD/PAD</p>
+												<p class="desc">Practical Antiplatelet Therapy focused on CAD/PAD</p>
 												<p class="mt10"> 기존파일 : <span id="lec2-nm"></span></p>
 												<div class="mt10">
 													<input type="file" id="lec2" name="lec2" class="common-input w50" accept="application/pdf" />
@@ -120,7 +120,7 @@
 										</tr>
 										<tr>
 											<td class="tl">
-												<p class="desc">2. RAS-Inhibitor in COVID-19 Era & LaCor</p>
+												<p class="desc">RAS-Inhibitor in COVID-19 Era & LaCor</p>
 												<p class="mt10"> 기존파일 : <span id="lec1-nm"></span></p>
 												<div class="mt10">
 													<input type="file" id="lec1" name="lec1" class="common-input w50" accept="application/pdf" />
@@ -133,7 +133,7 @@
 										</tr>
 										<tr>
 											<td class="tl">
-												<p class="desc">3. Carotid Ultrasonography & CVD Management</p>
+												<p class="desc">Carotid Ultrasonography & CVD Management</p>
 												<p class="mt10"> 기존파일 : <span id="lec3-nm"></span></p>
 												<div class="mt10">
 													<input type="file" id="lec3" name="lec3" class="common-input w50" accept="application/pdf" />
@@ -146,7 +146,7 @@
 										</tr>
 										<tr>
 											<td class="tl">
-												<p class="desc">4. 스타틴 춘추전국시대, 당신의 선택?</p>
+												<p class="desc">스타틴 춘추전국시대, 당신의 선택?</p>
 												<p class="mt10"> 기존파일 : <span id="lec4-nm"></span></p>
 												<div class="mt10">
 													<input type="file" id="lec4" name="lec4" class="common-input w50" accept="application/pdf" />

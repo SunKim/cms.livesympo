@@ -517,6 +517,7 @@ class Project extends BaseController {
 								}
 								if (isset($lineData[1]) && $lineData[1] != '') {
 									$insertItem['MBILNO'] = $lineData[1];
+									$insertItem['MBILNO'] = str_replace('-', '', $insertItem['MBILNO']);
 								}
 								if (isset($lineData[2]) && $lineData[2] != '') {
 									$insertItem['ENT_INFO_EXTRA_VAL_1'] = $lineData[2];

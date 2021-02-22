@@ -464,6 +464,10 @@ table.table-detail img { display: block; max-width: 640px; }
 													<input type="text" id="ENT_THME_COLR" name="ENT_THME_COLR" class="common-input w90 color-picker" value="#ffffff" style="height: 28px !important;" />
 												</p>
 												<p class="mt10">
+													<span class="input-title">글씨색상</span>
+													<input type="text" id="ENT_THME_FONT_COLR" name="ENT_THME_FONT_COLR" class="common-input w90 color-picker" value="#ffffff" style="height: 28px !important;" />
+												</p>
+												<p class="mt10">
 													<span class="input-title">높이</span>
 													<input type="text" id="ENT_THME_HEIGHT" name="ENT_THME_HEIGHT" class="common-input w10" value="556" /> px
 												</p>
@@ -869,6 +873,7 @@ function getDetail (prjSeq) {
 				$('#APPL_BTN_ROUND_YN').val(data.item.APPL_BTN_ROUND_YN);
 
 				$('#ENT_THME_COLR').val(data.item.ENT_THME_COLR);
+				$('#ENT_THME_FONT_COLR').val(data.item.ENT_THME_FONT_COLR);
 				$('#ENT_THME_HEIGHT').val(data.item.ENT_THME_HEIGHT);
 				$('#ENT_BTN_BG_COLR').val(data.item.ENT_BTN_BG_COLR);
 				$('#ENT_BTN_FONT_COLR').val(data.item.ENT_BTN_FONT_COLR);
@@ -996,6 +1001,7 @@ function test () {
 	$('#ENT_INFO_EXTRA_REQUIRED_2').val('0');
 
 	$('#ENT_THME_COLR').val('#51633d');
+	$('#ENT_THME_FONT_COLR').val('#663399');
 	$('#APPL_BTN_BG_COLR').val('#e09238');
 }
 

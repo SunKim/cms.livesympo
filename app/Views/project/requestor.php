@@ -46,6 +46,25 @@
 <!-- START) 메인 css -->
 <style type="text/css">
 table.tbl-reqr-list th, table.tbl-reqr-list td { padding: 4px !important; min-width: 50px !important; }
+
+.scroll-to-bottom, .scroll-to-middle {
+    position: fixed;
+    right: 7rem;
+    bottom: 1rem;
+    display: none;
+    width: 2.75rem;
+    height: 2.75rem;
+    text-align: center;
+    color: #fff;
+    background: rgba(90, 92, 105, 0.5);
+    line-height: 46px;
+}
+.scroll-to-middle { right: 4rem; }
+
+.scroll-to-middle:focus, .scroll-to-middle:hover, .scroll-to-bottom:focus, .scroll-to-bottom:hover { color: white; }
+.scroll-to-middle:hover, .scroll-to-bottom:hover { background: #5a5c69; }
+.scroll-to-middle i, .scroll-to-bottom i { font-weight: 800; }
+
 </style>
 <!-- END) 메인 css -->
 
@@ -88,11 +107,11 @@ table.tbl-reqr-list th, table.tbl-reqr-list td { padding: 4px !important; min-wi
 					</div>
 
 					<!-- 사전등록자 목록 영역 -->
-					<div class="card shadow mb-4">
+					<div id="reqr-container" class="card shadow mb-4">
 						<div class="card-header py-3">
 							<h6 class="m-0 font-weight-bold text-primary">프로젝트 사전등록자 목록</h6>
 						</div>
-						<div id="excel-container" style="padding: 20px 10px;">
+						<div class="excel-container" style="padding: 20px 10px;">
 							<table class="table-list tbl-reqr-list" id="tbl-reqr-list">
 								<thead>
 									<tr>
@@ -137,11 +156,11 @@ if ($lvl == 9 || $lvl == 1) {
 					</div>
 
 					<!-- 참석자 목록 영역 -->
-					<div class="card shadow mb-4">
+					<div id="att-container" class="card shadow mb-4">
 						<div class="card-header py-3">
 							<h6 class="m-0 font-weight-bold text-primary">프로젝트 참석자 목록</h6>
 						</div>
-						<div id="excel-container" style="padding: 20px 10px;">
+						<div class="excel-container" style="padding: 20px 10px;">
 							<table class="table-list tbl-att-list" id="tbl-att-list">
 								<thead>
 									<tr>
@@ -196,9 +215,17 @@ if ($lvl == 9 || $lvl == 1) {
 	<!-- End of Page Wrapper -->
 
 	<!-- Scroll to Top Button-->
-	<a class="scroll-to-top rounded" href="#page-top">
-		<i class="fas fa-angle-up"></i>
-	</a>
+	<div>
+		<a class="scroll-to-top rounded" href="#page-top">
+			<i class="fas fa-angle-up"></i>
+		</a>
+		<a class="scroll-to-middle rounded" href="#att-container">
+			<i class="fas fa-align-justify"></i>
+		</a>
+		<a class="scroll-to-bottom rounded" href="#page-bottom">
+			<i class="fas fa-angle-down"></i>
+		</a>
+	</div>
 
 	<!-- 엑셀업로드 Modal -->
 	<div id="uploadExcelModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="uploadExcelModalTitle" aria-hidden="true">
@@ -515,6 +542,35 @@ function deleteRequestor () {
 
 $(document).ready(function () {
 	fnInit();
+
+	// scroll-to-top은 sb-admin-2.js에 있음.
+	// 사전등록자는 목록이 매우 길고 참석자목록도 있으므로 별도 버튼 추가 구현
+	$(document).on('scroll', function() {
+		var scrollDistance = $(this).scrollTop();
+		if (scrollDistance > 100) {
+			$('.scroll-to-middle').fadeIn();
+			$('.scroll-to-bottom').fadeIn();
+		} else {
+			$('.scroll-to-middle').fadeOut();
+			$('.scroll-to-bottom').fadeOut();
+		}
+	});
+
+	// Smooth scrolling using jQuery easing
+	$(document).on('click', 'a.scroll-to-middle', function(e) {
+		var $anchor = $(this);
+		$('html, body').stop().animate({
+			scrollTop: ($($anchor.attr('href')).offset().top * 1 - 20)
+		}, 1000, 'easeInOutExpo');
+		e.preventDefault();
+	});
+	$(document).on('click', 'a.scroll-to-bottom', function(e) {
+		var $anchor = $(this);
+		$('html, body').stop().animate({
+			scrollTop: ($(document).height())
+		}, 1000, 'easeInOutExpo');
+		e.preventDefault();
+	});
 
 	//submit 되기 전 처리
 	$('form').submit(function(e) {

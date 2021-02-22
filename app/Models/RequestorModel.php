@@ -48,6 +48,7 @@ class RequestorModel extends Model {
 		$strQry .= "		ON (EI.PRJ_SEQ = P.PRJ_SEQ)	\n";
 		$strQry .= "WHERE 1=1		\n";
 		$strQry .= "	AND EI.PRJ_SEQ = ".$this->db->escape($prjSeq)."		\n";
+		$strQry .= "ORDER BY EI.REG_DTTM		\n";
 
         $strQry .= ";";
 

@@ -51,6 +51,7 @@
 <style type="text/css">
 body { padding: 20px; }
 div.container-fluid { height: calc(100vh - 40px); background-image: url(<?= $project['MDRTOR_IMG_URL'] ?>); background-repeat: no-repeat; background-size: 100% }
+div.no-qst h4 { position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); font-size: 48px; color: <?= $project['MDRTOR_FONT_COLR'] ?>; }
 
 .swiper-container { width: 100%; height: 100%; }
 .swiper-slide {
@@ -75,14 +76,14 @@ div.container-fluid { height: calc(100vh - 40px); background-image: url(<?= $pro
   align-items: center;
 }
 .swiper-pagination-fraction { font-size: 24px; font-weight: bold; }
-.swiper-button-prev, .swiper-button-next { --swiper-navigation-color: <?= $project['MDRTOR_FONT_COLR'] ?>77; }
+.swiper-button-prev, .swiper-button-next { --swiper-navigation-color: <?= $project['MDRTOR_FONT_COLR'] ?>99; }
 </style>
 <!-- END) 메인 css -->
 
 </head>
 
 <body>
-<div class="container-fluid pt10">
+<div class="container-fluid">
 	<!-- <p class="desc">
 		* <span id="refresh-term">30</span>초에 한번씩 갱신됩니다.
 	</p> -->
@@ -107,6 +108,10 @@ div.container-fluid { height: calc(100vh - 40px); background-image: url(<?= $pro
 
 		<!-- If we need scrollbar -->
 		<!-- <div class="swiper-scrollbar"></div> -->
+	</div>
+
+	<div class="no-qst">
+		<h4>현재 등록된 질문이 없습니다.</h4>
 	</div>
 </div>
 
@@ -166,9 +171,13 @@ function getQuestionList (prjSeq) {
 		},
 
 		success: function(data) {
-			console.log(data)
+			// console.log(data)
 			if ( data.resCode == '0000' ) {
 				const latestQstList = data.list;
+
+				if (latestQstList.length > 0) {
+					$('div.no-qst').hide()
+				}
 
 				// 새로 추가된 것만 swiper에 append
 				const cntNew = latestQstList.length - qstList.length
@@ -207,7 +216,7 @@ $(document).ready(function () {
 	swiper = new Swiper('.swiper-container', {
 		// Optional parameters
 		// direction: 'vertical',
-		loop: true,
+		// loop: true,
 
 		// If we need pagination
 		pagination: {

@@ -44,76 +44,78 @@
 <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
-<!-- Swiperjs. cf) https://swiperjs.com/get-started -->
-<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 
 <!-- START) 메인 css -->
 <style type="text/css">
-body { padding: 20px; }
-div.container-fluid { height: calc(100vh - 40px); background-image: url(<?= $project['MDRTOR_IMG_URL'] ?>); background-repeat: no-repeat; background-size: 100% }
-div.no-qst h4 { position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); font-size: 48px; color: <?= $project['MDRTOR_FONT_COLR'] ?>; }
+header { padding: 1rem 0; }
+div { text-align: center; }
+form { display: inline-block; width: 100%; max-width: 100%;}
+p { margin: 0 !important; }
 
-.swiper-container { width: 100%; height: 100%; }
-.swiper-slide {
-  text-align: center;
-  font-size: 48px;
-  background: #fff0;
-  padding: 100px;
-  color: <?= $project['MDRTOR_FONT_COLR'] ?>;
+/* 로고 영역 */
+div.logo-container { text-align: left; }
 
-  /* Center slide text vertically */
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  -webkit-align-items: center;
-  align-items: center;
+.question-container { width: 100%; }
+ul.question-list p { margin: 0 !important; }
+ul.question-list p.regr { color: #3f65ccbb; }
+ul.question-list p.reg-dttm { font-size: 14px; color: #bbb; }
+textarea { padding: 10px 14px; border: 1px solid #bbb; border-radius: 4px; color: #999; }
+
+/* 768px 이하 -> 모바일 */
+@media (max-width: 768px) {
+    div.logo-container { padding: 0 1rem; }
+    img.logo { width: 30%; }
 }
-.swiper-pagination-fraction { font-size: 24px; font-weight: bold; }
-.swiper-button-prev, .swiper-button-next { --swiper-navigation-color: <?= $project['MDRTOR_FONT_COLR'] ?>99; }
+
+/* 768~1200 -> 태블릿 */
+@media (min-width: 769px) {
+    img.logo { width: 20%; }
+}
+
+/* 1200px 이상 -> PC */
+@media (min-width: 1200px) {
+    img.logo { width: 20%; }
+}
+
+/* li.approved p.regr { color: #3f65cc; }
+ul.question-list p.reg-dttm { font-size: 14px; color: #999; }
+li.approved textarea { border: 1px solid #3f65cc99; border-radius: 4px; color: #666; } */
 </style>
 <!-- END) 메인 css -->
 
 </head>
 
 <body>
-<div class="container-fluid">
-	<!-- <p class="desc">
-		* <span id="refresh-term">30</span>초에 한번씩 갱신됩니다.
-	</p> -->
-
-	<!-- Slider main container -->
-	<div class="swiper-container">
-		<!-- Additional required wrapper -->
-		<div class="swiper-wrapper">
-			<!-- Slides -->
-			<!--
-			<div class="swiper-slide">Slide 1</div>
-			<div class="swiper-slide">Slide 2</div>
-			<div class="swiper-slide">Slide 3</div>
-			 -->
+<div class="container">
+    <header>
+        <div class="logo-container">
+            <img class="logo" src="/images/logo/logo_type1.png" />
+        </div>
+    </header>
+</div>
+<div class="container">
+	<div class="card shadow mb-4">
+		<div class="card-header py-3">
+			<h6 class="m-0 font-weight-bold text-primary tl"><?= $project['PRJ_TITLE'] ?> 질문 목록</h6>
 		</div>
-		<!-- If we need pagination -->
-		<div class="swiper-pagination"></div>
-
-		<!-- If we need navigation buttons -->
-		<div class="swiper-button-prev"></div>
-		<div class="swiper-button-next"></div>
-
-		<!-- If we need scrollbar -->
-		<!-- <div class="swiper-scrollbar"></div> -->
-	</div>
-
-	<div class="no-qst">
-		<h4>등록된 질문이 없습니다.</h4>
+		<div class="card-body d-flex justify-content-between align-items-start">
+			<div class="question-container">
+				<div class="d-flex justify-content-between align-items-center">
+					<p class="desc">
+						* <span id="refresh-term">30</span>초에 한번씩 갱신됩니다.
+					</p>
+					<button class="btn-sub btn-blue" onclick="getQuestionList(<?= $project['PRJ_SEQ'] ?>);">수동 새로고침</button>
+				</div>
+				<hr />
+				<ul class="question-list mt10">
+				</ul>
+			</div>
+		</div>
 	</div>
 </div>
+
+<!-- 하단 footer -->
+<?php include_once APPPATH.'Views/template/footer.php'; ?>
 
 <!-- 공통모달 -->
 <?php include_once APPPATH.'Views/template/common_modal.php'; ?>
@@ -128,19 +130,13 @@ div.no-qst h4 { position: fixed; left: 50%; top: 50%; transform: translate(-50%,
 <!-- Core plugin JavaScript-->
 <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-<!-- Swiperjs. cf) https://swiperjs.com/get-started -->
-<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-
 <script src="/js/sun.common.20200914.js"></script>
 
 <!-- 메인 script -->
 <script language="javascript">
-// const REFRESH_TERM = 10 * 1000
-const REFRESH_TERM = 10 * 1000
+const REFRESH_TERM = 10 * 1000;
 
-var refreshIntv
-var swiper
-var qstList = []
+var refreshIntv;
 
 // 초기화
 function fnInit () {
@@ -157,7 +153,6 @@ function fnInit () {
 // 질문목록 불러오기
 function getQuestionList (prjSeq) {
 	// showSpinner();
-	// alert('getQuestionList')
 
 	$.ajax({
 		type: 'POST',
@@ -167,29 +162,32 @@ function getQuestionList (prjSeq) {
 		data: {
 			prjSeq,
 			aprvYn: 1,
-			orderBy: 'APRV_DTTM ASC'
+			orderBy: 'APRV_DTTM'
 		},
 
 		success: function(data) {
 			// console.log(data)
 			if ( data.resCode == '0000' ) {
-				const latestQstList = data.list;
+				const list = data.list;
 
-				if (latestQstList.length > 0) {
-					$('div.no-qst').hide()
-				}
+				let html = '';
+				list.forEach(item => {
+					html += '<li class="mb20">';
+					html += '	<div class="d-flex justify-content-between align-items-center">';
+					html += '		<p class="regr">';
+					html += '			<span>'+(item.FAKE_YN == 0 ? item.REQR_NM : item.FAKE_NM)+'</span>';
+					// html += '			<span>('+maskPhone(formatMobile(item.MBILNO))+')</span>';
+					// html += '			<span>'+item.HSPTL_NM+'</span>';
+					// html += '			<span>'+item.SUBJ_NM+'</span>';
+					html += '		</p>';
+					html += '		<p class="reg-dttm">'+item.REG_DTTM+'</p>';
+					html += '	</div>';
+					html += '	<textarea maxlength="400" rows="4" class="w100 mt10 mb10" readonly>'+item.QST_DESC+'</textarea>';
+					html += '</li>';
+				});
 
-				// 새로 추가된 것만 swiper에 append
-				const cntNew = latestQstList.length - qstList.length
-				for (let i = 0; i < cntNew; i++) {
-					item = latestQstList[latestQstList.length - cntNew + i]
-
-					swiper.appendSlide([
-						`<div class="swiper-slide">${item.QST_DESC.replace(/\r?\n/g, '<br />')}</div>`
-					])
-				}
-
-				qstList = latestQstList
+				$('.question-list').empty();
+				$('.question-list').append(html);
 			} else {
 				alert('프로젝트 질문 데이터를 가져오는 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드(resCode):'+data.resCode+'\n메세지(resMsg):'+data.resMsg);
 			}
@@ -210,25 +208,6 @@ $(document).ready(function () {
 	//submit 되기 전 처리
 	$('form').submit(function(e) {
 
-	});
-
-	// swiper init. cf) https://swiperjs.com/demos
-	swiper = new Swiper('.swiper-container', {
-		// Optional parameters
-		// direction: 'vertical',
-		// loop: true,
-
-		// If we need pagination
-		pagination: {
-			el: '.swiper-pagination',
-			type: 'fraction',
-		},
-
-		// Navigation arrows
-		navigation: {
-			nextEl: '.swiper-button-next',
-			prevEl: '.swiper-button-prev',
-		},
 	});
 
 	// unload 되기 전 interval clear

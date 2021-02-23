@@ -122,7 +122,8 @@ class Project extends BaseController {
 	public function moderator ($prjSeq = 0) {
 		$data['project'] = $this->projectModel->detail($prjSeq);
 
-		return view('project/moderator', $data);
+		// return view('project/moderator', $data);
+		return view('project/moderator2', $data);
 	}
 
 	//ajax - 프로젝트 리스트
@@ -257,6 +258,8 @@ class Project extends BaseController {
 		$data['STREAM_QA_BG_COLR'] = $this->request->getPost('STREAM_QA_BG_COLR');
 		$data['STREAM_QA_FONT_COLR'] = $this->request->getPost('STREAM_QA_FONT_COLR');
 
+		$data['MDRTOR_FONT_COLR'] = $this->request->getPost('MDRTOR_FONT_COLR');
+
 		$data['DATA_ADM_SEQ_1'] = $this->request->getPost('DATA_ADM_SEQ_1');
 		$data['DATA_ADM_SEQ_2'] = $this->request->getPost('DATA_ADM_SEQ_2');
 		// print_r($data);
@@ -306,7 +309,7 @@ class Project extends BaseController {
 			if ($files) {
 				foreach ($files as $key => $file) {
 					// echo "key : $key, file : $file\n";
-					// $key : form/input에서의 name
+					// $key : form/input에서의 name. ex) MAIN_IMG
 					// $file : 서버에 임시저장된 파일명. ex) /private/var/tmp/phpvnBwzw
 
 					if (isset($file) && $file->isValid() && !$file->hasMoved()) {

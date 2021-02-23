@@ -522,6 +522,21 @@ table.table-detail img { display: block; max-width: 640px; }
 												</p>
 											</td>
 										</tr>
+										<tr>
+											<th rowspan="2">모더레이터</th>
+											<th>배경 이미지</th>
+											<td class="tl">
+												<p class="desc">* 가로는 1170px 세로는 적당한 비율로 올려주세요.</p>
+												<img class="img-mdrtor" id="MDRTOR_IMG_URL" />
+												<input type="file" id="MDRTOR_IMG" name="MDRTOR_IMG" class="common-input w50 mt10" accept="image/x-png,image/gif,image/jpeg" onchange="javascript: preview(this, 'MDRTOR_IMG_URL');" />
+											</td>
+										</tr>
+										<tr>
+											<th class="required">글씨색상</th>
+											<td class="tl">
+												<input type="text" id="MDRTOR_FONT_COLR" name="MDRTOR_FONT_COLR" class="common-input w90 color-picker" value="#ffffff" style="height: 28px !important;" />
+											</td>
+										</tr>
 									</tbody>
 								</table>
 							</form>
@@ -880,10 +895,15 @@ function getDetail (prjSeq) {
 				$('#STREAM_QA_BG_COLR').val(data.item.STREAM_QA_BG_COLR);
 				$('#STREAM_QA_FONT_COLR').val(data.item.STREAM_QA_FONT_COLR);
 
+				$('#MDRTOR_FONT_COLR').val(data.item.MDRTOR_FONT_COLR);
+
 				// 기존 등록된 이미지를 보여줌
 				$('#MAIN_IMG_URL').attr('src', data.item.MAIN_IMG_URL);
 				$('#AGENDA_IMG_URL').attr('src', data.item.AGENDA_IMG_URL);
 				$('#FOOTER_IMG_URL').attr('src', data.item.FOOTER_IMG_URL);
+				if (data.item.MDRTOR_IMG_URL) {
+					$('#MDRTOR_IMG_URL').attr('src', data.item.MDRTOR_IMG_URL);
+				}
 
 				// 입장가이드 설정
 				const entGuideList = data.entGuideList;

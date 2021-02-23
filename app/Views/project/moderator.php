@@ -111,7 +111,7 @@ div.no-qst h4 { position: fixed; left: 50%; top: 50%; transform: translate(-50%,
 	</div>
 
 	<div class="no-qst">
-		<h4>현재 등록된 질문이 없습니다.</h4>
+		<h4>등록된 질문이 없습니다.</h4>
 	</div>
 </div>
 

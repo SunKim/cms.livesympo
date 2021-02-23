@@ -19,7 +19,7 @@ use CodeIgniter\Model;
 
 class QuestionModel extends Model {
 	// 하나의 프로젝트에 딸린 질문 list. $aprvYn = 1로 오면 승인된것만, 0이면 전체 다
-	public function list($prjSeq, $aprvYn = 1, $orderBy = 'REG_DTTM') {
+	public function list($prjSeq, $aprvYn = 1, $orderBy = 'REG_DTTM DESC') {
 		$strQry  = "";
 
 		$strQry .= "SELECT Q.QST_SEQ, Q.PRJ_SEQ, Q.FAKE_YN, Q.REQR_SEQ, Q.FAKE_NM, Q.QST_DESC, Q.APRV_YN	\n";
@@ -34,7 +34,7 @@ class QuestionModel extends Model {
 		if ($aprvYn == 1) {
 			$strQry .= "	AND Q.APRV_YN = 1	\n";
 		}
-		$strQry .= "ORDER BY $orderBy DESC	\n";
+		$strQry .= "ORDER BY $orderBy	\n";
 
 		$strQry .= ";";
 		// log_message('info', "QuestionModel - list. Qry - \n$strQry");

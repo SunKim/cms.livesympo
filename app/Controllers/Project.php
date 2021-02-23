@@ -419,13 +419,12 @@ class Project extends BaseController {
 
 	// ajax - 프로젝트 사전등록자 리스트
 	public function getRequestorList () {
-		// param 받기
 		$prjSeq = $this->request->getPost('prjSeq');
-		// log_message('info', "Project - getRequestorList. prjSeq: $prjSeq");
+		$search = $this->request->getPost('search');
+		// log_message('info', "Project - getRequestorList. prjSeq: $prjSeq, searchReqrNm: ".$search['searchReqrNm'].", searchReqrMbilno: ".$search['searchReqrMbilno']);
 
 		// 사전등록자, 참석자 목록
-		$reqrList = $this->requestorModel->list($prjSeq);
-		$attendanceList = $this->requestorModel->attendanceList($prjSeq);
+		$reqrList = $this->requestorModel->list($prjSeq, $search);
 		// foreach($reqrList as $idx => $reqrItem) {
 		// 	log_message('info', "Project - getRequestorList. reqrItem: ".$reqrItem['REQR_NM'].$reqrItem['MBILNO'].$reqrItem['CONN_ROUTE_VAL_NM']);
 		// }
@@ -433,17 +432,37 @@ class Project extends BaseController {
 		$data['resCode'] = '0000';
 		$data['resMsg'] = '정상적으로 처리되었습니다.';
 		$data['list'] = $reqrList;
-		$data['attendanceList'] = $attendanceList;
 
 		return $this->response->setJSON($data);
 	}
 
-	//ajax - 프로젝트 사전등록자 목록 삭제
-	public function deleteRequestor () {
+	// ajax - 프로젝트 참석자 리스트
+	public function getAttendanceList () {
+		// param 받기
+		$prjSeq = $this->request->getPost('prjSeq');
+		$search = $this->request->getPost('search');
+
+		// log_message('info', "Project - getAttendanceList. prjSeq: $prjSeq");
+
+		// 사전등록자, 참석자 목록
+		$attendanceList = $this->requestorModel->attendanceList($prjSeq, $search);
+		// foreach($reqrList as $idx => $reqrItem) {
+		// 	log_message('info', "Project - getRequestorList. reqrItem: ".$reqrItem['REQR_NM'].$reqrItem['MBILNO'].$reqrItem['CONN_ROUTE_VAL_NM']);
+		// }
+
+		$data['resCode'] = '0000';
+		$data['resMsg'] = '정상적으로 처리되었습니다.';
+		$data['list'] = $attendanceList;
+
+		return $this->response->setJSON($data);
+	}
+
+	//ajax - 프로젝트 사전등록자 목록 전체 삭제
+	public function deleteAllRequestor () {
 		// param 받기
 		$prjSeq = $this->request->getPost('prjSeq');
 
-		$affectedRows = $this->requestorModel->deleteRequestor($prjSeq);
+		$affectedRows = $this->requestorModel->deleteAllRequestor($prjSeq);
 
 		if ($affectedRows > 0) {
 			$resData['resCode'] = '0000';
@@ -451,6 +470,45 @@ class Project extends BaseController {
 		} else {
 			$resData['resCode'] = '9997';
 			$resData['resMsg'] = '프로젝트 사전등록자 목록을 삭제하는 도중 DB오류가 발생했습니다.';
+		}
+
+		return $this->response->setJSON($resData);
+	}
+
+	//ajax - 프로젝트 사전등록자 선택 삭제
+	public function deleteRequestor () {
+		// param 받기
+		$prjSeq = $this->request->getPost('prjSeq');
+		$reqrSeq = $this->request->getPost('reqrSeq');
+
+		$affectedRows = $this->requestorModel->deleteRequestor($prjSeq, $reqrSeq);
+
+		if ($affectedRows > 0) {
+			$resData['resCode'] = '0000';
+			$resData['resMsg'] = '정상적으로 처리되었습니다.';
+		} else {
+			$resData['resCode'] = '9997';
+			$resData['resMsg'] = '프로젝트 사전등록자를 삭제하는 도중 DB오류가 발생했습니다.';
+		}
+
+		return $this->response->setJSON($resData);
+	}
+
+	//ajax - 프로젝트 사전등록자 수정
+	public function updateRequestor () {
+		// param 받기
+		$prjSeq = $this->request->getPost('prjSeq');
+		$reqrSeq = $this->request->getPost('reqrSeq');
+		$rowData = $this->request->getPost('rowData');
+
+		$affectedRows = $this->requestorModel->updateRequestor($prjSeq, $reqrSeq, $rowData);
+
+		if ($affectedRows > 0) {
+			$resData['resCode'] = '0000';
+			$resData['resMsg'] = '정상적으로 처리되었습니다.';
+		} else {
+			$resData['resCode'] = '9997';
+			$resData['resMsg'] = '프로젝트 사전등록자를 수정하는 도중 DB오류가 발생했습니다.';
 		}
 
 		return $this->response->setJSON($resData);
@@ -555,6 +613,9 @@ class Project extends BaseController {
 									} else if ($lineData[10] === $prjItem['CONN_ROUTE_3']) {
 										$insertItem['CONN_ROUTE_VAL'] = 3;
 									}
+								}
+								if (isset($lineData[11]) && $lineData[11] != '') {
+									$insertItem['REG_DTTM'] = $lineData[11];
 								}
 
 								// 우선 REQR_M에 없으면 insert, 있으면 REQR_SEQ 확인

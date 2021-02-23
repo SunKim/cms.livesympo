@@ -65,6 +65,11 @@ table.tbl-reqr-list th, table.tbl-reqr-list td { padding: 4px !important; min-wi
 .scroll-to-middle:hover, .scroll-to-bottom:hover { background: #5a5c69; }
 .scroll-to-middle i, .scroll-to-bottom i { font-weight: 800; }
 
+div.search { margin-bottom: 10px; padding: 8px 20px; font-size: 14px; border: 1px solid #bbb; border-radius: 5px; }
+
+table.tbl-reqr-popup th, td { padding: 4px; }
+table.tbl-reqr-popup input { width: 90%; }
+table.tbl-reqr-popup input:read-only { background: #ddd; }
 </style>
 <!-- END) 메인 css -->
 
@@ -112,6 +117,14 @@ table.tbl-reqr-list th, table.tbl-reqr-list td { padding: 4px !important; min-wi
 							<h6 class="m-0 font-weight-bold text-primary">프로젝트 사전등록자 목록</h6>
 						</div>
 						<div class="excel-container" style="padding: 20px 10px;">
+                            <div class="search reqr align-items-center">
+                                <label for="searchReqrNm">신청자명</label>
+                                <input type="text" id="searchReqrNm" name="searchReqrNm" class="common-input w10 ml10" maxlength="10">
+                                <label for="searchReqrMbilno" class="ml20">연락처</label>
+                                <input type="text" id="searchReqrMbilno" name="searchReqrMbilno" class="common-input w20 ml10" maxlength="12" placeholder="숫자만 입력">
+                                <button class="btn-sub btn-sky ml20" onclick="getRequestorList();">검색</button>
+                                <button class="btn-sub btn-white ml4" onclick="clearSearch('Reqr');">초기화</button>
+                            </div>
 							<table class="table-list tbl-reqr-list" id="tbl-reqr-list">
 								<thead>
 									<tr>
@@ -143,7 +156,7 @@ table.tbl-reqr-list th, table.tbl-reqr-list td { padding: 4px !important; min-wi
 // 레벨9만 보이도록
 if ($lvl == 9 || $lvl == 1) {
 	echo '<div>';
-	echo '	<button class="btn-main btn-red" onclick="deleteRequestor();">데이터삭제</button>';
+	echo '	<button class="btn-main btn-red" onclick="deleteAllRequestor();">전체삭제</button>';
 	echo '	<button class="btn-main btn-light-indigo ml10" onclick="openUploadExcel();">엑셀업로드</button>';
 	echo '	<button class="btn-main btn-light-indigo ml10" onclick="downloadExcel(\'tbl-reqr-list\');">엑셀저장</button>';
 	echo '</div>';
@@ -161,6 +174,14 @@ if ($lvl == 9 || $lvl == 1) {
 							<h6 class="m-0 font-weight-bold text-primary">프로젝트 참석자 목록</h6>
 						</div>
 						<div class="excel-container" style="padding: 20px 10px;">
+                            <div class="search reqr align-items-center">
+                                <label for="searchAttNm">참석자명</label>
+                                <input type="text" id="searchAttNm" name="searchAttNm" class="common-input w10 ml10" maxlength="10">
+                                <label for="searchAttMbilno" class="ml20">연락처</label>
+                                <input type="text" id="searchAttMbilno" name="searchAttMbilno" class="common-input w20 ml10" maxlength="12" placeholder="숫자만 입력">
+                                <button class="btn-sub btn-sky ml20" onclick="getAttendanceList();">검색</button>
+                                <button class="btn-sub btn-white ml4" onclick="clearSearch('Att');">초기화</button>
+                            </div>
 							<table class="table-list tbl-att-list" id="tbl-att-list">
 								<thead>
 									<tr>
@@ -237,9 +258,10 @@ if ($lvl == 9 || $lvl == 1) {
 				</div>
 				<div class="modal-body">
 					<p>.csv 파일은 제목열은 빼고 프로젝트에서 설정한 입력항목 순서대로 아래 표와 같이 입력해주세요.</p>
-					<p> - 칼럼1: 성명, 칼럼 2: 연락처, 칼럼 3: 추가입력1 ~ 칼럼 10: 추가입력8, 칼럼 11: 접속경로</p>
+					<p> - 칼럼1: 성명, 칼럼 2: 연락처, 칼럼 3: 추가입력1 ~ 칼럼 10: 추가입력8, 칼럼 11: 접속경로, 칼럼 12: 등록시간</p>
 					<p> - 접속경로가 기존 입력값과 다를 경우 저장되지 않습니다. 예) 프로젝트 설정의 접속경로는 '영업담당자'인데 엑셀에는 '영업 담당자'라고 되어있는 경우</p>
 					<p> - 기존 입력데이터 또는 엑셀업로드 데이터와 중복(이름, 연락처)되는 사전등록자가 있으면 최근 입력값으로 대체됩니다.</p>
+                    <p> - 등록시간은 2020-01-01 14:50:30 형식으로 입력해야 합니다.</p>
 					<table class="table-list mt10" id="tbl-reqr-list-sample">
 	                    <tbody>
 							<tr>
@@ -254,6 +276,7 @@ if ($lvl == 9 || $lvl == 1) {
 								<th class="extra-7"><?= $project['ENT_INFO_EXTRA_7'] ?></th>
 								<th class="extra-8"><?= $project['ENT_INFO_EXTRA_8'] ?></th>
 								<th class="conn-route">접속경로</th>
+                                <th class="reg-dttm">사전등록시간</th>
 							</tr>
 							<tr>
 								<td>홍길동</td>
@@ -267,6 +290,7 @@ if ($lvl == 9 || $lvl == 1) {
 								<td class="extra-7">샘플1</td>
 								<td class="extra-8">샘플1</td>
 								<td>접속경로1</td>
+                                <td>2020-01-01 14:50:30</td>
 							</tr>
 							<tr>
 								<td>이순신</td>
@@ -280,6 +304,7 @@ if ($lvl == 9 || $lvl == 1) {
 								<td class="extra-7">샘플2</td>
 								<td class="extra-8">샘플2</td>
 								<td>접속경로2</td>
+                                <td>2020-01-01 14:55:10</td>
 							</tr>
 	                    </tbody>
 	                </table>
@@ -296,6 +321,96 @@ if ($lvl == 9 || $lvl == 1) {
 			</div>
 		</div>
 	</div>
+
+    <div id="reqrModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="reqrModalTitle" aria-hidden="true">
+    	<div class="vertical-alignment-helper" style="width: 540px !important;">
+    		<div class="modal-dialog vertical-align-center">
+    			<div class="modal-content">
+    				<div class="modal-header">
+    					<h4 class="modal-title" id="reqrModalTitle">사전등록자 수정</h4>
+    					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    				</div>
+    				<div class="modal-body">
+    					<table class="tbl-reqr-popup">
+                            <tbody>
+                                <tr>
+                                    <th style="width: 30%;">사전등록자명</th>
+                                    <td><input id="REQR_NM" type="text" class="common-input" readonly></td>
+                                </tr>
+                                <tr>
+                                    <th>연락처</th>
+                                    <td><input id="MBILNO" type="text" class="common-input" readonly></td>
+                                </tr>
+    <?php
+        if (isset($project['ENT_INFO_EXTRA_1']) && $project['ENT_INFO_EXTRA_1'] != '') {
+            echo '              <tr>';
+            echo '                  <th>'.$project['ENT_INFO_EXTRA_1'].'</th>';
+            echo '                  <td><input id="ENT_INFO_EXTRA_VAL_1" type="text" class="common-input"></td>';
+            echo '              </tr>';
+        }
+        if (isset($project['ENT_INFO_EXTRA_2']) && $project['ENT_INFO_EXTRA_2'] != '') {
+        	echo '              <tr>';
+        	echo '                  <th>'.$project['ENT_INFO_EXTRA_2'].'</th>';
+        	echo '                  <td><input id="ENT_INFO_EXTRA_VAL_2" type="text" class="common-input"></td>';
+        	echo '              </tr>';
+        }
+        if (isset($project['ENT_INFO_EXTRA_3']) && $project['ENT_INFO_EXTRA_3'] != '') {
+        	echo '              <tr>';
+        	echo '                  <th>'.$project['ENT_INFO_EXTRA_3'].'</th>';
+        	echo '                  <td><input id="ENT_INFO_EXTRA_VAL_3" type="text" class="common-input"></td>';
+        	echo '              </tr>';
+        }
+        if (isset($project['ENT_INFO_EXTRA_4']) && $project['ENT_INFO_EXTRA_4'] != '') {
+        	echo '              <tr>';
+        	echo '                  <th>'.$project['ENT_INFO_EXTRA_4'].'</th>';
+        	echo '                  <td><input id="ENT_INFO_EXTRA_VAL_4" type="text" class="common-input"></td>';
+        	echo '              </tr>';
+        }
+        if (isset($project['ENT_INFO_EXTRA_5']) && $project['ENT_INFO_EXTRA_5'] != '') {
+        	echo '              <tr>';
+        	echo '                  <th>'.$project['ENT_INFO_EXTRA_5'].'</th>';
+        	echo '                  <td><input id="ENT_INFO_EXTRA_VAL_5" type="text" class="common-input"></td>';
+        	echo '              </tr>';
+        }
+        if (isset($project['ENT_INFO_EXTRA_6']) && $project['ENT_INFO_EXTRA_6'] != '') {
+        	echo '              <tr>';
+        	echo '                  <th>'.$project['ENT_INFO_EXTRA_6'].'</th>';
+        	echo '                  <td><input id="ENT_INFO_EXTRA_VAL_6" type="text" class="common-input"></td>';
+        	echo '              </tr>';
+        }
+        if (isset($project['ENT_INFO_EXTRA_7']) && $project['ENT_INFO_EXTRA_7'] != '') {
+        	echo '              <tr>';
+        	echo '                  <th>'.$project['ENT_INFO_EXTRA_7'].'</th>';
+        	echo '                  <td><input id="ENT_INFO_EXTRA_VAL_7" type="text" class="common-input"></td>';
+        	echo '              </tr>';
+        }
+        if (isset($project['ENT_INFO_EXTRA_8']) && $project['ENT_INFO_EXTRA_8'] != '') {
+        	echo '              <tr>';
+        	echo '                  <th>'.$project['ENT_INFO_EXTRA_8'].'</th>';
+        	echo '                  <td><input id="ENT_INFO_EXTRA_VAL_8" type="text" class="common-input"></td>';
+        	echo '              </tr>';
+        }
+    ?>
+                                <tr>
+                                    <th>접속경로</th>
+                                    <td><input id="CONN_ROUTE_VAL" type="text" class="common-input"></td>
+                                </tr>
+                                <tr>
+                                    <th>사전등록일시</th>
+                                    <td><input id="REG_DTTM" type="text" class="common-input"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+    				</div>
+    				<div class="modal-footer">
+    					<button type="button" class="btn btn-danger" onclick="deleteRequestor()">삭제</button>
+    					<button type="button" class="btn btn-primary" onclick="updateRequestor()">수정</button>
+                        <button type="button" class="btn btn-white" data-dismiss="modal">취소</button>
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+    </div>
 
 <!-- 공통모달 -->
 <?php include_once APPPATH.'Views/template/common_modal.php'; ?>
@@ -318,44 +433,50 @@ if ($lvl == 9 || $lvl == 1) {
 
 <!-- 메인 script -->
 <script language="javascript">
+var selectedReqrSeq
 
 // 초기화
 function fnInit () {
 	// 해당 메뉴에 active
-	$('.nav-item.<?= $menu ?>').addClass('active');
+	$('.nav-item.<?= $menu ?>').addClass('active')
 
-	getRequestorList(<?= $project['PRJ_SEQ'] ?>);
+	getRequestorList()
+    getAttendanceList()
 }
 
-// 사전등록자, 참석자 불러오기
-function getRequestorList (prjSeq) {
+// 사전등록자 불러오기
+function getRequestorList () {
 	showSpinner();
+
+    const data = {
+        prjSeq: <?= $project['PRJ_SEQ'] ?>,
+        search: {
+            searchReqrNm: $('#searchReqrNm').val(),
+            searchReqrMbilno: $('#searchReqrMbilno').val(),
+        }
+    }
 
 	$.ajax({
 		type: 'POST',
-		url: '/project/getRequestorList/' + prjSeq,
+		url: '/project/getRequestorList/' + <?= $project['PRJ_SEQ'] ?>,
 		dataType: 'json',
 		cache: false,
-		data: {
-			prjSeq
-		},
+		data,
 
 		success: function(data) {
-			console.log(data)
+			// console.log(data)
 			if ( data.resCode == '0000' ) {
-				// 사전등록자, 참석자 목록
+				// 사전등록자 목록
 				const reqrList = data.list;
-				const attList = data.attendanceList;
 
 				$('table.tbl-reqr-list tbody').empty();
-				$('table.tbl-att-list tbody').empty();
 
 				reqrList.forEach((item) => {
 					let html = '';
 
 					html += '<tr>';
-					html += '	<td>'+item.REQR_SEQ+'</td>';
-					html += '	<td>'+item.REQR_NM+'</td>';
+					html += '	<td>'+item.ROWNUM+'</td>';
+					html += '	<td><a href="javascript:openReqrPopup(\''+encodeURI(JSON.stringify(item))+'\');">'+item.REQR_NM+'</a></td>';
 					html += '	<td>'+formatMobile(simplifyMobile(item.MBILNO))+'</td>';
 					html += '	<td class="extra-1">'+item.ENT_INFO_EXTRA_VAL_1+'</td>';
 					html += '	<td class="extra-2">'+item.ENT_INFO_EXTRA_VAL_2+'</td>';
@@ -372,11 +493,85 @@ function getRequestorList (prjSeq) {
 					$('table.tbl-reqr-list tbody').append(html);
 				});
 
+				<?php
+					// 접속경로 설정 없으면 숨김
+					// if (!isset($project['CONN_ROUTE_1']) || $project['CONN_ROUTE_1'] == '') {
+					// 	echo "$('table.tbl-reqr-list .conn-route').remove();";
+					// }
+
+					// 입력정보 없으면 테이블 column 삭제
+					if (!isset($project['ENT_INFO_EXTRA_1']) || $project['ENT_INFO_EXTRA_1'] == '') {
+						echo "$('table.tbl-reqr-list .extra-1').remove();";
+					}
+					if (!isset($project['ENT_INFO_EXTRA_2']) || $project['ENT_INFO_EXTRA_2'] == '') {
+						echo "$('table.tbl-reqr-list .extra-2').remove();";
+					}
+					if (!isset($project['ENT_INFO_EXTRA_3']) || $project['ENT_INFO_EXTRA_3'] == '') {
+						echo "$('table.tbl-reqr-list .extra-3').remove();";
+					}
+					if (!isset($project['ENT_INFO_EXTRA_4']) || $project['ENT_INFO_EXTRA_4'] == '') {
+						echo "$('table.tbl-reqr-list .extra-4').remove();";
+					}
+					if (!isset($project['ENT_INFO_EXTRA_5']) || $project['ENT_INFO_EXTRA_5'] == '') {
+						echo "$('table.tbl-reqr-list .extra-5').remove();";
+					}
+					if (!isset($project['ENT_INFO_EXTRA_6']) || $project['ENT_INFO_EXTRA_6'] == '') {
+						echo "$('table.tbl-reqr-list .extra-6').remove();";
+					}
+					if (!isset($project['ENT_INFO_EXTRA_7']) || $project['ENT_INFO_EXTRA_7'] == '') {
+						echo "$('table.tbl-reqr-list .extra-7').remove();";
+					}
+					if (!isset($project['ENT_INFO_EXTRA_8']) || $project['ENT_INFO_EXTRA_8'] == '') {
+						echo "$('table.tbl-reqr-list .extra-8').remove();";
+					}
+				?>
+
+			} else {
+				alert('사전등록자 데이터를 가져오는 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드(resCode):'+data.resCode+'\n메세지(resMsg):'+data.resMsg);
+			}
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.error(xhr);
+			alert('사전등록자 데이터를 가져오는 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드:'+xhr.status+'\n메세지:'+thrownError);
+		},
+		complete : function () {
+			hideSpinner();
+		}
+	});
+}
+
+// 참석자 불러오기
+function getAttendanceList () {
+	showSpinner();
+
+    const data = {
+        prjSeq: <?= $project['PRJ_SEQ'] ?>,
+        search: {
+            searchAttNm: $('#searchAttNm').val(),
+            searchAttMbilno: $('#searchAttMbilno').val(),
+        }
+    }
+
+	$.ajax({
+		type: 'POST',
+		url: '/project/getAttendanceList/' + <?= $project['PRJ_SEQ'] ?>,
+		dataType: 'json',
+		cache: false,
+		data,
+
+		success: function(data) {
+			// console.log(data)
+			if ( data.resCode == '0000' ) {
+				// 사전등록자, 참석자 목록
+				const attList = data.list;
+
+				$('table.tbl-att-list tbody').empty();
+
 				attList.forEach((item) => {
 					let html = '';
 
 					html += '<tr>';
-					html += '	<td>'+item.PRJ_ENT_INFO_REQR_SEQ+'</td>';
+					html += '	<td>'+item.ROWNUM+'</td>';
 					html += '	<td>'+item.REQR_NM+'</td>';
 					html += '	<td>'+formatMobile(simplifyMobile(item.MBILNO))+'</td>';
 					html += '	<td>'+item.FIRST_ENTER_DTTM+'</td>';
@@ -404,41 +599,33 @@ function getRequestorList (prjSeq) {
 
 					// 입력정보 없으면 테이블 column 삭제
 					if (!isset($project['ENT_INFO_EXTRA_1']) || $project['ENT_INFO_EXTRA_1'] == '') {
-						echo "$('table.tbl-reqr-list .extra-1').remove();";
 						echo "$('table.tbl-att-list .extra-1').remove();";
 					}
 					if (!isset($project['ENT_INFO_EXTRA_2']) || $project['ENT_INFO_EXTRA_2'] == '') {
-						echo "$('table.tbl-reqr-list .extra-2').remove();";
 						echo "$('table.tbl-att-list .extra-2').remove();";
 					}
 					if (!isset($project['ENT_INFO_EXTRA_3']) || $project['ENT_INFO_EXTRA_3'] == '') {
-						echo "$('table.tbl-reqr-list .extra-3').remove();";
 						echo "$('table.tbl-att-list .extra-3').remove();";
 					}
 					if (!isset($project['ENT_INFO_EXTRA_4']) || $project['ENT_INFO_EXTRA_4'] == '') {
-						echo "$('table.tbl-reqr-list .extra-4').remove();";
 						echo "$('table.tbl-att-list .extra-4').remove();";
 					}
 					if (!isset($project['ENT_INFO_EXTRA_5']) || $project['ENT_INFO_EXTRA_5'] == '') {
-						echo "$('table.tbl-reqr-list .extra-5').remove();";
 						echo "$('table.tbl-att-list .extra-5').remove();";
 					}
 					if (!isset($project['ENT_INFO_EXTRA_6']) || $project['ENT_INFO_EXTRA_6'] == '') {
-						echo "$('table.tbl-reqr-list .extra-6').remove();";
 						echo "$('table.tbl-att-list .extra-6').remove();";
 					}
 					if (!isset($project['ENT_INFO_EXTRA_7']) || $project['ENT_INFO_EXTRA_7'] == '') {
-						echo "$('table.tbl-reqr-list .extra-7').remove();";
 						echo "$('table.tbl-att-list .extra-7').remove();";
 					}
 					if (!isset($project['ENT_INFO_EXTRA_8']) || $project['ENT_INFO_EXTRA_8'] == '') {
-						echo "$('table.tbl-reqr-list .extra-8').remove();";
 						echo "$('table.tbl-att-list .extra-8').remove();";
 					}
 				?>
 
 			} else {
-				alert('사전등록자 데이터를 가져오는 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드(resCode):'+data.resCode+'\n메세지(resMsg):'+data.resMsg);
+				alert('참석자 데이터를 가져오는 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드(resCode):'+data.resCode+'\n메세지(resMsg):'+data.resMsg);
 			}
 		},
 		error: function (xhr, ajaxOptions, thrownError) {
@@ -507,14 +694,14 @@ function uploadExcel () {
 }
 
 // 사전등록자 삭제
-function deleteRequestor () {
+function deleteAllRequestor () {
 	if (!confirm('해당 프로젝트의 사전등록자 데이터가 모두 삭제되며 복구할 수 없습니다. 사전등록자를 모두 삭제하시겠습니까?')) {
 		return;
 	}
 
 	$.ajax({
 		type: 'POST',
-		url: '/project/deleteRequestor',
+		url: '/project/deleteAllRequestor',
 		dataType: 'json',
 		cache: false,
 		data: {
@@ -539,6 +726,121 @@ function deleteRequestor () {
 		}
 	});
 }
+
+// 검색 초기화
+function clearSearch (gb) {
+    $(`#search${gb}Nm`).val('')
+    $(`#search${gb}Mbilno`).val('')
+
+    if (gb === 'Reqr') {
+        getRequestorList()
+    } else if (gb === 'Att') {
+        getAttendanceList()
+    }
+}
+
+// 사전등록자 1명에 대한 팝업 오픈
+function openReqrPopup (jsonString) {
+    const reqrItem = JSON.parse(jsonString)
+    // console.log(reqrItem)
+
+    selectedReqrSeq = reqrItem.REQR_SEQ
+    // alert(`selectedReqrSeq: ${selectedReqrSeq}`)
+
+    for (const [key, value] of Object.entries(reqrItem)) {
+        $(`#${key}`).val(value)
+    }
+
+    $('#reqrModal').modal()
+}
+
+// 사전등록자 수정
+function updateRequestor () {
+    let rowData = {}
+    $('.tbl-reqr-popup input:not([readonly])').each(function () {
+        rowData[$(this).attr('id')] = $(this).val()
+    })
+    // console.log(rowData)
+
+    const data = {
+        prjSeq: <?= $project['PRJ_SEQ'] ?>,
+        reqrSeq: selectedReqrSeq,
+        rowData
+    }
+
+    $.ajax({
+		type: 'POST',
+		url: '/project/updateRequestor',
+		dataType: 'json',
+		cache: false,
+		data,
+
+		success: function(data) {
+			// console.log(data);
+			if ( data.resCode == '0000' ) {
+				alert('프로젝트 사전등록자를 수정했습니다.');
+
+                selectedReqrSeq = null
+                $('#reqrModal input').val('')
+                $('#reqrModal').modal('hide')
+
+                getRequestorList()
+			} else {
+				alert('프로젝트 사전등록자를 수정하는 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드(resCode):'+data.resCode+'\n메세지(resMsg):'+data.resMsg);
+			}
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.error(xhr);
+			alert('프로젝트 사전등록자를 수정하는 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드:'+xhr.status+'\n메세지:'+thrownError);
+		},
+		complete : function () {
+			// hideSpinner();
+		}
+	});
+}
+
+// 사전등록자 삭제
+function deleteRequestor () {
+    if (!confirm('사전등록자가 완전히 삭제되며, 복원할 수 없습니다. 그래도 삭제하시겠습니까?')) {
+        return
+    }
+
+    const data = {
+        prjSeq: <?= $project['PRJ_SEQ'] ?>,
+        reqrSeq: selectedReqrSeq,
+    }
+
+    $.ajax({
+		type: 'POST',
+		url: '/project/deleteRequestor',
+		dataType: 'json',
+		cache: false,
+		data,
+
+		success: function(data) {
+			// console.log(data);
+			if ( data.resCode == '0000' ) {
+				alert('프로젝트 사전등록자를 삭제했습니다.');
+
+                selectedReqrSeq = null
+                $('#reqrModal input').val('')
+                $('#reqrModal').modal('hide')
+
+                getRequestorList()
+			} else {
+				alert('프로젝트 사전등록자를 삭제하는 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드(resCode):'+data.resCode+'\n메세지(resMsg):'+data.resMsg);
+			}
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.error(xhr);
+			alert('프로젝트 사전등록자를 삭제하는 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드:'+xhr.status+'\n메세지:'+thrownError);
+		},
+		complete : function () {
+			// hideSpinner();
+		}
+	});
+}
+
 
 $(document).ready(function () {
 	fnInit();
@@ -571,6 +873,18 @@ $(document).ready(function () {
 		}, 1000, 'easeInOutExpo');
 		e.preventDefault();
 	});
+
+    // 검색 input에서 엔터 입력시 처리
+    $('div.search input#searchReqrNm, div.search input#searchReqrMbilno').keyup(function (event) {
+        if (event.keyCode == 13) {
+            getRequestorList()
+        }
+    })
+    $('div.search input#searchAttNm, div.search input#searchAttMbilno').keyup(function (event) {
+        if (event.keyCode == 13) {
+            getAttendanceList()
+        }
+    })
 
 	//submit 되기 전 처리
 	$('form').submit(function(e) {

@@ -235,6 +235,9 @@ a.a-link { color: #5B76E2; text-decoration:none; }
 .align-self-baseline { align-self: baseline !important; }
 .align-self-stretch { align-self: stretch !important; }
 
+/* Quasar의 <q-space /> */
+.q-space { flex-grow: 1!important; }
+
 /* width */
 .w10 { width:10%; }
 .w20 { width:20%; }
@@ -295,6 +298,11 @@ a.a-link { color: #5B76E2; text-decoration:none; }
 .tl { text-align:left !important; }
 .tr { text-align:right !important; }
 /* Text-Align */
+
+/* float */
+.fl { float: left; }
+.fr { float: right; }
+/* float */
 
 /* Display */
 .block { display: block !important; }

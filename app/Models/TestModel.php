@@ -120,6 +120,7 @@ class TestModel extends Model {
         'COL_VC' => $colVc
       ];
 
+      // $builder->where(['PRJ_SEQ' => $prjSeq, 'REQR_SEQ' => $reqrSeq])->update($data);
       $builder->where('COL_INT', $colInt)->update($data);
       return $this->db->affectedRows();
     }

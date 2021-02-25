@@ -260,6 +260,9 @@ class Project extends BaseController {
 		$data['STREAM_QA_FONT_COLR'] = $this->request->getPost('STREAM_QA_FONT_COLR');
 
 		$data['MDRTOR_FONT_COLR'] = $this->request->getPost('MDRTOR_FONT_COLR');
+		$data['MDRTOR_ARROW_COLR'] = $this->request->getPost('MDRTOR_ARROW_COLR');
+		$data['MDRTOR_PAGE_FONT_SIZE'] = $this->request->getPost('MDRTOR_PAGE_FONT_SIZE');
+		$data['MDRTOR_PAGE_FONT_COLR'] = $this->request->getPost('MDRTOR_PAGE_FONT_COLR');
 
 		$data['DATA_ADM_SEQ_1'] = $this->request->getPost('DATA_ADM_SEQ_1');
 		$data['DATA_ADM_SEQ_2'] = $this->request->getPost('DATA_ADM_SEQ_2');

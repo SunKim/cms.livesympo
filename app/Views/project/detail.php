@@ -208,7 +208,14 @@ table.table-detail img { display: block; max-width: 640px; }
 										<tr>
 											<th class="required">사전등록 항목</th>
 											<td class="tl">
-												<p class="desc">* 10개까지 등록 가능합니다. 성명/연락처는 기본항목입니다. Placeholder는 없으면 빈칸으로 두세요.</p>
+												<p class="desc">* 비사전등록입장으로 설정시 사전등록 항목은 모두 무시됩니다.</p>
+												<span class="ent-info-title">사전등록여부</span>
+												<select class="common-select w20 mt10" id="ANONYM_USE_YN" name="ANONYM_USE_YN">
+													<option value="0">사전등록 입장</option>
+													<option value="1">비사전등록 입장</option>
+												</select>
+
+												<p class="desc mt20">* 10개까지 등록 가능합니다. 성명/연락처는 기본항목입니다. Placeholder는 없으면 빈칸으로 두세요.</p>
 												<div class="ent-info-container">
 													<div class="mt10 mb10">
 														<span class="ent-info-title">항목명</span>
@@ -852,6 +859,7 @@ function getDetail (prjSeq) {
 				$('#CONN_ROUTE_2').val(data.item.CONN_ROUTE_2);
 				$('#CONN_ROUTE_3').val(data.item.CONN_ROUTE_3);
 
+				$('#ANONYM_USE_YN').val(data.item.ANONYM_USE_YN);
 				$('#ENT_INFO_EXTRA_1').val(data.item.ENT_INFO_EXTRA_1);
 				$('#ENT_INFO_EXTRA_PHOLDER_1').val(data.item.ENT_INFO_EXTRA_PHOLDER_1);
 				$('#ENT_INFO_EXTRA_REQUIRED_1').val(data.item.ENT_INFO_EXTRA_REQUIRED_1);

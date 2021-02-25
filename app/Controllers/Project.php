@@ -211,6 +211,7 @@ class Project extends BaseController {
 		$data['CONN_ROUTE_2'] = $this->request->getPost('CONN_ROUTE_2');
 		$data['CONN_ROUTE_3'] = $this->request->getPost('CONN_ROUTE_3');
 
+		$data['ANONYM_USE_YN'] = $this->request->getPost('ANONYM_USE_YN');
 		$data['ENT_INFO_EXTRA_1'] = $this->request->getPost('ENT_INFO_EXTRA_1');
 		$data['ENT_INFO_EXTRA_PHOLDER_1'] = $this->request->getPost('ENT_INFO_EXTRA_PHOLDER_1');
 		$data['ENT_INFO_EXTRA_REQUIRED_1'] = $this->request->getPost('ENT_INFO_EXTRA_REQUIRED_1');

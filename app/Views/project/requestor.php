@@ -110,11 +110,14 @@ table.tbl-reqr-popup input:read-only { background: #ddd; }
 
 						<!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> -->
 					</div>
-
+<?php
+// 비사전등록이 아닐 경우만 보임
+if ($project['ANONYM_USE_YN'] == 0) {
+?>
 					<!-- 사전등록자 목록 영역 -->
 					<div id="reqr-container" class="card shadow mb-4">
 						<div class="card-header py-3">
-							<h6 class="m-0 font-weight-bold text-primary">프로젝트 사전등록자 목록</h6>
+							<h6 class="m-0 font-weight-bold text-primary">프로젝트 사전등록자 목록 - <?= $project['PRJ_TITLE'] ?> <?= $project['ANONYM_USE_YN'] == 1 ? '(비사전등록)' : '' ?></h6>
 						</div>
 						<div class="excel-container" style="padding: 20px 10px;">
                             <div class="search reqr align-items-center">
@@ -153,26 +156,34 @@ table.tbl-reqr-popup input:read-only { background: #ddd; }
 					<div class="d-flex align-items-center justify-content-between pa20">
 						<button class="btn-main btn-white mr15" onclick="history.back();">뒤로</button>
 <?php
-// 레벨9만 보이도록
-if ($lvl == 9 || $lvl == 1) {
-	echo '<div>';
-	echo '	<button class="btn-main btn-red" onclick="deleteAllRequestor();">전체삭제</button>';
-	echo '	<button class="btn-main btn-light-indigo ml10" onclick="openUploadExcel();">엑셀업로드</button>';
-	echo '	<button class="btn-main btn-light-indigo ml10" onclick="downloadExcel(\'tbl-reqr-list\');">엑셀저장</button>';
-	echo '</div>';
-} else if ($lvl == 2) {
-	echo '<div>';
-	echo '	<button class="btn-main btn-light-indigo ml10" onclick="downloadExcel(\'tbl-reqr-list\');">엑셀저장</button>';
-	echo '</div>';
-}
+    // 레벨9만 보이도록
+    if ($lvl == 9 || $lvl == 1) {
+    	echo '<div>';
+    	echo '	<button class="btn-main btn-red" onclick="deleteAllRequestor();">전체삭제</button>';
+    	echo '	<button class="btn-main btn-light-indigo ml10" onclick="openUploadExcel();">엑셀업로드</button>';
+    	echo '	<button class="btn-main btn-light-indigo ml10" onclick="downloadExcel(\'tbl-reqr-list\');">엑셀저장</button>';
+    	echo '</div>';
+    } else if ($lvl == 2) {
+    	echo '<div>';
+    	echo '	<button class="btn-main btn-light-indigo ml10" onclick="downloadExcel(\'tbl-reqr-list\');">엑셀저장</button>';
+    	echo '</div>';
+    }
 ?>
 					</div>
+<?php
+}
+?>
+
 
 					<!-- 참석자 목록 영역 -->
 					<div id="att-container" class="card shadow mb-4">
 						<div class="card-header py-3">
-							<h6 class="m-0 font-weight-bold text-primary">프로젝트 참석자 목록</h6>
+							<h6 class="m-0 font-weight-bold text-primary">프로젝트 참석자 목록 - <?= $project['PRJ_TITLE'] ?> <?= $project['ANONYM_USE_YN'] == 1 ? '(비사전등록)' : '' ?></h6>
 						</div>
+<?php
+// 비사전등록이 아닐 경우 신청정보
+if ($project['ANONYM_USE_YN'] == 0) {
+?>
 						<div class="excel-container" style="padding: 20px 10px;">
                             <div class="search reqr align-items-center">
                                 <label for="searchAttNm">참석자명</label>
@@ -206,6 +217,27 @@ if ($lvl == 9 || $lvl == 1) {
 								</tbody>
 							</table>
 						</div>
+<?php
+} else {
+?>
+                        <div class="excel-container" style="padding: 20px 10px;">
+                            <table class="table-list tbl-att-list" id="tbl-att-list">
+                                <thead>
+                                    <tr>
+                                        <th>Seq.</th>
+                                        <th>IN</th>
+                                        <th>OUT</th>
+                                        <th>디바이스</th>
+                                        <th>IP주소</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+<?php
+}
+?>
 					</div>
 					<!-- 참석자 목록 영역 -->
 
@@ -434,13 +466,17 @@ if ($lvl == 9 || $lvl == 1) {
 <!-- 메인 script -->
 <script language="javascript">
 var selectedReqrSeq
+var anonymUseYn = <?= $project['ANONYM_USE_YN'] ?>
 
 // 초기화
 function fnInit () {
 	// 해당 메뉴에 active
 	$('.nav-item.<?= $menu ?>').addClass('active')
 
-	getRequestorList()
+    // 비사전등록입장이 아닐 경우만 사전등록자 불러오기
+    if (anonymUseYn == 0) {
+        getRequestorList()
+    }
     getAttendanceList()
 }
 
@@ -466,14 +502,15 @@ function getRequestorList () {
 		success: function(data) {
 			// console.log(data)
 			if ( data.resCode == '0000' ) {
+                console.log(data.list)
+
 				// 사전등록자 목록
 				const reqrList = data.list;
 
 				$('table.tbl-reqr-list tbody').empty();
 
+                let html = '';
 				reqrList.forEach((item) => {
-					let html = '';
-
 					html += '<tr>';
 					html += '	<td>'+item.ROWNUM+'</td>';
 					html += '	<td><a href="javascript:openReqrPopup(\''+encodeURI(JSON.stringify(item))+'\');">'+item.REQR_NM+'</a></td>';
@@ -489,9 +526,8 @@ function getRequestorList () {
 					html += '	<td class="conn-route">'+item.CONN_ROUTE_VAL_NM+'</td>';
 					html += '	<td>'+item.REG_DTTM+'</td>';
 					html += '</tr>';
-
-					$('table.tbl-reqr-list tbody').append(html);
 				});
+                $('table.tbl-reqr-list tbody').append(html);
 
 				<?php
 					// 접속경로 설정 없으면 숨김
@@ -567,29 +603,38 @@ function getAttendanceList () {
 
 				$('table.tbl-att-list tbody').empty();
 
+                let html = '';
 				attList.forEach((item) => {
-					let html = '';
 
-					html += '<tr>';
-					html += '	<td>'+item.ROWNUM+'</td>';
-					html += '	<td>'+item.REQR_NM+'</td>';
-					html += '	<td>'+formatMobile(simplifyMobile(item.MBILNO))+'</td>';
-					html += '	<td>'+item.FIRST_ENTER_DTTM+'</td>';
-					html += '	<td>'+item.LAST_LEAVE_DTTM+'</td>';
-					html += '	<td>'+item.DVC_GB+'</td>';
-					html += '	<td class="extra-1">'+item.ENT_INFO_EXTRA_VAL_1+'</td>';
-					html += '	<td class="extra-2">'+item.ENT_INFO_EXTRA_VAL_2+'</td>';
-					html += '	<td class="extra-3">'+item.ENT_INFO_EXTRA_VAL_3+'</td>';
-					html += '	<td class="extra-4">'+item.ENT_INFO_EXTRA_VAL_4+'</td>';
-					html += '	<td class="extra-5">'+item.ENT_INFO_EXTRA_VAL_5+'</td>';
-					html += '	<td class="extra-6">'+item.ENT_INFO_EXTRA_VAL_6+'</td>';
-					html += '	<td class="extra-7">'+item.ENT_INFO_EXTRA_VAL_7+'</td>';
-					html += '	<td class="extra-8">'+item.ENT_INFO_EXTRA_VAL_8+'</td>';
-					html += '	<td class="conn-route">'+item.CONN_ROUTE_VAL_NM+'</td>';
-					html += '</tr>';
-
-					$('table.tbl-att-list tbody').append(html);
+                    if (anonymUseYn == 0) {
+                        html += '<tr>';
+                        html += '	<td>'+item.ROWNUM+'</td>';
+                        html += '	<td>'+item.REQR_NM+'</td>';
+                        html += '	<td>'+formatMobile(simplifyMobile(item.MBILNO))+'</td>';
+                        html += '	<td>'+item.FIRST_ENTER_DTTM+'</td>';
+                        html += '	<td>'+item.LAST_LEAVE_DTTM+'</td>';
+                        html += '	<td>'+item.DVC_GB+'</td>';
+                        html += '	<td class="extra-1">'+item.ENT_INFO_EXTRA_VAL_1+'</td>';
+                        html += '	<td class="extra-2">'+item.ENT_INFO_EXTRA_VAL_2+'</td>';
+                        html += '	<td class="extra-3">'+item.ENT_INFO_EXTRA_VAL_3+'</td>';
+                        html += '	<td class="extra-4">'+item.ENT_INFO_EXTRA_VAL_4+'</td>';
+                        html += '	<td class="extra-5">'+item.ENT_INFO_EXTRA_VAL_5+'</td>';
+                        html += '	<td class="extra-6">'+item.ENT_INFO_EXTRA_VAL_6+'</td>';
+                        html += '	<td class="extra-7">'+item.ENT_INFO_EXTRA_VAL_7+'</td>';
+                        html += '	<td class="extra-8">'+item.ENT_INFO_EXTRA_VAL_8+'</td>';
+                        html += '	<td class="conn-route">'+item.CONN_ROUTE_VAL_NM+'</td>';
+                        html += '</tr>';
+                    } else {
+                        html += '<tr>';
+                        html += '	<td>'+item.ROWNUM+'</td>';
+                        html += '	<td>'+item.FIRST_ENTER_DTTM+'</td>';
+                        html += '	<td>'+item.LAST_LEAVE_DTTM+'</td>';
+                        html += '	<td>'+item.DVC_GB+'</td>';
+                        html += '	<td>'+item.IP_ADDR+'</td>';
+                        html += '</tr>';
+                    }
 				});
+                $('table.tbl-att-list tbody').append(html);
 
 				<?php
 					// 접속경로 설정 없으면 숨김

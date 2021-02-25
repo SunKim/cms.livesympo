@@ -239,7 +239,7 @@ function getQuestionList (prjSeq) {
 		},
 
 		success: function(data) {
-			// console.log(data)
+			console.log(data)
 			if ( data.resCode == '0000' ) {
 				const list = data.list;
 

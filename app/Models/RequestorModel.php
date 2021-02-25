@@ -80,7 +80,7 @@ class RequestorModel extends Model {
 		$strQry .= "FROM (	\n";
 		$strQry .= "	SELECT @rownum:=@rownum+1 AS ROWNUM, T.*	\n";
 		$strQry .= "	FROM (	\n";
-		$strQry .= "		SELECT EI.PRJ_ENT_INFO_REQR_SEQ, A.PRJ_SEQ, A.REQR_SEQ, A.DVC_GB	\n";
+		$strQry .= "		SELECT EI.PRJ_ENT_INFO_REQR_SEQ, A.PRJ_SEQ, A.REQR_SEQ, A.DVC_GB, A.IP_ADDR	\n";
 		$strQry .= "			, A.FIRST_ENTER_DTTM	\n";
 		$strQry .= "			, LEAST(P.ED_DTTM, IFNULL(A.LAST_LEAVE_DTTM, P.ED_DTTM)) AS LAST_LEAVE_DTTM	\n";
 		$strQry .= "			, EI.REQR_NM, EI.MBILNO	\n";
@@ -103,6 +103,7 @@ class RequestorModel extends Model {
 		$strQry .= "				, MIN(IF(LOG_GB = 'ENTER', REG_DTTM, NULL)) AS FIRST_ENTER_DTTM	\n";
 		$strQry .= "				, MAX(IF(LOG_GB = 'LEAVE', REG_DTTM, NULL)) AS LAST_LEAVE_DTTM	\n";
 		$strQry .= "				, MAX(DVC_GB) AS DVC_GB	\n";
+		$strQry .= "				, IFNULL(MAX(IP_ADDR), '-') AS IP_ADDR	\n";
 		$strQry .= "			FROM TB_REQR_LOG_H	\n";
 		$strQry .= "			WHERE 1=1	\n";
 		$strQry .= "				AND PRJ_SEQ = ".$this->db->escape($prjSeq)."	\n";

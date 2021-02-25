@@ -24,8 +24,10 @@ class QuestionModel extends Model {
 
 		$strQry .= "SELECT Q.QST_SEQ, Q.PRJ_SEQ, Q.FAKE_YN, Q.REQR_SEQ, Q.FAKE_NM, Q.QST_DESC, Q.APRV_YN	\n";
 		$strQry .= "	, DATE_FORMAT(Q.REG_DTTM, '%Y-%m-%d %H:%i') AS REG_DTTM	\n";
-		$strQry .= "	, IFNULL(I.REQR_NM, '관리자') AS REQR_NM, I.MBILNO, I.ENT_INFO_EXTRA_VAL_1, I.ENT_INFO_EXTRA_VAL_2	\n";
+		$strQry .= "	, IF(P.ANONYM_USE_YN = 0, IFNULL(I.REQR_NM, '관리자'), '비사전등록') AS REQR_NM, I.MBILNO, I.ENT_INFO_EXTRA_VAL_1, I.ENT_INFO_EXTRA_VAL_2	\n";
 		$strQry .= "FROM TB_QST_M AS Q	\n";
+		$strQry .= "INNER JOIN TB_PRJ_M AS P	\n";
+		$strQry .= "		ON (Q.PRJ_SEQ = P.PRJ_SEQ)	\n";
 		$strQry .= "LEFT OUTER JOIN TB_PRJ_ENT_INFO_REQR_H AS I	\n";
 		$strQry .= "		ON (Q.PRJ_SEQ = I.PRJ_SEQ AND Q.REQR_SEQ = I.REQR_SEQ)	\n";
 		$strQry .= "WHERE 1=1	\n";

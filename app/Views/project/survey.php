@@ -190,10 +190,16 @@ table.tbl-survey-asw th, table.tbl-survey-asw td { padding: 4px !important; min-
 								<thead>
 									<tr>
 										<th>Seq.</th>
+<?php
+// 비사전등록이 아닐 경우만 보임
+if ($project['ANONYM_USE_YN'] == 0) {
+?>
 										<th>참여자명</th>
-										<!-- <th>연락처</th> -->
 										<th>추가항목1</th>
 										<th>추가항목2</th>
+<?php
+}
+?>
 										<th>답변1</th>
 										<th>답변2</th>
 										<th>답변3</th>
@@ -235,10 +241,16 @@ table.tbl-survey-asw th, table.tbl-survey-asw td { padding: 4px !important; min-
 							</tr>
 							<tr>
 								<th>Seq.</th>
+<?php
+// 비사전등록이 아닐 경우만 보임
+if ($project['ANONYM_USE_YN'] == 0) {
+?>
 								<th>참여자명</th>
-								<!-- <th>연락처</th> -->
 								<th>추가항목1</th>
 								<th>추가항목2</th>
+<?php
+}
+?>
 								<th>답변1</th>
 								<th>답변2</th>
 								<th>답변3</th>
@@ -296,6 +308,7 @@ table.tbl-survey-asw th, table.tbl-survey-asw td { padding: 4px !important; min-
 
 <!-- 메인 script -->
 <script language="javascript">
+var anonymUseYn = <?= $project['ANONYM_USE_YN'] ?>
 
 // 초기화
 function fnInit () {
@@ -484,10 +497,13 @@ function getSurveyList (prjSeq) {
 
 					html += '<tr>';
 					html += '	<td>'+item.REQR_SEQ+'</td>';
-					html += '	<td>'+item.REQR_NM+'</td>';
-					html += '	<td>'+item.ENT_INFO_EXTRA_VAL_1+'</td>';
-					html += '	<td>'+item.ENT_INFO_EXTRA_VAL_2+'</td>';
-					// html += '	<td>'+formatMobile(simplifyMobile(item.MBILNO))+'</td>';
+
+					if (anonymUseYn == 0) {
+						html += '	<td>'+item.REQR_NM+'</td>';
+						html += '	<td>'+item.ENT_INFO_EXTRA_VAL_1+'</td>';
+						html += '	<td>'+item.ENT_INFO_EXTRA_VAL_2+'</td>';
+						// html += '	<td>'+formatMobile(simplifyMobile(item.MBILNO))+'</td>';
+					}
 
 					html += '	<td>'+item.ASW_1+'</td>';
 					html += '	<td>'+item.ASW_2+'</td>';

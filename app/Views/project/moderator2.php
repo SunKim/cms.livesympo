@@ -75,8 +75,8 @@ div.no-qst h4 { position: fixed; left: 50%; top: 50%; transform: translate(-50%,
   -webkit-align-items: center;
   align-items: center;
 }
-.swiper-pagination-fraction { font-size: 24px; font-weight: bold; }
-.swiper-button-prev, .swiper-button-next { --swiper-navigation-color: <?= $project['MDRTOR_FONT_COLR'] ?>99; }
+.swiper-pagination-fraction { color: <?= $project['MDRTOR_PAGE_FONT_COLR'] ?>;font-size: <?= $project['MDRTOR_PAGE_FONT_SIZE'] ?>px; font-weight: bold; }
+.swiper-button-prev, .swiper-button-next { --swiper-navigation-color: <?= $project['MDRTOR_ARROW_COLR'] ?>; }
 </style>
 <!-- END) 메인 css -->
 

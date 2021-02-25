@@ -60,9 +60,14 @@ writable/session/*
 writable/uploads/*
 !writable/uploads/index.html
 
-public/uploads
-
 writable/debugbar/*
+
+public/uploads
+public/uploads/*
+!public/uploads/index.html
+
+public/dbmyadmin
+public/dbmyadmin/*
 
 php_errors.log
 

@@ -543,9 +543,24 @@ table.table-detail img { display: block; max-width: 640px; }
 											</td>
 										</tr>
 										<tr>
-											<th class="required">글씨색상</th>
+											<th class="required">디자인</th>
 											<td class="tl">
-												<input type="text" id="MDRTOR_FONT_COLR" name="MDRTOR_FONT_COLR" class="common-input w90 color-picker" value="#ffffff" style="height: 28px !important;" />
+												<p>
+													<span class="input-title">글씨색상</span>
+													<input type="text" id="MDRTOR_FONT_COLR" name="MDRTOR_FONT_COLR" class="common-input w90 color-picker" value="#ffffff" style="height: 28px !important;" />
+												</p>
+												<p class="mt10">
+													<span class="input-title">페이지이동 버튼색상</span>
+													<input type="text" id="MDRTOR_ARROW_COLR" name="MDRTOR_ARROW_COLR" class="common-input w90 color-picker" value="#ffffff" style="height: 28px !important;" />
+												</p>
+												<p class="mt10">
+													<span class="input-title">페이지표시 사이즈</span>
+													<input type="text" id="MDRTOR_PAGE_FONT_SIZE" name="MDRTOR_PAGE_FONT_SIZE" class="common-input w10" value="556" /> px
+												</p>
+												<p class="mt10">
+													<span class="input-title">페이지표시 색상</span>
+													<input type="text" id="MDRTOR_PAGE_FONT_COLR" name="MDRTOR_PAGE_FONT_COLR" class="common-input w90 color-picker" value="#ffffff" style="height: 28px !important;" />
+												</p>
 											</td>
 										</tr>
 									</tbody>
@@ -909,6 +924,9 @@ function getDetail (prjSeq) {
 				$('#STREAM_QA_FONT_COLR').val(data.item.STREAM_QA_FONT_COLR);
 
 				$('#MDRTOR_FONT_COLR').val(data.item.MDRTOR_FONT_COLR);
+				$('#MDRTOR_ARROW_COLR').val(data.item.MDRTOR_ARROW_COLR);
+				$('#MDRTOR_PAGE_FONT_SIZE').val(data.item.MDRTOR_PAGE_FONT_SIZE);
+				$('#MDRTOR_PAGE_FONT_COLR').val(data.item.MDRTOR_PAGE_FONT_COLR);
 
 				// 기존 등록된 이미지를 보여줌
 				$('#MAIN_IMG_URL').attr('src', data.item.MAIN_IMG_URL);

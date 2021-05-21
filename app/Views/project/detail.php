@@ -476,7 +476,7 @@ table.table-detail img { display: block; max-width: 640px; }
 												</p>
 												<p class="mt10">
 													<span class="input-title">높이</span>
-													<input type="text" id="ENT_THME_HEIGHT" name="ENT_THME_HEIGHT" class="common-input w10" value="556" /> px
+													<input type="text" id="ENT_THME_HEIGHT" name="ENT_THME_HEIGHT" class="common-input w10" value="48" /> px
 												</p>
 											</td>
 										</tr>
@@ -484,6 +484,11 @@ table.table-detail img { display: block; max-width: 640px; }
 											<th class="required">입장버튼</th>
 											<td class="tl">
 												<p>
+													<span class="input-title">텍스트</span>
+													<input type="text" id="ENT_BTN_TEXT" name="ENT_BTN_TEXT" class="common-input w20" value="#ffffff" style="height: 28px !important;" />
+													<span class="ml20">* 줄바꿈은 &lt;br /&gt;로 입력해주세요. ex)심포지엄&lt;br /&gt;입장</span>
+												</p>
+												<p class="mt10">
 													<span class="input-title">배경색상</span>
 													<input type="text" id="ENT_BTN_BG_COLR" name="ENT_BTN_BG_COLR" class="common-input w90 color-picker" value="#ffffff" style="height: 28px !important;" />
 												</p>
@@ -913,6 +918,7 @@ function getDetail (prjSeq) {
 				$('#ENT_THME_COLR').val(data.item.ENT_THME_COLR);
 				$('#ENT_THME_FONT_COLR').val(data.item.ENT_THME_FONT_COLR);
 				$('#ENT_THME_HEIGHT').val(data.item.ENT_THME_HEIGHT);
+				$('#ENT_BTN_TEXT').val(data.item.ENT_BTN_TEXT);
 				$('#ENT_BTN_BG_COLR').val(data.item.ENT_BTN_BG_COLR);
 				$('#ENT_BTN_FONT_COLR').val(data.item.ENT_BTN_FONT_COLR);
 				$('#ENT_BTN_ROUND_YN').val(data.item.ENT_BTN_ROUND_YN);

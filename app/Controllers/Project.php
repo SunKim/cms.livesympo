@@ -250,6 +250,7 @@ class Project extends BaseController {
 		$data['ENT_THME_COLR'] = $this->request->getPost('ENT_THME_COLR');
 		$data['ENT_THME_FONT_COLR'] = $this->request->getPost('ENT_THME_FONT_COLR');
 		$data['ENT_THME_HEIGHT'] = $this->request->getPost('ENT_THME_HEIGHT');
+		$data['ENT_BTN_TEXT'] = $this->request->getPost('ENT_BTN_TEXT');
 		$data['ENT_BTN_BG_COLR'] = $this->request->getPost('ENT_BTN_BG_COLR');
 		$data['ENT_BTN_FONT_COLR'] = $this->request->getPost('ENT_BTN_FONT_COLR');
 		$data['ENT_BTN_ROUND_YN'] = $this->request->getPost('ENT_BTN_ROUND_YN');

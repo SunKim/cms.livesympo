@@ -94,7 +94,7 @@
 
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
-							<h6 class="m-0 font-weight-bold text-primary">동화제약 강의자료(202012)</h6>
+							<h6 class="m-0 font-weight-bold text-primary">동화제약 강의자료(202105)</h6>
 						</div>
 						<div class="card-body">
 							<form method="POST">
@@ -107,24 +107,11 @@
 										<tr>
 											<th rowspan="4" class="required">강의자료</th>
 											<td class="tl">
-												<p class="desc">Practical Antiplatelet Therapy focused on CAD/PAD</p>
-												<p class="mt10"> 기존파일 : <span id="lec2-nm"></span></p>
-												<div class="mt10">
-													<input type="file" id="lec2" name="lec2" class="common-input w50" accept="application/pdf" />
-													<select class="common-select w20" id="DONGWHA_202012_LEC2_READY_YN" name="DONGWHA_202012_LEC2_READY_YN">
-														<option value="1">준비중</option>
-														<option value="0">자료완료</option>
-													</select>
-												</div>
-											</td>
-										</tr>
-										<tr>
-											<td class="tl">
-												<p class="desc">RAS-Inhibitor in COVID-19 Era & LaCor</p>
+												<p class="desc">이상지질혈증 치료제 : 1차의료기관에서 꼭 알아야할 노하우</p>
 												<p class="mt10"> 기존파일 : <span id="lec1-nm"></span></p>
 												<div class="mt10">
 													<input type="file" id="lec1" name="lec1" class="common-input w50" accept="application/pdf" />
-													<select class="common-select w20" id="DONGWHA_202012_LEC1_READY_YN" name="DONGWHA_202012_LEC1_READY_YN">
+													<select class="common-select w20" id="DONGWHA_202105_LEC1_READY_YN" name="DONGWHA_202105_LEC1_READY_YN">
 														<option value="1">준비중</option>
 														<option value="0">자료완료</option>
 													</select>
@@ -133,11 +120,24 @@
 										</tr>
 										<tr>
 											<td class="tl">
-												<p class="desc">Carotid Ultrasonography & CVD Management</p>
+												<p class="desc">동반질환에 따른 고혈압 관리 전략</p>
+												<p class="mt10"> 기존파일 : <span id="lec2-nm"></span></p>
+												<div class="mt10">
+													<input type="file" id="lec2" name="lec2" class="common-input w50" accept="application/pdf" />
+													<select class="common-select w20" id="DONGWHA_202105_LEC2_READY_YN" name="DONGWHA_202105_LEC2_READY_YN">
+														<option value="1">준비중</option>
+														<option value="0">자료완료</option>
+													</select>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td class="tl">
+												<p class="desc">Special Lecture : Coaching Excercise for Patients with Cardio-Cerebrovascular Disease</p>
 												<p class="mt10"> 기존파일 : <span id="lec3-nm"></span></p>
 												<div class="mt10">
 													<input type="file" id="lec3" name="lec3" class="common-input w50" accept="application/pdf" />
-													<select class="common-select w20" id="DONGWHA_202012_LEC3_READY_YN" name="DONGWHA_202012_LEC3_READY_YN">
+													<select class="common-select w20" id="DONGWHA_202105_LEC3_READY_YN" name="DONGWHA_202105_LEC3_READY_YN">
 														<option value="1">준비중</option>
 														<option value="0">자료완료</option>
 													</select>
@@ -146,11 +146,11 @@
 										</tr>
 										<tr>
 											<td class="tl">
-												<p class="desc">스타틴 춘추전국시대, 당신의 선택?</p>
+												<p class="desc">당뇨환자에서의 이상지질혈증 관리</p>
 												<p class="mt10"> 기존파일 : <span id="lec4-nm"></span></p>
 												<div class="mt10">
 													<input type="file" id="lec4" name="lec4" class="common-input w50" accept="application/pdf" />
-													<select class="common-select w20" id="DONGWHA_202012_LEC4_READY_YN" name="DONGWHA_202012_LEC4_READY_YN">
+													<select class="common-select w20" id="DONGWHA_202105_LEC4_READY_YN" name="DONGWHA_202105_LEC4_READY_YN">
 														<option value="1">준비중</option>
 														<option value="0">자료완료</option>
 													</select>
@@ -160,7 +160,7 @@
 									</tbody>
 								</table>
 
-								<input type="hidden" id="yyyymm" name="yyyymm" value="202012" />
+								<input type="hidden" id="yyyymm" name="yyyymm" value="202105" />
 							</form>
 						</div>
 
@@ -224,7 +224,6 @@
 
 <!-- 메인 script -->
 <script language="javascript">
-const ENT_INFO_CNT = 8;
 
 // 초기화
 function fnInit () {
@@ -232,15 +231,15 @@ function fnInit () {
 	$('.nav-item.<?= $menu ?>').addClass('active');
 
 	// 준비중 여부 설정
-	$('#DONGWHA_202012_LEC1_READY_YN').val('<?= $DONGWHA_202012_LEC1_READY_YN ?>');
-	$('#DONGWHA_202012_LEC2_READY_YN').val('<?= $DONGWHA_202012_LEC2_READY_YN ?>');
-	$('#DONGWHA_202012_LEC3_READY_YN').val('<?= $DONGWHA_202012_LEC3_READY_YN ?>');
-	$('#DONGWHA_202012_LEC4_READY_YN').val('<?= $DONGWHA_202012_LEC4_READY_YN ?>');
+	$('#DONGWHA_202105_LEC1_READY_YN').val('<?= $DONGWHA_202105_LEC1_READY_YN ?>');
+	$('#DONGWHA_202105_LEC2_READY_YN').val('<?= $DONGWHA_202105_LEC2_READY_YN ?>');
+	$('#DONGWHA_202105_LEC3_READY_YN').val('<?= $DONGWHA_202105_LEC3_READY_YN ?>');
+	$('#DONGWHA_202105_LEC4_READY_YN').val('<?= $DONGWHA_202105_LEC4_READY_YN ?>');
 
-	$('#lec1-nm').text('<?= $DONGWHA_202012_LEC1_FILE_NM ?>');
-	$('#lec2-nm').text('<?= $DONGWHA_202012_LEC2_FILE_NM ?>');
-	$('#lec3-nm').text('<?= $DONGWHA_202012_LEC3_FILE_NM ?>');
-	$('#lec4-nm').text('<?= $DONGWHA_202012_LEC4_FILE_NM ?>');
+	$('#lec1-nm').text('<?= $DONGWHA_202105_LEC1_FILE_NM ?>');
+	$('#lec2-nm').text('<?= $DONGWHA_202105_LEC2_FILE_NM ?>');
+	$('#lec3-nm').text('<?= $DONGWHA_202105_LEC3_FILE_NM ?>');
+	$('#lec4-nm').text('<?= $DONGWHA_202105_LEC4_FILE_NM ?>');
 }
 
 // 저장

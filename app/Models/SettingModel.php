@@ -46,6 +46,8 @@ class SettingModel extends Model {
 
 	// 설정마스터(TB_SETTING_M) update
 	public function updateValue ($setKey, $data) {
+		// log_message('info', "SettingModel.php - updateValue. setKey: $setKey, data: ".print_r($data, true));
+
         $builder = $this->db->table('TB_SETTING_M');
 		$builder->where('SET_KEY', $setKey)->update($data);
 

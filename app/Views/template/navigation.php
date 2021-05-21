@@ -74,8 +74,14 @@
   </div>
 
   <!-- Nav Item -->
-  <li class="nav-item dongwha">
+  <li class="nav-item dongwha_202105">
 	<a class="nav-link collapsed" href="/dongwha">
+	  <i class="fas fa-fw fa-cog"></i>
+	  <span>동화약품(202105)</span>
+	</a>
+  </li>
+  <li class="nav-item dongwha_202012">
+	<a class="nav-link collapsed" href="/dongwha/dh202012">
 	  <i class="fas fa-fw fa-cog"></i>
 	  <span>동화약품(202012)</span>
 	</a>

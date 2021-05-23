@@ -169,7 +169,7 @@
 <?php
 	// 레벨9만 보이도록 -> 일반관리자도 수정 가능
 	if ($lvl == 9 || $lvl == 1) {
-		echo '<button class="btn-main btn-sky" onclick="window.open(\'https://livesympo.kr/dongwha\', \'_dongwha\')">미리보기</button>';
+		echo '<button class="btn-main btn-sky" onclick="window.open(\'https://livesympo.kr/DONGWHA\', \'_dongwha\')">미리보기</button>';
 		echo '<button class="btn-main btn-light-indigo" onclick="save();">저장</button>';
 	}
 ?>

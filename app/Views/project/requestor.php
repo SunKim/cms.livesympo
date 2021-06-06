@@ -502,7 +502,7 @@ function getRequestorList () {
 		success: function(data) {
 			// console.log(data)
 			if ( data.resCode == '0000' ) {
-                console.log(data.list)
+                // console.log(data.list)
 
 				// 사전등록자 목록
 				const reqrList = data.list;
@@ -596,8 +596,8 @@ function getAttendanceList () {
 		data,
 
 		success: function(data) {
-			// console.log(data)
 			if ( data.resCode == '0000' ) {
+				console.log(data.list)
 				// 사전등록자, 참석자 목록
 				const attList = data.list;
 
@@ -611,8 +611,30 @@ function getAttendanceList () {
                         html += '	<td>'+item.ROWNUM+'</td>';
                         html += '	<td>'+item.REQR_NM+'</td>';
                         html += '	<td>'+formatMobile(simplifyMobile(item.MBILNO))+'</td>';
-                        html += '	<td>'+item.FIRST_ENTER_DTTM+'</td>';
-                        html += '	<td>'+item.LAST_LEAVE_DTTM+'</td>';
+                        // html += '	<td>'+item.FIRST_ENTER_DTTM+'</td>';
+                        // html += '	<td>'+item.LAST_LEAVE_DTTM+'</td>';
+
+						// IN
+						html += '	<td>';
+						item.ENTER_DTTM_ARR.split(',').forEach(arrItem => {
+							html += `<p>${arrItem}\n</p>`
+						})
+						html += '	</td>';
+
+						// OUT
+						html += '	<td>';
+						item.LEAVE_DTTM_ARR.split(',').forEach((arrItem, key, arr) => {
+							html += `<p>${arrItem}\n</p>`
+
+							// 마지막 아이템이고 ENTER보다 LEAVE 갯수가 적을때
+							if (Object.is(arr.length - 1, key)) {
+								if (item.ENTER_DTTM_ARR.split(',').length == item.LEAVE_DTTM_ARR.split(',').length+1) {
+									html += `<p>${item.ED_DTTM}</p>`
+								}
+							}
+						})
+						html += '	</td>';
+
                         html += '	<td>'+item.DVC_GB+'</td>';
                         html += '	<td class="extra-1">'+item.ENT_INFO_EXTRA_VAL_1+'</td>';
                         html += '	<td class="extra-2">'+item.ENT_INFO_EXTRA_VAL_2+'</td>';

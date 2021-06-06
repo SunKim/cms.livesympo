@@ -172,7 +172,7 @@
 
 											<!-- <th colspan="5">디자인</th> -->
 											<th rowspan="2">메인이미지</th>
-											<!-- <th rowspan="2">어젠다</th>
+											<!-- <th rowspan="2">아젠다</th>
 											<th rowspan="2">푸터</th> -->
 											<!-- <th rowspan="2">메인색상</th>
 											<th rowspan="2">버튼색상</th> -->
@@ -197,7 +197,7 @@
 											<th>시청자</th>
 
 											<!-- <th>메인이미지</th>
-											<th>어젠다</th>
+											<th>아젠다</th>
 											<th>푸터</th>
 											<th>메인색상</th>
 											<th>버튼색상</th> -->
@@ -419,6 +419,7 @@ if ($lvl != 2) {
 
 					html += '	<td><img class="thumb" src="'+item.MAIN_IMG_THUMB_URI+'" /></td>';
 					// html += '	<td><img class="thumb" src="'+item.AGENDA_IMG_THUMB_URI+'" /></td>';
+					// html += '	<td><img class="thumb" src="'+item.STREAM_AGENDA_IMG_THUMB_URI+'" /></td>';
 					// html += '	<td><img class="thumb" src="'+item.FOOTER_IMG_THUMB_URI+'" /></td>';
 					// html += '	<td><p class="color-box" style="background: '+item.ENT_THME_COLR+';"></p></td>';
 					// html += '	<td><p class="color-box" style="background: '+item.APPL_BTN_BG_COLR+';"></p></td>';

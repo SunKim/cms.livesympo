@@ -44,6 +44,9 @@ class RequestorModel extends Model {
 		$strQry .= "				, CASE WHEN EI.CONN_ROUTE_VAL = 1 THEN P.CONN_ROUTE_1	\n";
 		$strQry .= "						WHEN EI.CONN_ROUTE_VAL = 2 THEN P.CONN_ROUTE_2	\n";
 		$strQry .= "						WHEN EI.CONN_ROUTE_VAL = 3 THEN P.CONN_ROUTE_3	\n";
+		$strQry .= "						WHEN EI.CONN_ROUTE_VAL = 4 THEN P.CONN_ROUTE_4	\n";
+		$strQry .= "						WHEN EI.CONN_ROUTE_VAL = 5 THEN P.CONN_ROUTE_5	\n";
+		$strQry .= "						WHEN EI.CONN_ROUTE_VAL = 6 THEN P.CONN_ROUTE_6	\n";
 		$strQry .= "						ELSE ''	\n";
 		$strQry .= "					END AS CONN_ROUTE_VAL_NM	\n";
 		$strQry .= "				, EI.REG_DTTM	\n";
@@ -81,8 +84,9 @@ class RequestorModel extends Model {
 		$strQry .= "	SELECT @rownum:=@rownum+1 AS ROWNUM, T.*	\n";
 		$strQry .= "	FROM (	\n";
 		$strQry .= "		SELECT EI.PRJ_ENT_INFO_REQR_SEQ, A.PRJ_SEQ, A.REQR_SEQ, A.DVC_GB, A.IP_ADDR	\n";
-		$strQry .= "			, A.FIRST_ENTER_DTTM	\n";
+		$strQry .= "			, A.FIRST_ENTER_DTTM, A.ENTER_DTTM_ARR, IFNULL(A.LEAVE_DTTM_ARR, P.ED_DTTM) AS LEAVE_DTTM_ARR	\n";
 		$strQry .= "			, LEAST(P.ED_DTTM, IFNULL(A.LAST_LEAVE_DTTM, P.ED_DTTM)) AS LAST_LEAVE_DTTM	\n";
+		$strQry .= "			, P.ST_DTTM, P.ED_DTTM	\n";
 		$strQry .= "			, EI.REQR_NM, EI.MBILNO	\n";
 		$strQry .= "			, IFNULL(EI.ENT_INFO_EXTRA_VAL_1, '') AS ENT_INFO_EXTRA_VAL_1	\n";
 		$strQry .= "			, IFNULL(EI.ENT_INFO_EXTRA_VAL_2, '') AS ENT_INFO_EXTRA_VAL_2	\n";
@@ -95,6 +99,9 @@ class RequestorModel extends Model {
 		$strQry .= "			, CASE WHEN EI.CONN_ROUTE_VAL = 1 THEN P.CONN_ROUTE_1	\n";
 		$strQry .= "				WHEN EI.CONN_ROUTE_VAL = 2 THEN P.CONN_ROUTE_2	\n";
 		$strQry .= "				WHEN EI.CONN_ROUTE_VAL = 3 THEN P.CONN_ROUTE_3	\n";
+		$strQry .= "				WHEN EI.CONN_ROUTE_VAL = 4 THEN P.CONN_ROUTE_4	\n";
+		$strQry .= "				WHEN EI.CONN_ROUTE_VAL = 5 THEN P.CONN_ROUTE_5	\n";
+		$strQry .= "				WHEN EI.CONN_ROUTE_VAL = 6 THEN P.CONN_ROUTE_6	\n";
 		$strQry .= "				ELSE ''	\n";
 		$strQry .= "				END AS CONN_ROUTE_VAL_NM	\n";
 		$strQry .= "		FROM (	\n";
@@ -102,6 +109,8 @@ class RequestorModel extends Model {
 		$strQry .= "				PRJ_SEQ, REQR_SEQ	\n";
 		$strQry .= "				, MIN(IF(LOG_GB = 'ENTER', REG_DTTM, NULL)) AS FIRST_ENTER_DTTM	\n";
 		$strQry .= "				, MAX(IF(LOG_GB = 'LEAVE', REG_DTTM, NULL)) AS LAST_LEAVE_DTTM	\n";
+		$strQry .= "				, GROUP_CONCAT(IF(LOG_GB = 'ENTER', REG_DTTM, NULL)) AS ENTER_DTTM_ARR	\n";
+		$strQry .= "				, GROUP_CONCAT(IF(LOG_GB = 'LEAVE', REG_DTTM, NULL)) AS LEAVE_DTTM_ARR	\n";
 		$strQry .= "				, MAX(DVC_GB) AS DVC_GB	\n";
 		$strQry .= "				, IFNULL(MAX(IP_ADDR), '-') AS IP_ADDR	\n";
 		$strQry .= "			FROM TB_REQR_LOG_H	\n";

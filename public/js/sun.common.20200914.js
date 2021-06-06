@@ -150,6 +150,9 @@ function replaceNullToDash (text) {
 
 // 전화번호/휴대폰번호에 숫자 외의 다른 문자가 들어가있으면 제거 (이렇게 하고 다시 -를 넣으려고)
 function simplifyMobile (mobile) {
+  if (!mobile) {
+    return ''
+  }
   return mobile.replace(/[^0-9.]/g, '')
 }
 
@@ -157,7 +160,8 @@ function simplifyMobile (mobile) {
 function formatMobile (orgMobile) {
   const mobile = this.simplifyMobile(orgMobile)
   if (typeof (mobile * 1) !== 'number' || mobile.length > 11 || mobile.length < 9) {
-    return '전화번호가 형식에 맞지 않습니다.(숫자 9~11자리)'
+    // return '전화번호가 형식에 맞지 않습니다.(숫자 9~11자리)'
+    return ''
   } else {
     return mobile.replace(/(\d{2,3})(\d{3,4})(\d{4})/, '$1-$2-$3')
   }
@@ -269,7 +273,7 @@ function emptyNumberInput (e) {
 
 // 테이블내용 .csv 파일 다운로드
 // ex) downloadTableToCsv('tbl-xxx-list', '회원목록')
-function downloadTableToCsv(tableId, fileName) {
+function downloadTableToCsv (tableId, fileName) {
   //참고) https://codepen.io/kostas-krevatas/pen/mJyBwp
 
   const _tableToCSV = function(table) {

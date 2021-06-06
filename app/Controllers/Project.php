@@ -207,11 +207,18 @@ class Project extends BaseController {
 		$data['NTC_DESC'] = $this->request->getPost('NTC_DESC');
 		$data['QNA_TEXT'] = $this->request->getPost('QNA_TEXT');
 
+		$data['STREAM_AGENDA_LINK_URL'] = $this->request->getPost('STREAM_AGENDA_LINK_URL');
+
+		$data['CONN_ROUTE_TEXT'] = $this->request->getPost('CONN_ROUTE_TEXT');
 		$data['CONN_ROUTE_1'] = $this->request->getPost('CONN_ROUTE_1');
 		$data['CONN_ROUTE_2'] = $this->request->getPost('CONN_ROUTE_2');
 		$data['CONN_ROUTE_3'] = $this->request->getPost('CONN_ROUTE_3');
+		$data['CONN_ROUTE_4'] = $this->request->getPost('CONN_ROUTE_4');
+		$data['CONN_ROUTE_5'] = $this->request->getPost('CONN_ROUTE_5');
+		$data['CONN_ROUTE_6'] = $this->request->getPost('CONN_ROUTE_6');
 
 		$data['ANONYM_USE_YN'] = $this->request->getPost('ANONYM_USE_YN');
+		$data['APPL_BTN_HIDE_YN'] = $this->request->getPost('APPL_BTN_HIDE_YN');
 		$data['ENT_INFO_EXTRA_1'] = $this->request->getPost('ENT_INFO_EXTRA_1');
 		$data['ENT_INFO_EXTRA_PHOLDER_1'] = $this->request->getPost('ENT_INFO_EXTRA_PHOLDER_1');
 		$data['ENT_INFO_EXTRA_REQUIRED_1'] = $this->request->getPost('ENT_INFO_EXTRA_REQUIRED_1');
@@ -333,7 +340,7 @@ class Project extends BaseController {
 						}
 
 						// 새로운 파일명에 extension 붙여줌
-						// $key : form의 input의 name. MAIN_IMG, AGENDA_IMG, FOOTER_IMG => MAIN_IMG_1.png 형태로
+						// $key : form의 input의 name. MAIN_IMG, AGENDA_IMG, STREAM_AGENDA_IMG, FOOTER_IMG => MAIN_IMG_1.png 형태로
 						$newFileName = $key.'_'.$prjSeq.'_'.$this->getRandomName().'.'.$ext;
 						$thumbNm = $key.'_'.$prjSeq.'_THUMB'.'_'.$this->getRandomName().'.'.$ext;
 
@@ -620,6 +627,12 @@ class Project extends BaseController {
 										$insertItem['CONN_ROUTE_VAL'] = 2;
 									} else if ($lineData[10] === $prjItem['CONN_ROUTE_3']) {
 										$insertItem['CONN_ROUTE_VAL'] = 3;
+									} else if ($lineData[10] === $prjItem['CONN_ROUTE_4']) {
+										$insertItem['CONN_ROUTE_VAL'] = 4;
+									} else if ($lineData[10] === $prjItem['CONN_ROUTE_5']) {
+										$insertItem['CONN_ROUTE_VAL'] = 5;
+									} else if ($lineData[10] === $prjItem['CONN_ROUTE_6']) {
+										$insertItem['CONN_ROUTE_VAL'] = 6;
 									}
 								}
 								if (isset($lineData[11]) && $lineData[11] != '') {

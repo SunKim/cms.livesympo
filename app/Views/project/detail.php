@@ -197,11 +197,18 @@ table.table-detail img { display: block; max-width: 640px; }
 										<tr>
 											<th>접속경로 설정</th>
 											<td class="tl">
-												<p class="desc">* 최대 3개까지 등록 가능합니다. 없으면 빈칸으로 두세요.</p>
+												<p class="">
+													<span class="input-title">접속경로 표시</span>
+													<input type="text" id="CONN_ROUTE_TEXT" name="CONN_ROUTE_TEXT" class="common-input w30" value="접속경로" maxlength="20" />
+												</p>
+												<p class="desc mt20">* 최대 6개까지 등록 가능합니다. 없으면 빈칸으로 두세요.</p>
 												<ul>
-													<li class="mt10"><input type="text" id="CONN_ROUTE_1" name="CONN_ROUTE_1" class="common-input w90" /></li>
-													<li class="mt10"><input type="text" id="CONN_ROUTE_2" name="CONN_ROUTE_2" class="common-input w90" /></li>
-													<li class="mt10"><input type="text" id="CONN_ROUTE_3" name="CONN_ROUTE_3" class="common-input w90" /></li>
+													<li class="mt10"><input type="text" id="CONN_ROUTE_1" name="CONN_ROUTE_1" class="common-input w90" maxlength="100" /></li>
+													<li class="mt10"><input type="text" id="CONN_ROUTE_2" name="CONN_ROUTE_2" class="common-input w90" maxlength="100" /></li>
+													<li class="mt10"><input type="text" id="CONN_ROUTE_3" name="CONN_ROUTE_3" class="common-input w90" maxlength="100" /></li>
+													<li class="mt10"><input type="text" id="CONN_ROUTE_4" name="CONN_ROUTE_4" class="common-input w90" maxlength="100" /></li>
+													<li class="mt10"><input type="text" id="CONN_ROUTE_5" name="CONN_ROUTE_5" class="common-input w90" maxlength="100" /></li>
+													<li class="mt10"><input type="text" id="CONN_ROUTE_6" name="CONN_ROUTE_6" class="common-input w90" maxlength="100" /></li>
 												</ul>
 											</td>
 										</tr>
@@ -215,7 +222,15 @@ table.table-detail img { display: block; max-width: 640px; }
 													<option value="1">비사전등록 입장</option>
 												</select>
 
+												<p class="desc mt20">* 사전등록 마감설정시 게이트페이지에 사전등록버튼이 사라집니다.</p>
+												<span class="ent-info-title">사전등록 마감설정</span>
+												<select class="common-select w20 mt10" id="APPL_BTN_HIDE_YN" name="APPL_BTN_HIDE_YN">
+													<option value="0">미설정(마감X)</option>
+													<option value="1">설정(마감)</option>
+												</select>
+
 												<p class="desc mt20">* 10개까지 등록 가능합니다. 성명/연락처는 기본항목입니다. Placeholder는 없으면 빈칸으로 두세요.</p>
+												<p class="desc">* 의사면허번호/면허번호/등록번호/생년월일은 숫자만 6~7자리 입력 가능하게 설정됩니다.</p>
 												<div class="ent-info-container">
 													<div class="mt10 mb10">
 														<span class="ent-info-title">항목명</span>
@@ -404,7 +419,7 @@ table.table-detail img { display: block; max-width: 640px; }
 											</td>
 										</tr>
 										<tr>
-											<th rowspan="3">이미지</th>
+											<th rowspan="4">이미지</th>
 											<th class="required">메인 이미지</th>
 											<td class="tl">
 												<p class="desc">* 가로는 1170px 세로는 적당한 비율로 올려주세요.</p>
@@ -418,6 +433,20 @@ table.table-detail img { display: block; max-width: 640px; }
 												<p class="desc">* 가로는 1170px 세로는 556px로 올려주세요.</p>
 												<img class="img-agenda" id="AGENDA_IMG_URL" />
 												<input type="file" id="AGENDA_IMG" name="AGENDA_IMG" class="common-input w50 mt10" accept="image/x-png,image/gif,image/jpeg" onchange="javascript: preview(this, 'AGENDA_IMG_URL');" />
+											</td>
+										</tr>
+										<tr>
+											<th class="required">스트리밍 아젠다 이미지</th>
+											<td class="tl">
+												<p class="desc">* 가로는 1170px 세로는 556px로 올려주세요.</p>
+												<img class="img-agenda" id="STREAM_AGENDA_IMG_URL" />
+												<input type="file" id="STREAM_AGENDA_IMG" name="STREAM_AGENDA_IMG" class="common-input w50 mt10" accept="image/x-png,image/gif,image/jpeg" onchange="javascript: preview(this, 'STREAM_AGENDA_IMG_URL');" />
+
+												<p class="desc mt30">* 미입력시 스트리밍페이지에서 아젠다 이미지를 클릭해도 이동하지 않습니다.</p>
+												<p class="">
+													<span class="input-title">클릭시 이동 주소</span>
+													<input type="text" id="STREAM_AGENDA_LINK_URL" name="STREAM_AGENDA_LINK_URL" class="common-input w80" value="" />
+												</p>
 											</td>
 										</tr>
 										<tr>
@@ -794,8 +823,13 @@ function save () {
 			return;
 		}
 		if (isEmpty( $('#AGENDA_IMG').val() )) {
-			alert('어젠다 이미지를 선택해주세요.');
+			alert('아젠다 이미지를 선택해주세요.');
 			$('#AGENDA_IMG').focus();
+			return;
+		}
+		if (isEmpty( $('#STREAM_AGENDA_IMG').val() )) {
+			alert('스트리밍 아젠다 이미지를 선택해주세요.');
+			$('#STREAM_AGENDA_IMG').focus();
 			return;
 		}
 		if (isEmpty( $('#FOOTER_IMG').val() )) {
@@ -875,11 +909,18 @@ function getDetail (prjSeq) {
 				$('#NTC_DESC').val(data.item.NTC_DESC);
 				$('#QNA_TEXT').val(data.item.QNA_TEXT);
 
+				$('#STREAM_AGENDA_LINK_URL').val(data.item.STREAM_AGENDA_LINK_URL);
+
+				$('#CONN_ROUTE_TEXT').val(data.item.CONN_ROUTE_TEXT);
 				$('#CONN_ROUTE_1').val(data.item.CONN_ROUTE_1);
 				$('#CONN_ROUTE_2').val(data.item.CONN_ROUTE_2);
 				$('#CONN_ROUTE_3').val(data.item.CONN_ROUTE_3);
+				$('#CONN_ROUTE_4').val(data.item.CONN_ROUTE_4);
+				$('#CONN_ROUTE_5').val(data.item.CONN_ROUTE_5);
+				$('#CONN_ROUTE_6').val(data.item.CONN_ROUTE_6);
 
 				$('#ANONYM_USE_YN').val(data.item.ANONYM_USE_YN);
+				$('#APPL_BTN_HIDE_YN').val(data.item.APPL_BTN_HIDE_YN);
 				$('#ENT_INFO_EXTRA_1').val(data.item.ENT_INFO_EXTRA_1);
 				$('#ENT_INFO_EXTRA_PHOLDER_1').val(data.item.ENT_INFO_EXTRA_PHOLDER_1);
 				$('#ENT_INFO_EXTRA_REQUIRED_1').val(data.item.ENT_INFO_EXTRA_REQUIRED_1);
@@ -937,6 +978,7 @@ function getDetail (prjSeq) {
 				// 기존 등록된 이미지를 보여줌
 				$('#MAIN_IMG_URL').attr('src', data.item.MAIN_IMG_URL);
 				$('#AGENDA_IMG_URL').attr('src', data.item.AGENDA_IMG_URL);
+				$('#STREAM_AGENDA_IMG_URL').attr('src', data.item.STREAM_AGENDA_IMG_URL);
 				$('#FOOTER_IMG_URL').attr('src', data.item.FOOTER_IMG_URL);
 				if (data.item.MDRTOR_IMG_URL) {
 					$('#MDRTOR_IMG_URL').attr('src', data.item.MDRTOR_IMG_URL);

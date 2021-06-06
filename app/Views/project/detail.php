@@ -230,7 +230,7 @@ table.table-detail img { display: block; max-width: 640px; }
 												</select>
 
 												<p class="desc mt20">* 10개까지 등록 가능합니다. 성명/연락처는 기본항목입니다. Placeholder는 없으면 빈칸으로 두세요.</p>
-												<p class="desc">* 의사면허번호/면허번호/등록번호/생년월일은 숫자만 6~7자리 입력 가능하게 설정됩니다.</p>
+												<p class="desc">* 의사면허번호/면허번호/등록번호/생년월일은 숫자만 5~6자리 입력 가능하게 설정됩니다.</p>
 												<div class="ent-info-container">
 													<div class="mt10 mb10">
 														<span class="ent-info-title">항목명</span>

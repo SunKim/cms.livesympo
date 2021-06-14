@@ -75,7 +75,7 @@ class RequestorModel extends Model {
         return $this->db->query($strQry)->getResultArray();
     }
 
-	// 참석자 목록
+	// 참석자 목록 (참석자당 1줄)
     public function attendanceList ($prjSeq, $search) {
         $strQry  = "";
 
@@ -140,6 +140,77 @@ class RequestorModel extends Model {
 		// log_message('info', "RequestorModel - attendanceList. Qry - \n$strQry");
         return $this->db->query($strQry)->getResultArray();
     }
+
+	// 참석자 목록 (참석자당 여러줄 - 입장/퇴장)
+    public function attendanceListInOut ($prjSeq, $search) {
+        $strQry  = "";
+
+		$strQry .= "SELECT *	\n";
+		$strQry .= "FROM (	\n";
+		$strQry .= "	SELECT @rownum:=@rownum+1 AS ROWNUM, T.*	\n";
+		$strQry .= "	FROM (	\n";
+		$strQry .= "		SELECT EI.PRJ_ENT_INFO_REQR_SEQ, ENT.PRJ_SEQ, ENT.REQR_SEQ, ENT.DVC_GB, ENT.IP_ADDR	\n";
+		$strQry .= "			, ENT.REG_DTTM AS ENT_DTTM	\n";
+		$strQry .= "			, IFNULL(LEA.REG_DTTM, P.ED_DTTM) AS LEA_DTTM	\n";
+		$strQry .= "			, P.ST_DTTM, P.ED_DTTM	\n";
+		$strQry .= "			, IFNULL(EI.REQR_NM, CONCAT('익명-', ENT.REQR_SEQ)) AS REQR_NM	\n";
+		$strQry .= "			, IFNULL(EI.MBILNO, '') AS MBILNO	\n";
+		$strQry .= "			, IFNULL(EI.ENT_INFO_EXTRA_VAL_1, '') AS ENT_INFO_EXTRA_VAL_1	\n";
+		$strQry .= "			, IFNULL(EI.ENT_INFO_EXTRA_VAL_2, '') AS ENT_INFO_EXTRA_VAL_2	\n";
+		$strQry .= "			, IFNULL(EI.ENT_INFO_EXTRA_VAL_3, '') AS ENT_INFO_EXTRA_VAL_3	\n";
+		$strQry .= "			, IFNULL(EI.ENT_INFO_EXTRA_VAL_4, '') AS ENT_INFO_EXTRA_VAL_4	\n";
+		$strQry .= "			, IFNULL(EI.ENT_INFO_EXTRA_VAL_5, '') AS ENT_INFO_EXTRA_VAL_5	\n";
+		$strQry .= "			, IFNULL(EI.ENT_INFO_EXTRA_VAL_6, '') AS ENT_INFO_EXTRA_VAL_6	\n";
+		$strQry .= "			, IFNULL(EI.ENT_INFO_EXTRA_VAL_7, '') AS ENT_INFO_EXTRA_VAL_7	\n";
+		$strQry .= "			, IFNULL(EI.ENT_INFO_EXTRA_VAL_8, '') AS ENT_INFO_EXTRA_VAL_8	\n";
+		$strQry .= "			, CASE WHEN EI.CONN_ROUTE_VAL = 1 THEN P.CONN_ROUTE_1	\n";
+		$strQry .= "				WHEN EI.CONN_ROUTE_VAL = 2 THEN P.CONN_ROUTE_2	\n";
+		$strQry .= "				WHEN EI.CONN_ROUTE_VAL = 3 THEN P.CONN_ROUTE_3	\n";
+		$strQry .= "				WHEN EI.CONN_ROUTE_VAL = 4 THEN P.CONN_ROUTE_4	\n";
+		$strQry .= "				WHEN EI.CONN_ROUTE_VAL = 5 THEN P.CONN_ROUTE_5	\n";
+		$strQry .= "				WHEN EI.CONN_ROUTE_VAL = 6 THEN P.CONN_ROUTE_6	\n";
+		$strQry .= "				ELSE ''	\n";
+		$strQry .= "				END AS CONN_ROUTE_VAL_NM	\n";
+		$strQry .= "		FROM (	\n";
+		$strQry .= "			SELECT PRJ_SEQ, DVC_GB, IP_ADDR, REQR_SEQ, LOG_GB, REG_DTTM	\n";
+		$strQry .= "				, ROW_NUMBER() OVER (PARTITION BY REQR_SEQ ORDER BY REG_DTTM) AS ENT_ROWNUM	\n";
+		$strQry .= "			FROM TB_REQR_LOG_H	\n";
+		$strQry .= "			WHERE 1=1	\n";
+		$strQry .= "				AND PRJ_SEQ = ".$this->db->escape($prjSeq)."	\n";
+		$strQry .= "				AND LOG_GB = 'ENTER'	\n";
+		$strQry .= "		) AS ENT	\n";
+		$strQry .= "		LEFT OUTER JOIN (	\n";
+		$strQry .= "			SELECT REQR_SEQ, LOG_GB, REG_DTTM	\n";
+		$strQry .= "				, ROW_NUMBER() OVER (PARTITION BY REQR_SEQ ORDER BY REG_DTTM) AS LEA_ROWNUM	\n";
+		$strQry .= "			FROM TB_REQR_LOG_H	\n";
+		$strQry .= "			WHERE 1=1	\n";
+		$strQry .= "				AND PRJ_SEQ = ".$this->db->escape($prjSeq)."	\n";
+		$strQry .= "				AND LOG_GB = 'LEAVE'	\n";
+		$strQry .= "		) AS LEA	\n";
+		$strQry .= "				ON (ENT.REQR_SEQ = LEA.REQR_SEQ AND ENT.ENT_ROWNUM = LEA.LEA_ROWNUM)	\n";
+		$strQry .= "		INNER JOIN TB_PRJ_ENT_INFO_REQR_H AS EI	\n";
+		$strQry .= "				ON (ENT.PRJ_SEQ = EI.PRJ_SEQ AND ENT.REQR_SEQ = EI.REQR_SEQ)	\n";
+		$strQry .= "		INNER JOIN TB_PRJ_M AS P	\n";
+		$strQry .= "				ON (ENT.PRJ_SEQ = P.PRJ_SEQ)	\n";
+		$strQry .= "		INNER JOIN (SELECT @rownum:=0) T2	\n";
+		$strQry .= "		ORDER BY REQR_NM	\n";
+		$strQry .= "	) AS T	\n";
+		$strQry .= ") AS TT	\n";
+		$strQry .= "WHERE 1=1	\n";
+
+		if (isset($search['searchAttNm']) && $search['searchAttNm'] != '') {
+			$strQry .= "	AND REQR_NM LIKE '%".$this->db->escapeLikeString($search['searchAttNm'])."%'	\n";
+		}
+		if (isset($search['searchAttMbilno']) && $search['searchAttMbilno'] != '') {
+			$strQry .= "	AND MBILNO LIKE '%".$this->db->escapeLikeString($search['searchAttMbilno'])."%'	\n";
+		}
+
+        $strQry .= ";";
+
+		// log_message('info', "RequestorModel - attendanceList. Qry - \n$strQry");
+        return $this->db->query($strQry)->getResultArray();
+    }
+
 
 	// 프로젝트 사전등록자 목록 전체 삭제
 	public function deleteAllRequestor ($prjSeq) {

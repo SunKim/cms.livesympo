@@ -224,6 +224,11 @@ $(document).ready(function () {
 			type: 'fraction',
 		},
 
+        // 화살표 좌우버튼 클릭시 스와이퍼 이동
+        keyboard: {
+          enabled: true,
+        },
+
 		// Navigation arrows
 		navigation: {
 			nextEl: '.swiper-button-next',
@@ -238,13 +243,13 @@ $(document).ready(function () {
 });
 
 // 화살표 좌우버튼 클릭시 스와이퍼 이동
-document.onkeydown = function (event) {
-	if (event.keyCode == 37) {
-		swiper.slidePrev(0.5)
-	} else if (event.keyCode == 39) {
-		swiper.slideNext(0.5)
-	}
-};
+// document.onkeydown = function (event) {
+// 	if (event.keyCode == 37) {
+// 		swiper.slidePrev(0.5)
+// 	} else if (event.keyCode == 39) {
+// 		swiper.slideNext(0.5)
+// 	}
+// };
 
 </script>
 

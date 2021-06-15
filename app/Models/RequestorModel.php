@@ -193,7 +193,7 @@ class RequestorModel extends Model {
 		$strQry .= "		INNER JOIN TB_PRJ_M AS P	\n";
 		$strQry .= "				ON (ENT.PRJ_SEQ = P.PRJ_SEQ)	\n";
 		$strQry .= "		INNER JOIN (SELECT @rownum:=0) T2	\n";
-		$strQry .= "		ORDER BY REQR_NM	\n";
+		$strQry .= "		ORDER BY REQR_NM, ENT_ROWNUM	\n";
 		$strQry .= "	) AS T	\n";
 		$strQry .= ") AS TT	\n";
 		$strQry .= "WHERE 1=1	\n";

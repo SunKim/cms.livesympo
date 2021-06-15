@@ -151,7 +151,7 @@ class RequestorModel extends Model {
 		$strQry .= "	FROM (	\n";
 		$strQry .= "		SELECT EI.PRJ_ENT_INFO_REQR_SEQ, ENT.PRJ_SEQ, ENT.REQR_SEQ, ENT.DVC_GB, ENT.IP_ADDR	\n";
 		$strQry .= "			, ENT.REG_DTTM AS ENT_DTTM	\n";
-		$strQry .= "			, IFNULL(LEA.REG_DTTM, P.ED_DTTM) AS LEA_DTTM	\n";
+		$strQry .= "			, IFNULL(LEA.REG_DTTM, LEAST(P.ED_DTTM, NOW())) AS LEA_DTTM	\n";
 		$strQry .= "			, P.ST_DTTM, P.ED_DTTM	\n";
 		$strQry .= "			, IFNULL(EI.REQR_NM, CONCAT('익명-', ENT.REQR_SEQ)) AS REQR_NM	\n";
 		$strQry .= "			, IFNULL(EI.MBILNO, '') AS MBILNO	\n";

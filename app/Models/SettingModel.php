@@ -35,7 +35,9 @@ class SettingModel extends Model {
 
       $strQry .= ";";
 
-      return $this->db->query($strQry)->getRowArray()['SET_VAL'];
+	  $result = $this->db->query($strQry)->getRowArray();
+
+      return $result ? $result['SET_VAL'] : null ;
     }
 
 	// 설정마스터(TB_SETTING_M) insert

@@ -77,6 +77,12 @@
   <li class="nav-item dongwha_202105">
 	<a class="nav-link collapsed" href="/dongwha">
 	  <i class="fas fa-fw fa-cog"></i>
+	  <span>동화약품(202203)</span>
+	</a>
+  </li>
+  <li class="nav-item dongwha_202105">
+	<a class="nav-link collapsed" href="/dongwha/dh202105">
+	  <i class="fas fa-fw fa-cog"></i>
 	  <span>동화약품(202105)</span>
 	</a>
   </li>

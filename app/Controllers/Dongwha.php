@@ -25,7 +25,30 @@ class Dongwha extends BaseController {
   	}
 
 	public function index () {
-		return $this->dh202105();
+		return $this->dh202203();
+	}
+
+	public function dh202203 () {
+		$data['menu'] = 'dongwha_202203';
+		// get('session name') 에서 session name을 안주면 전체 session정보.
+		$data['session'] = $this->session->get();
+
+		$data['DONGWHA_202203_LEC1_READY_YN'] = $this->settingModel->value('DONGWHA_202203_LEC1_READY_YN');
+		$data['DONGWHA_202203_LEC2_READY_YN'] = $this->settingModel->value('DONGWHA_202203_LEC2_READY_YN');
+		$data['DONGWHA_202203_LEC3_READY_YN'] = $this->settingModel->value('DONGWHA_202203_LEC3_READY_YN');
+		$data['DONGWHA_202203_LEC4_READY_YN'] = $this->settingModel->value('DONGWHA_202203_LEC4_READY_YN');
+		$data['DONGWHA_202203_LEC5_READY_YN'] = $this->settingModel->value('DONGWHA_202203_LEC5_READY_YN');
+		$data['DONGWHA_202203_LEC6_READY_YN'] = $this->settingModel->value('DONGWHA_202203_LEC6_READY_YN');
+
+		$data['DONGWHA_202203_LEC1_FILE_NM'] = $this->settingModel->value('DONGWHA_202203_LEC1_FILE_NM');
+		$data['DONGWHA_202203_LEC2_FILE_NM'] = $this->settingModel->value('DONGWHA_202203_LEC2_FILE_NM');
+		$data['DONGWHA_202203_LEC3_FILE_NM'] = $this->settingModel->value('DONGWHA_202203_LEC3_FILE_NM');
+		$data['DONGWHA_202203_LEC4_FILE_NM'] = $this->settingModel->value('DONGWHA_202203_LEC4_FILE_NM');
+		$data['DONGWHA_202203_LEC5_FILE_NM'] = $this->settingModel->value('DONGWHA_202203_LEC5_FILE_NM');
+		$data['DONGWHA_202203_LEC6_FILE_NM'] = $this->settingModel->value('DONGWHA_202203_LEC6_FILE_NM');
+		log_message('info', "Dongwha.php - dh202203. data: ".print_r($data, true));
+
+		return view('etc/dongwha_202203.php', $data);
 	}
 
 	public function dh202105 () {
@@ -83,6 +106,12 @@ class Dongwha extends BaseController {
 
 		$data['SET_VAL'] = $this->request->getPost("DONGWHA_".$yyyymm."_LEC4_READY_YN");
 		$this->settingModel->updateValue("DONGWHA_".$yyyymm."_LEC4_READY_YN", $data);
+
+		$data['SET_VAL'] = $this->request->getPost("DONGWHA_".$yyyymm."_LEC5_READY_YN");
+		$this->settingModel->updateValue("DONGWHA_".$yyyymm."_LEC5_READY_YN", $data);
+
+		$data['SET_VAL'] = $this->request->getPost("DONGWHA_".$yyyymm."_LEC6_READY_YN");
+		$this->settingModel->updateValue("DONGWHA_".$yyyymm."_LEC6_READY_YN", $data);
 
 		// 기본 업로드 path. ex) /Users/seonjungkim/workspace_php/cms.livesympo/public/uploads/project
 		$uploadPath = $_ENV['UPLOAD_BASE_PATH'];
@@ -146,6 +175,14 @@ class Dongwha extends BaseController {
 							$data['SET_VAL'] = $newFileName;
 							$this->settingModel->updateValue('DONGWHA_'.$yyyymm.'_LEC4_FILE_NM', $data);
 						}
+						if ($key == 'lec5') {
+							$data['SET_VAL'] = $newFileName;
+							$this->settingModel->updateValue('DONGWHA_'.$yyyymm.'_LEC5_FILE_NM', $data);
+						}
+						if ($key == 'lec6') {
+							$data['SET_VAL'] = $newFileName;
+							$this->settingModel->updateValue('DONGWHA_'.$yyyymm.'_LEC6_FILE_NM', $data);
+						}
 					} else {
 						// throw new RuntimeException($file->getErrorString().'('.$file->getError().')');
 					}
@@ -153,6 +190,9 @@ class Dongwha extends BaseController {
 			}
 		} catch (Exception $e) {
 			log_message('error', "exception - ".$e->getMessage());
+			$res['resCode'] = '9999';
+			$res['resMsg'] = "에러가 발생했습니다.(".$e->getMessage().")";
+			return $this->response->setJSON($res);
 		}
 
 		$res['resCode'] = '0000';

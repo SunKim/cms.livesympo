@@ -142,7 +142,7 @@ if ($project['ANONYM_USE_YN'] == 0) {
 										<th class="extra-6"><?= $project['ENT_INFO_EXTRA_6'] ?></th>
 										<th class="extra-7"><?= $project['ENT_INFO_EXTRA_7'] ?></th>
 										<th class="extra-8"><?= $project['ENT_INFO_EXTRA_8'] ?></th>
-										<th class="conn-route">접속경로</th>
+										<th class="conn-route"><?= $project['CONN_ROUTE_TEXT'] ?></th>
 										<th>사전등록일시</th>
 									</tr>
 								</thead>
@@ -210,7 +210,7 @@ if ($project['ANONYM_USE_YN'] == 0) {
 										<th class="extra-6"><?= $project['ENT_INFO_EXTRA_6'] ?></th>
 										<th class="extra-7"><?= $project['ENT_INFO_EXTRA_7'] ?></th>
 										<th class="extra-8"><?= $project['ENT_INFO_EXTRA_8'] ?></th>
-										<th class="conn-route">접속경로</th>
+										<th class="conn-route"><?= $project['CONN_ROUTE_TEXT'] ?></th>
 									</tr>
 								</thead>
 								<tbody>
@@ -307,7 +307,7 @@ if ($lvl == 9 || $lvl == 1) {
 								<th class="extra-6"><?= $project['ENT_INFO_EXTRA_6'] ?></th>
 								<th class="extra-7"><?= $project['ENT_INFO_EXTRA_7'] ?></th>
 								<th class="extra-8"><?= $project['ENT_INFO_EXTRA_8'] ?></th>
-								<th class="conn-route">접속경로</th>
+								<th class="conn-route"><?= $project['CONN_ROUTE_TEXT'] ?></th>
                                 <th class="reg-dttm">사전등록시간</th>
 							</tr>
 							<tr>
@@ -424,7 +424,7 @@ if ($lvl == 9 || $lvl == 1) {
         }
     ?>
                                 <tr>
-                                    <th>접속경로</th>
+                                    <th><?= $project['CONN_ROUTE_TEXT'] ?></th>
                                     <td><input id="CONN_ROUTE_VAL" type="text" class="common-input"></td>
                                 </tr>
                                 <tr>
@@ -614,26 +614,29 @@ function getAttendanceList () {
                         // html += '	<td>'+item.FIRST_ENTER_DTTM+'</td>';
                         // html += '	<td>'+item.LAST_LEAVE_DTTM+'</td>';
 
-						// IN
-						html += '	<td>';
-						item.ENTER_DTTM_ARR.split(',').forEach(arrItem => {
-							html += `<p>${arrItem}\n</p>`
-						})
-						html += '	</td>';
+						// // IN
+						// html += '	<td>';
+						// item.ENTER_DTTM_ARR.split(',').forEach(arrItem => {
+						// 	html += `<p>${arrItem}\n</p>`
+						// })
+						// html += '	</td>';
+                        //
+						// // OUT
+						// html += '	<td>';
+						// item.LEAVE_DTTM_ARR.split(',').forEach((arrItem, key, arr) => {
+						// 	html += `<p>${arrItem}\n</p>`
+                        //
+						// 	// 마지막 아이템이고 ENTER보다 LEAVE 갯수가 적을때
+						// 	if (Object.is(arr.length - 1, key)) {
+						// 		if (item.ENTER_DTTM_ARR.split(',').length == item.LEAVE_DTTM_ARR.split(',').length+1) {
+						// 			html += `<p>${item.ED_DTTM}</p>`
+						// 		}
+						// 	}
+						// })
+						// html += '	</td>';
 
-						// OUT
-						html += '	<td>';
-						item.LEAVE_DTTM_ARR.split(',').forEach((arrItem, key, arr) => {
-							html += `<p>${arrItem}\n</p>`
-
-							// 마지막 아이템이고 ENTER보다 LEAVE 갯수가 적을때
-							if (Object.is(arr.length - 1, key)) {
-								if (item.ENTER_DTTM_ARR.split(',').length == item.LEAVE_DTTM_ARR.split(',').length+1) {
-									html += `<p>${item.ED_DTTM}</p>`
-								}
-							}
-						})
-						html += '	</td>';
+                        html += '	<td>'+item.ENT_DTTM+'</td>';
+                        html += '	<td>'+item.LEA_DTTM+'</td>';
 
                         html += '	<td>'+item.DVC_GB+'</td>';
                         html += '	<td class="extra-1">'+item.ENT_INFO_EXTRA_VAL_1+'</td>';

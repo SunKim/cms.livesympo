@@ -460,7 +460,9 @@ class Project extends BaseController {
 		// log_message('info', "Project - getAttendanceList. prjSeq: $prjSeq");
 
 		// 사전등록자, 참석자 목록
-		$attendanceList = $this->requestorModel->attendanceList($prjSeq, $search);
+		// $attendanceList = $this->requestorModel->attendanceList($prjSeq, $search);
+		$attendanceList = $this->requestorModel->attendanceListInOut($prjSeq, $search);
+
 		// foreach($reqrList as $idx => $reqrItem) {
 		// 	log_message('info', "Project - getRequestorList. reqrItem: ".$reqrItem['REQR_NM'].$reqrItem['MBILNO'].$reqrItem['CONN_ROUTE_VAL_NM']);
 		// }

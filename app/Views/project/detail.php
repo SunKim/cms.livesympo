@@ -606,7 +606,7 @@ table.table-detail img { display: block; max-width: 640px; }
 							<button class="btn-main btn-white mr15" onclick="history.back();">뒤로</button>
 <?php
 	// 레벨9만 보이도록 -> 일반관리자도 수정 가능
-	if ($lvl == 9 || $lvl == 1) {
+	if ($lvl == 9 || $lvl == 2) {
 		// echo '<button class="btn-main btn-red" onclick="test()">테스트</button>';
 		echo '<button class="btn-main btn-red mr10" onclick="deleteProject()">삭제</button>';
 		echo '<button class="btn-main btn-light-indigo" onclick="save();">저장</button>';

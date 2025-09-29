@@ -1,1 +1,9 @@
+== Server
+= root
+m1500cx@
+
+== git
+20agi27@gmail.com
+
+== Local
 = spakr 가능하니 그냥 spak.sh로 실행

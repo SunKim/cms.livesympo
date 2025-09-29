@@ -149,6 +149,7 @@
 							<h6 class="m-0 font-weight-bold text-primary">프로젝트 설문관리</h6>
 						</div>
 						<div style="padding: 20px 40px;">
+							<p class="desc">* 설문항목이 없거나 삭제할 경우 사용자에게 설문참여 버튼이 보이지 않습니다.</p>
 							<p class="desc">* 설문항목은 총 10개까지 입력 가능합니다. (질문항목은 100자, 보기는 40자 입력 가능)</p>
 							<ul class="survey-qst-list mt20">
 								<li QST_NO="1" class="survey-qst-item d-flex align-items-start justify-content-around">
@@ -709,7 +710,7 @@ if ($project['ANONYM_USE_YN'] == 0) {
 
 	// 설문 삭제
 	function deleteSurvey() {
-		if (confirm('모든 설문 문항 및 보기를 삭제하시겠습니까?\n기존 답변이 있을 경우 답변도 삭제됩니다. 그래도 삭제하시겠습니까?')) {
+		if (confirm('모든 설문 문항 및 보기를 삭제하시겠습니까?\n기존 답변이 있을 경우 답변도 삭제되며 사용자에게 설문참여 버튼이 보이지 않게 됩니다.\n삭제하시겠습니까?')) {
 			$.ajax({
 				type: 'POST',
 				url: '/project/deleteSurvey/<?= $project['PRJ_SEQ'] ?>',

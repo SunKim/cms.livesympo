@@ -118,4 +118,12 @@ class SurveyModel extends Model {
 
 		return $this->db->affectedRows();
 	}
+
+	// 설문답변(TB_SURVEY_ASW_REQR_H) delete
+	public function deleteSurveyAsw ($prjSeq) {
+		$builder = $this->db->table('TB_SURVEY_ASW_REQR_H');
+		$builder->where('PRJ_SEQ', $prjSeq)->delete();
+
+		return $this->db->affectedRows();
+	}
 }

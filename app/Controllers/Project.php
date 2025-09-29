@@ -874,6 +874,41 @@ class Project extends BaseController {
 		return $this->response->setJSON($res);
 	}
 
+	// ajax - 설문 삭제
+	public function deleteSurvey ($prjSeq = 0) {
+		if ($prjSeq == 0) {
+			$res['resCode'] = '9980';
+			$res['resMsg'] = '프로젝트 시퀀스가 올바르지 않습니다.';
+			return $this->response->setJSON($res);
+		}
+
+		/************************************
+		* START) Transaction 처리
+		************************************/
+		$db = \Config\Database::connect();
+		$db->transStart();
+
+		$this->surveyModel->deleteSurveyQst($prjSeq);
+		$this->surveyModel->deleteSurveyChoice($prjSeq);
+		// 기존 답변도 모두 삭제
+		$this->surveyModel->deleteSurveyAsw($prjSeq);
+
+		$db->transComplete();
+		/************************************
+		* END) Transaction 처리
+		************************************/
+
+		if ($db->transStatus() === FALSE) {
+			$res['resCode'] = '9999';
+			$res['resMsg'] = '설문 삭제에 실패했습니다.';
+		} else {
+			$res['resCode'] = '0000';
+			$res['resMsg'] = '정상적으로 처리되었습니다.';
+		}
+
+		return $this->response->setJSON($res);
+	}
+
 	// 페이지리스트의 param(itemsPerPage, pageNo을 포함한 obj)를 받아서 beginIndex, endIndex return
 	public function getPagingIndex ($param) {
 		$beginIndex = 0;

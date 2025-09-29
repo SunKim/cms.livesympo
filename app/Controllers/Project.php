@@ -750,6 +750,30 @@ class Project extends BaseController {
 		return $this->response->setJSON($resData);
 	}
 
+	// ajax - 질문 삭제
+	public function deleteQuestion () {
+		// param들 받기
+		$qstSeq = $this->request->getPost('qstSeq');
+
+		if ($qstSeq == 0 || $qstSeq == null || $qstSeq == '' || !is_numeric($qstSeq)) {
+			$resData['resCode'] = '9999';
+			$resData['resMsg'] = '질문 시퀀스가 올바르지 않습니다.';
+			return $this->response->setJSON($resData);
+		}
+
+		$affectedRows = $this->questionModel->deleteQuestion($qstSeq);
+
+		if ($affectedRows > 0) {
+			$resData['resCode'] = '0000';
+			$resData['resMsg'] = '정상적으로 처리되었습니다.';
+		} else {
+			$resData['resCode'] = '9001';
+			$resData['resMsg'] = '질문 삭제 도중 DB오류가 발생했습니다.';
+		}
+
+		return $this->response->setJSON($resData);
+	}
+
 	// ajax - 관리자 페이크질문 입력
 	public function fakeQuestion () {
 		// param들 받기

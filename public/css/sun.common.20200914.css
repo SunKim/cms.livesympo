@@ -164,6 +164,7 @@ button:hover { opacity: 0.8; }
 .btn-sky { background: #8CCBF6; color: #fff; border: 1px solid #8CCBF6; }
 .btn-black { background: #212642; color: #fff; border: 1px solid #212642; }
 .btn-red { background: #e12222; color: #fff; border: 1px solid #e12222; }
+.btn-gray { background: #D8D8D8; color: #212642; border: 1px solid #D8D8D8; }
 .btn-white { background: #FFFFFF; color: #212642; border: 1px solid #D8D8D8; font-weight: 500; }
 .btn-white:hover { background: #F5F5F5; color: #333; }
 .btn-kakao { background: #FFCD00; color: #fff; border: 1px solid #FFCD00; }

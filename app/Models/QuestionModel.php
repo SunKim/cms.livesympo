@@ -57,4 +57,12 @@ class QuestionModel extends Model {
 
         return $this->db->affectedRows();
 	}
+
+	// 질문(TB_QST_M) delete
+	public function deleteQuestion ($qstSeq) {
+		$builder = $this->db->table('TB_QST_M');
+		$builder->where('QST_SEQ', $qstSeq)->delete();
+
+		return $this->db->affectedRows();
+	}
 }

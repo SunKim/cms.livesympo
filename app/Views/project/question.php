@@ -258,6 +258,7 @@ function getQuestionList (prjSeq) {
 					} else {
 						html += '			<button class="btn-sub btn-white ml5" onclick="approve('+item.QST_SEQ+', 0);">승인취소</button>';
 					}
+					html += '			<button class="btn-sub btn-gray ml5" onclick="deleteQuestion('+item.QST_SEQ+');">삭제</button>';
 					html += '		</p>';
 					html += '		<p class="reg-dttm">'+item.REG_DTTM+'</p>';
 					html += '	</div>';
@@ -365,6 +366,42 @@ function fakeQuestion (prjSeq) {
 		error: function (xhr, ajaxOptions, thrownError) {
 			console.error(xhr);
 			alert('질문 정보를 저장하는 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드:'+xhr.status+'\n메세지:'+thrownError);
+		},
+		complete : function () {
+			hideSpinner();
+		}
+	});
+}
+
+// 질문 삭제
+function deleteQuestion (qstSeq) {
+	if (!confirm('삭제하실 경우 복구가 불가합니다.\n질문을 삭제하시겠습니까?')) {
+		return;
+	}
+
+	showSpinner();
+
+	$.ajax({
+		type: 'POST',
+		url: '/project/deleteQuestion',
+		dataType: 'json',
+		cache: false,
+		data: {
+			qstSeq,
+		},
+
+		success: function(data) {
+			// console.log(data);
+			if ( data.resCode == '0000' ) {
+				alert('질문을 삭제했습니다.');
+				getQuestionList(<?= $project['PRJ_SEQ'] ?>);
+			} else {
+				alert('질문을 삭제하는 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드(resCode):'+data.resCode+'\n메세지(resMsg):'+data.resMsg);
+			}
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.error(xhr);
+			alert('질문을 삭제하는 도중 오류가 발생했습니다.\n관리자에게 문의해주세요.\n\n코드:'+xhr.status+'\n메세지:'+thrownError);
 		},
 		complete : function () {
 			hideSpinner();

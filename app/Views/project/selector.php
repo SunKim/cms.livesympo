@@ -66,13 +66,6 @@
 		color: #fff;
 	}
 
-	div.container-fluid {
-		max-width: none !important;
-		width: 100% !important;
-		padding-left: 0 !important;
-		padding-right: 0 !important;
-	}
-
 	div.container {
 		padding-left: 0 !important;
 		padding-right: 0 !important;
@@ -84,8 +77,6 @@
 		justify-content: center;
 		align-items: center;
 		margin-bottom: 24px;
-		max-width: none !important;
-		width: 100% !important;
 	}
 
 	ul.question-list p {
@@ -159,13 +150,11 @@
 </head>
 
 <body>
-	<div class="container-fluid">
+	<div class="container">
 		<div class="logo-container">
 			<!-- <img class="logo" src="<?= $project['MDRTOR_IMG_URL'] ?>" /> -->
 			<img class="logo" src="https://cms.livesympo.kr/uploads/project/62/MDRTOR_IMG_62_lRQuvs.jpg" />
 		</div>
-	</div>
-	<div class="container">
 		<section class="tl">
 			<p class="cnt-desc">총 <span id="cnt">0</span>개의 질문이 있습니다. <span id="refresh-term">(10초에 한번씩 자동갱신)</span></p>
 			<ul class="question-list mt10">

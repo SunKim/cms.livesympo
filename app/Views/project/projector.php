@@ -79,6 +79,8 @@
 		height: 100vh;
 		display: flex;
 		flex-direction: column;
+		max-width: none !important;
+		width: 100% !important;
 	}
 
 	/* 로고 영역 */

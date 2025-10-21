@@ -442,13 +442,17 @@ if ($lvl != 2) {
 						html += '		<p>';
 						html += '			<a href="/project/requestor/' + item.PRJ_SEQ + '" class="">등록자관리</a>';
 						html += '			<a href="/project/survey/' + item.PRJ_SEQ + '" class="ml20">설문관리</a>';
-						html += '			<a href="<?= $livesympoUrl ?>/stream/liveQ/' + item.PRJ_TITLE_URI +
-							'" target="_liveQ" class="ml20">liveQ</a>';
-						html += '		</p>';
-						html += '		<p>';
-						html += '			<a href="/project/question/' + item.PRJ_SEQ + '" class="">질문관리</a>';
+						html += '			<a href="/project/question/' + item.PRJ_SEQ + '" class="ml20">질문관리</a>';
 						html += '			<a href="/project/moderator/' + item.PRJ_SEQ +
 							'" target="_moderator" class="ml20">모더레이터</a>';
+						html += '		</p>';
+						html += '		<p>';
+						html += '			<a href="<?= $livesympoUrl ?>/stream/liveQ/' + item.PRJ_TITLE_URI +
+							'" target="_liveQ" class="ml20">liveQ</a>';
+						html += '			<a href="/project/selector/' + item.PRJ_SEQ +
+							'" target="_selector" class="ml20">셀렉터</a>';
+						html += '			<a href="/project/projector/' + item.PRJ_SEQ +
+							'" target="_projector" class="ml20">프로젝터</a>';
 						html += '		</p>';
 						html += '	</td>';
 

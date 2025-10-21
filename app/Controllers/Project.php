@@ -126,6 +126,22 @@ class Project extends BaseController {
 		return view('project/moderator2', $data);
 	}
 
+	// Selector(질문선택자) 화면
+	public function selector ($prjSeq = 0) {
+		$data['prjSeq'] = $prjSeq;
+		$data['project'] = $this->projectModel->detail($prjSeq);
+		$data['livesympoUrl'] = $_ENV['app.livesympoBaseUrl'];
+
+		return view('project/selector', $data);
+	}
+
+	// Projector 화면 - 선택된 질문 1개만 풀화면에 보여줌
+	public function projector ($prjSeq = 0) {
+		$data['project'] = $this->projectModel->detail($prjSeq);
+
+		return view('project/projector', $data);
+	}
+
 	//ajax - 프로젝트 리스트
 	public function getList () {
 		// param 받기
@@ -729,6 +745,22 @@ class Project extends BaseController {
 		return $this->response->setJSON($data);
 	}
 
+	// ajax - 프로젝트 선택된 질문 1건 가져오기(projector 화면용)
+	public function getSelectedQuestion () {
+		// param 받기
+		$prjSeq = $this->request->getPost('prjSeq');
+		log_message('info', "Project.php - getSelectedQuestion. prjSeq: $prjSeq");
+
+		// 선택된 질문 1건
+		$selectedQuestion = $this->questionModel->getSelectedQuestion($prjSeq);
+
+		$data['resCode'] = '0000';
+		$data['resMsg'] = '정상적으로 처리되었습니다.';
+		$data['selectedQuestion'] = $selectedQuestion;
+
+		return $this->response->setJSON($data);
+	}
+
 	// ajax - 질문 승인(APRV_YN)
 	public function approveQuestion () {
 		// param들 받기
@@ -769,6 +801,25 @@ class Project extends BaseController {
 		} else {
 			$resData['resCode'] = '9001';
 			$resData['resMsg'] = '질문 삭제 도중 DB오류가 발생했습니다.';
+		}
+
+		return $this->response->setJSON($resData);
+	}
+
+	// ajax - 질문 선택(SEL_YN)
+	public function selectQuestion () {
+		// param들 받기
+		$prjSeq = $this->request->getPost('prjSeq');
+		$qstSeq = $this->request->getPost('qstSeq');
+
+		$result = $this->questionModel->selectQuestion($prjSeq, $qstSeq);
+
+		if ($result) {
+			$resData['resCode'] = '0000';
+			$resData['resMsg'] = '정상적으로 처리되었습니다.';
+		} else {
+			$resData['resCode'] = '9001';
+			$resData['resMsg'] = '질문 선택 도중 DB오류가 발생했습니다.';
 		}
 
 		return $this->response->setJSON($resData);

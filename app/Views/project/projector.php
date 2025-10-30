@@ -113,7 +113,6 @@
 		font-family: 'Nunito', sans-serif;
 		text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 		letter-spacing: 1px;
-		text-transform: uppercase;
 		text-decoration: none;
 	}
 

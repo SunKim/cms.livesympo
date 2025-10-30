@@ -149,8 +149,8 @@
 <body>
 	<div class="container">
 		<div class="logo-container">
-			<!-- <img class="logo" src="<?= $project['MDRTOR_IMG_URL'] ?>" /> -->
-			<img class="logo" src="https://cms.livesympo.kr/uploads/project/62/MDRTOR_IMG_62_lRQuvs.jpg" />
+			<img class="logo" src="<?= $project['MDRTOR_IMG_URL'] ?>" />
+			<!-- <img class="logo" src="https://cms.livesympo.kr/uploads/project/62/MDRTOR_IMG_62_lRQuvs.jpg" /> -->
 		</div>
 		<section class="question-container">
 			<h4 id="selected-question">No Questions at the moment</h4>

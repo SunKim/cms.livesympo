@@ -21,6 +21,7 @@ use App\Models\QuestionModel;
 use App\Models\SurveyModel;
 use App\Models\RequestorModel;
 use App\Models\AdminModel;
+use App\Helpers\EncryptHelper;
 
 class Project extends BaseController {
 
@@ -127,7 +128,15 @@ class Project extends BaseController {
 	}
 
 	// Selector(질문선택자) 화면
-	public function selector ($prjSeq = 0) {
+	public function selector ($encryptedId = '') {
+		// 암호화된 ID를 복호화하여 prjSeq 얻기
+		$prjSeq = EncryptHelper::decryptPrjSeq($encryptedId);
+		
+		// 복호화 실패시 404 에러
+		if ($prjSeq === false) {
+			throw new \CodeIgniter\Exceptions\PageNotFoundException('잘못된 접근입니다.');
+		}
+		
 		$data['prjSeq'] = $prjSeq;
 		$data['project'] = $this->projectModel->detail($prjSeq);
 		$data['livesympoUrl'] = $_ENV['app.livesympoBaseUrl'];
@@ -136,10 +145,48 @@ class Project extends BaseController {
 	}
 
 	// Projector 화면 - 선택된 질문 1개만 풀화면에 보여줌
-	public function projector ($prjSeq = 0) {
+	public function projector ($encryptedId = '') {
+		// 암호화된 ID를 복호화하여 prjSeq 얻기
+		$prjSeq = EncryptHelper::decryptPrjSeq($encryptedId);
+		
+		// 복호화 실패시 404 에러
+		if ($prjSeq === false) {
+			throw new \CodeIgniter\Exceptions\PageNotFoundException('잘못된 접근입니다.');
+		}
+		
 		$data['project'] = $this->projectModel->detail($prjSeq);
 
 		return view('project/projector', $data);
+	}
+
+	// 질문핸들러 화면
+	public function questionHandler ($encryptedId = '') {
+		// 암호화된 ID를 복호화하여 prjSeq 얻기
+		$prjSeq = EncryptHelper::decryptPrjSeq($encryptedId);
+		
+		// 복호화 실패시 404 에러
+		if ($prjSeq === false) {
+			throw new \CodeIgniter\Exceptions\PageNotFoundException('잘못된 접근입니다.');
+		}
+		
+		$data['project'] = $this->projectModel->detail($prjSeq);
+
+		return view('project/questionHandler', $data);
+	}
+
+	// 설문핸들러 화면
+	public function surveyHandler ($encryptedId = '') {
+		// 암호화된 ID를 복호화하여 prjSeq 얻기
+		$prjSeq = EncryptHelper::decryptPrjSeq($encryptedId);
+		
+		// 복호화 실패시 404 에러
+		if ($prjSeq === false) {
+			throw new \CodeIgniter\Exceptions\PageNotFoundException('잘못된 접근입니다.');
+		}
+		
+		$data['project'] = $this->projectModel->detail($prjSeq);
+
+		return view('project/surveyHandler', $data);
 	}
 
 	//ajax - 프로젝트 리스트
@@ -164,6 +211,11 @@ class Project extends BaseController {
 
 		// 프로젝트 리스트
 		$prjList = $this->projectModel->list($admSeq, $lvl, $param, $beginIndex, $endIndex);
+		
+		// 각 프로젝트에 암호화된 ID 추가
+		foreach ($prjList as &$project) {
+			$project['ENCRYPTED_ID'] = EncryptHelper::encryptPrjSeq($project['PRJ_SEQ']);
+		}
 
 		// 프로젝트 count
 		$totCntItem = $this->projectModel->count($param);
